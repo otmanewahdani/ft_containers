@@ -17,26 +17,38 @@ all: $(NAME)
 
 vector: vector/vector
 
-vector/vector: $(VECTOR_OBJ)
-	$(CC) $< -o $@
-	$(CC) $(lastword $^) -o vector/std_vector
-	# add compilation successful in colors
-
 %/objs/main.o : main.cpp %.hpp
-	@$(eval DIR = $(dir $<))
-	@test -d $(DIR)objs/ || mkdir $(DIR)/objs/
-	@$(eval INCS += -I$(DIR))
-	@$(CC) $(CPPFLAGS) $(INCS) $< -o $@
-	@sed 's/ft::/std::/g' $< > $(DIR)std_main.cpp
-	@$(CC) $(CPPFLAGS) $(INCS) $(DIR)std_main.cpp -o $(DIR)objs/std_main.o
-	@rm -f $(DIR)std_main.cpp
+	@$(eval CONTAINER=$*)
+	@test -d $(CONTAINER)/objs/ || mkdir $(CONTAINER)/objs/
+	@$(CC) $(CPPFLAGS) -I$(CONTAINER)/ $(INCS) $< -o $@
+	@sed 's/ft::/std::/g' $< > $(CONTAINER)/std_main.cpp
+	@$(CC) $(CPPFLAGS) -I$(CONTAINER)/ $(INCS) $(CONTAINER)/std_main.cpp -o $(CONTAINER)/objs/std_main.o
+	@rm -f $(CONTAINER)/std_main.cpp
 
 clean:
-	rm -fr $(sort $(dir $(OBJ)))
+	@rm -fr $(sort $(dir $(OBJ)))
+	@echo -e "\e[1;31m\u26A0 all object files were removed permanently\e[0m"
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@echo -e "\e[1;31m\u26A0 full cleaning complete\e[0m"
 
 re: fclean all
+	@echo -e "\e[1;32m\u2705 all targets were re-created!\e[0m"
 
 .PHONY: all clean fclean re vector
+
+.SECONDEXPANSION:
+
+$(NAME): $$(dir $$@)objs/main.o
+	@$(CC) $< -o $@
+	@$(eval DIR = $(dir $@))
+	@$(CC) $(DIR)objs/std_main.o -o $(DIR)std_$(notdir $@)
+	@if [ $(DIR) == "vector/" ]; then\
+		COLOR="\e[1;35m";\
+	elif [ $(DIR) == "map/" ]; then\
+		COLOR="\e[1;33m";\
+	elif [ $(DIR) == "stack/" ]; then\
+		COLOR="\e[1;34m";\
+	fi;\
+	echo -e "\e[$$COLOR\u2705 $(notdir $@) was compiled successfully\e[0m"
