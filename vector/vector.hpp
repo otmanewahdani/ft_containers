@@ -13,8 +13,8 @@ namespace ft{
 
 		public:
 			
+			// forward declarations
 			class const_iterator;
-
 			class iterator;
 
 			// member types

@@ -20,48 +20,96 @@ namespace ft{
 				typedef const T& reference;
 
 				// const_iterator constructors and copy assignment operator
-				const_iterator();
-				const_iterator(const T* ptr);
-				const_iterator(const const_iterator& iter);
-				const_iterator(const iterator& iter);
-				const_iterator& operator=(const const_iterator& iter);
-				const_iterator& operator=(const iterator& iter);
+				const_iterator() : mPtr(NULL) {}
+
+				const_iterator(const T* ptr) : mPtr(ptr) {}
+
+				const_iterator(const const_iterator& iter) : mPtr(iter.mPtr) {}
+
+				const_iterator(const iterator& iter) : mPtr(iter.mPtr) {}
+
+				const_iterator& operator=(const const_iterator& iter){
+					mPtr = iter.mPtr;
+					return (*this);
+				}
+
+				const_iterator& operator=(const iterator& iter){
+					mPtr = iter.mPtr;
+					return (*this);
+				}
 
 				// access operators
-				const T& operator*() const ;
-				const T* operator->() const ;
-				const T& operator[](difference_type index) const ;
+				const T& operator*() const {return (*mPtr);}
+
+				const T* operator->() const {return mPtr;}
+
+				const T& operator[](difference_type index) const {return (mPtr[index]);}
 
 				// relational operators
-				bool operator==(const const_iterator& iter) const ;
-				bool operator==(const iterator& iter) const ;
-				bool operator!=(const const_iterator& iter) const ;
-				bool operator!=(const iterator& iter) const ;
-				bool operator<=(const const_iterator& iter) const ;
-				bool operator<=(const iterator& iter) const ;
-				bool operator>=(const const_iterator& iter) const ;
-				bool operator>=(const iterator& iter) const ;
-				bool operator>(const const_iterator& iter) const ;
-				bool operator>(const iterator& iter) const ;
-				bool operator<(const const_iterator& iter) const ;
-				bool operator<(const iterator& iter) const ;
+				bool operator==(const const_iterator& iter) const {return (mPtr == iter.mPtr);}
+				bool operator==(const iterator& iter) const {return (mPtr == iter.mPtr);}
+
+				bool operator!=(const const_iterator& iter) const {return (mPtr != iter.mPtr);}
+				bool operator!=(const iterator& iter) const {return (mPtr != iter.mPtr);}
+
+				bool operator<=(const const_iterator& iter) const {return (mPtr <= iter.mPtr);}
+				bool operator<=(const iterator& iter) const {return (mPtr <= iter.mPtr);}
+				
+				bool operator>=(const const_iterator& iter) const {return (mPtr >= iter.mPtr);}
+				bool operator>=(const iterator& iter) const {return (mPtr >= iter.mPtr);}
+
+				bool operator>(const const_iterator& iter) const {return (mPtr > iter.mPtr);}
+				bool operator>(const iterator& iter) const {return (mPtr > iter.mPtr);}
+
+				bool operator<(const const_iterator& iter) const {return (mPtr < iter.mPtr);}
+				bool operator<(const iterator& iter) const {return (mPtr < iter.mPtr);}
 
 				// increment/decrement operators
-				const_iterator& operator++();
-				const_iterator operator++(int);
-				const_iterator& operator--();
-				const_iterator operator--(int);
+				const_iterator& operator++(){
+					++mPtr;
+					return (*this);
+				}
+
+				const_iterator operator++(int){
+					const_iterator tmp(*this);
+					++mPtr;
+					return tmp;
+				}
+
+				const_iterator& operator--(){
+					--mPtr;
+					return (*this);
+				}
+
+				const_iterator operator--(int){
+					const_iterator tmp(*this);
+					--mPtr;
+					return tmp;
+				}
 
 				// arithmetic assignment operators
-				const_iterator& operator+=(difference_type n);
-				const_iterator& operator-=(difference_type n);
+				const_iterator& operator+=(difference_type n){
+					mPtr += n;
+					return (*this);
+				}
+
+				const_iterator& operator-=(difference_type n){
+					mPtr -= n;
+					return (*this);
+				}
 
 				// arithmetic operators
-				const_iterator operator+(difference_type n) const ;
-				friend const_iterator operator+(difference_type n, const const_iterator& iter);
-				const_iterator operator-(difference_type n) const;
-				difference_type operator-(const const_iterator& iter) const ;
-				difference_type operator-(const iterator& iter) const;
+				const_iterator operator+(difference_type n) const {return const_iterator(mPtr + n);}
+
+				friend const_iterator operator+(difference_type n, const const_iterator& iter){
+					return (iter + n);
+				}
+
+				const_iterator operator-(difference_type n) const {return const_iterator(mPtr - n);}
+
+				difference_type operator-(const const_iterator& iter) const {return (mPtr - iter.mPtr);}
+
+				difference_type operator-(const iterator& iter) const {return (mPtr - iter.mPtr);}
 
 				// make iterator a friend
 				friend class iterator;
@@ -89,47 +137,91 @@ namespace ft{
 				typedef T& reference;
 
 				// iterator constructors and copy assignment operator
-				iterator();
-				iterator(T* ptr);
-				iterator(const iterator& iter);
-				iterator& operator=(const iterator& iter);
+				iterator() : mPtr(NULL) {}
+
+				iterator(T* ptr) : mPtr(ptr) {}
+
+				iterator(const iterator& iter) : mPtr(iter.mPtr) {}
+
+				iterator& operator=(const iterator& iter){
+					mPtr = iter.mPtr;
+					return (*this);
+				}
 
 				// access operators
-				T& operator*() const ;
-				T* operator->() const ;
-				T& operator[](difference_type index) const ;
+				T& operator*() const {return (*mPtr);}
+
+				T* operator->() const {return mPtr;}
+
+				T& operator[](difference_type index) const {return (mPtr[index]);}
+
 
 				// relational operators
-				bool operator==(const const_iterator& iter) const ;
-				bool operator==(const iterator& iter) const ;
-				bool operator!=(const const_iterator& iter) const ;
-				bool operator!=(const iterator& iter) const ;
-				bool operator<=(const const_iterator& iter) const ;
-				bool operator<=(const iterator& iter) const ;
-				bool operator>=(const const_iterator& iter) const ;
-				bool operator>=(const iterator& iter) const ;
-				bool operator>(const const_iterator& iter) const ;
-				bool operator>(const iterator& iter) const ;
-				bool operator<(const const_iterator& iter) const ;
-				bool operator<(const iterator& iter) const ;
+				bool operator==(const const_iterator& iter) const  {return (mPtr == iter.mPtr);}
+				bool operator==(const iterator& iter) const  {return (mPtr == iter.mPtr);}
+
+				bool operator!=(const const_iterator& iter) const {return (mPtr != iter.mPtr);}
+				bool operator!=(const iterator& iter) const  {return (mPtr != iter.mPtr);}
+
+				bool operator<=(const const_iterator& iter) const {return (mPtr <= iter.mPtr);}
+				bool operator<=(const iterator& iter) const {return (mPtr <= iter.mPtr);}
+
+				bool operator>=(const const_iterator& iter) const {return (mPtr >= iter.mPtr);}
+				bool operator>=(const iterator& iter) const {return (mPtr >= iter.mPtr);}
+
+				bool operator>(const const_iterator& iter) const {return (mPtr > iter.mPtr);}
+				bool operator>(const iterator& iter) const {return (mPtr > iter.mPtr);}
+
+				bool operator<(const const_iterator& iter) const {return (mPtr < iter.mPtr);}
+				bool operator<(const iterator& iter) const {return (mPtr < iter.mPtr);}
 
 				// increment/decrement operators
-				iterator& operator++();
-				iterator operator++(int);
-				iterator& operator--();
-				iterator operator--(int);
+				iterator& operator++(){
+					++mPtr;
+					return (*this);
+				}
+
+				iterator operator++(int){
+					iterator tmp(*this);
+					++mPtr;
+					return tmp;
+				}
+
+				iterator& operator--(){
+					--mPtr;
+					return (*this);
+				}
+
+				iterator operator--(int){
+					iterator tmp(*this);
+					--mPtr;
+					return tmp;
+				}
 
 				// arithmetic assignment operators
-				iterator& operator+=(difference_type n);
-				iterator& operator-=(difference_type n);
+				iterator& operator+=(difference_type n){
+					mPtr += n;
+					return (*this);
+				}
+
+				iterator& operator-=(difference_type n){
+					mPtr -= n;
+					return (*this);
+				}
+
 
 				// arithmetic operators
-				iterator operator+(difference_type n) const ;
-				friend iterator operator+(difference_type n, const iterator& iter);
-				iterator operator-(difference_type n) const;
-				difference_type operator-(const const_iterator& iter) const ;
-				difference_type operator-(const iterator& iter) const;
+				iterator operator+(difference_type n) const {return iterator(mPtr + n);}
 
+				friend iterator operator+(difference_type n, const iterator& iter){
+					return (iter + n);
+				}
+
+				iterator operator-(difference_type n) const{return iterator(mPtr - n);}
+
+				difference_type operator-(const const_iterator& iter) const {return (mPtr - iter.mPtr);}
+
+				difference_type operator-(const iterator& iter) const {return (mPtr - iter.mPtr);}
 				// make const_iterator a friend
 				friend class const_iterator;
 
