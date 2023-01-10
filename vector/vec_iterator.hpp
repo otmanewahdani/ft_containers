@@ -114,6 +114,9 @@ namespace ft{
 				// make iterator a friend
 				friend class iterator;
 
+				// retuns underlying pointer
+				const T* base() const {return mPtr;}
+
 			private:
 
 				// pointer to element in vector
@@ -222,8 +225,12 @@ namespace ft{
 				difference_type operator-(const const_iterator& iter) const {return (mPtr - iter.mPtr);}
 
 				difference_type operator-(const iterator& iter) const {return (mPtr - iter.mPtr);}
+
 				// make const_iterator a friend
 				friend class const_iterator;
+
+				// retuns underlying pointer
+				T* base() const {return mPtr;}
 
 			private:
 
