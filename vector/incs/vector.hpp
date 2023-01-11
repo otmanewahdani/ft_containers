@@ -11,13 +11,20 @@ namespace ft{
 		class Allocator = std::allocator<T>
 	> class vector{
 
+		private:
+
+			// underlying array
+			T* mElements;
+
+			// forward declaration of iterator class template
+			template < class U >
+			class vec_iterator;
+
 		public:
 			
-			// forward declarations
-			class const_iterator;
-			class iterator;
-
 			// member types
+			typedef vec_iterator<T> iterator;
+			typedef vec_iterator<const T> const_iterator;
 
 			// constructors, destructors, assignment {operators, member functions}
 
@@ -26,11 +33,6 @@ namespace ft{
 			// element access
 
 			//iterator getters
-
-		private:
-
-			// underlying array
-			T* mElements;
 
 	};
 }

@@ -17,12 +17,12 @@ all: $(NAME)
 
 vector: vector/vector
 
-%/objs/main.o : main.cpp %.hpp
+%/objs/main.o : main.cpp incs/%.hpp
 	@$(eval CONTAINER=$*)
 	@test -d $(CONTAINER)/objs/ || mkdir $(CONTAINER)/objs/
-	@$(CC) $(CPPFLAGS) -I$(CONTAINER)/ $(INCS) $< -o $@
 	@sed 's/ft::/std::/g' $< > $(CONTAINER)/std_main.cpp
-	@$(CC) $(CPPFLAGS) -I$(CONTAINER)/ $(INCS) $(CONTAINER)/std_main.cpp -o $(CONTAINER)/objs/std_main.o
+	@$(CC) $(CPPFLAGS) -I$(CONTAINER)/incs/ $(INCS) $< -o $@
+	@$(CC) $(CPPFLAGS) -I$(CONTAINER)/incs/ $(INCS) $(CONTAINER)/std_main.cpp -o $(CONTAINER)/objs/std_main.o
 	@rm -f $(CONTAINER)/std_main.cpp
 
 clean:
@@ -30,7 +30,10 @@ clean:
 	@echo -e "\e[1;31m\u26A0 all object files were removed permanently\e[0m"
 
 fclean: clean
+	$(eval DIR=$(dir $(NAME)))
+	$(eval PROGRAM=$(addprefix std_, $(notdir $(NAME))))
 	@rm -f $(NAME)
+	@rm -f $(join $(DIR),$(PROGRAM))
 	@echo -e "\e[1;31m\u26A0 full cleaning complete\e[0m"
 
 re: fclean all

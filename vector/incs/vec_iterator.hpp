@@ -4,13 +4,122 @@
 
 namespace ft{
 
-	// ft::vector::const_iterator definiton
+	// definiton of ft::vector::iterator class template
+	// which ft::vector::iterator and ft::vector::const_iterator use 
 	template <
 		class T,
 		class Allocator
-	> class vector<T, Allocator>::const_iterator{
+	> template < class U >
+	class vector<T, Allocator>::vec_iterator{
 
 			public:
+
+				//member types
+				typedef std::random_access_iterator_tag iterator_category;
+				typedef T value_type;
+				typedef std::ptrdiff_t difference_type;
+				typedef U* pointer;
+				typedef U& reference;
+
+				// iterator constructors and copy assignment operator
+				vec_iterator() : mPtr(NULL) {}
+
+				vec_iterator(U* ptr) : mPtr(ptr) {}
+
+				template < class X >
+				vec_iterator(const vec_iterator<X>& iter) : mPtr(iter.mPtr) {}
+
+				template < class X >
+				vec_iterator& operator=(const vec_iterator<X>& iter){
+					mPtr = iter.mPtr;
+					return (*this);
+				}
+
+				// access operators
+				U& operator*() const {return (*mPtr);}
+
+				U* operator->() const {return mPtr;}
+
+				U& operator[](difference_type index) const {return (mPtr[index]);}
+
+
+				// relational operators
+				template < class X >
+				bool operator==(const vec_iterator<X>& iter) const  {return (mPtr == iter.mPtr);}
+
+				template < class X >
+				bool operator!=(const vec_iterator<X>& iter) const  {return (mPtr != iter.mPtr);}
+
+				template < class X >
+				bool operator<=(const vec_iterator<X>& iter) const {return (mPtr <= iter.mPtr);}
+
+				template < class X >
+				bool operator>=(const vec_iterator<X>& iter) const {return (mPtr >= iter.mPtr);}
+
+				template < class X >
+				bool operator>(const vec_iterator<X>& iter) const {return (mPtr > iter.mPtr);}
+
+				template < class X >
+				bool operator<(const vec_iterator<X>& iter) const {return (mPtr < iter.mPtr);}
+
+				// increment/decrement operators
+				vec_iterator& operator++(){
+					++mPtr;
+					return (*this);
+				}
+
+				vec_iterator operator++(int){
+					vec_iterator tmp(*this);
+					++mPtr;
+					return tmp;
+				}
+
+				vec_iterator& operator--(){
+					--mPtr;
+					return (*this);
+				}
+
+				vec_iterator operator--(int){
+					vec_iterator tmp(*this);
+					--mPtr;
+					return tmp;
+				}
+
+				// arithmetic assignment operators
+				vec_iterator& operator+=(difference_type n){
+					mPtr += n;
+					return (*this);
+				}
+
+				vec_iterator& operator-=(difference_type n){
+					mPtr -= n;
+					return (*this);
+				}
+
+
+				// arithmetic operators
+				vec_iterator operator+(difference_type n) const {return vec_iterator(mPtr + n);}
+
+				friend vec_iterator operator+(difference_type n, const vec_iterator& iter){
+					return (iter + n);
+				}
+
+				vec_iterator operator-(difference_type n) const{return vec_iterator(mPtr - n);}
+
+				template < class X >
+				difference_type operator-(const vec_iterator<X>& iter) const {return (mPtr - iter.mPtr);}
+
+				// retuns underlying pointer
+				U* base() const {return mPtr;}
+
+			private:
+
+				// pointer to element in vector
+				U* mPtr;
+
+	};
+
+			/*public:
 
 				//member types
 				typedef std::random_access_iterator_tag iterator_category;
@@ -237,7 +346,7 @@ namespace ft{
 				// pointer to element in vector
 				T* mPtr;
 
-		};
+		};*/
 
 }
 
