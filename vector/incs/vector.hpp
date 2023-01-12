@@ -34,6 +34,8 @@ namespace ft{
 
 			//iterator getters
 
+			/* do a complete test of vec_iterator, iterator traits, reverse_iterator (with raw pointers as well) and element access. This test will be a part of evaluation
+
 	};
 }
 

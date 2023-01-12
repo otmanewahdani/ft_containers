@@ -64,20 +64,102 @@ namespace ft{
 			explicit reverse_iterator( iterator_type x ) : current(x) {}
 
 			template< class U >
-			reverse_iterator( const reverse_iterator<U>& other ) : current(other.current) {}
+			reverse_iterator( const reverse_iterator<U>& other ) : current(other.base()) {}
 
 			template< class U >
 			reverse_iterator& operator=( const reverse_iterator<U>& other ){
-				current = other.current;
+				current = other.base();
 				return (*this);
 			}
 
 			// returns current
+			iterator_type base() const { return current; }
+
+			// access operators
+			reference operator*() const {
+				iterator_type tmp = current;
+				return (*--tmp);
+			}
+
+			pointer operator->() const { return &(this->operator*()); }
+
+			reference operator[]( difference_type n ) const { return current[-n-1]; }
+
+			// increment/decrement operators
+			reverse_iterator& operator++(){
+				--current;
+				return (*this);
+			}
+
+			reverse_iterator& operator--(){
+				++current;
+				return (*this);
+			}
+
+			reverse_iterator operator++( int ){
+				reverse_iterator tmp(*this);
+				--current;
+				return (tmp);
+			}
+
+			reverse_iterator operator--( int ){
+				reverse_iterator tmp(*this);
+				++current;
+				return (tmp);
+			}
+
+			// arithmetic operators
+			reverse_iterator operator+( difference_type n ) const {
+				return (reverse_iterator(current - n));
+			}
+
+			reverse_iterator operator-( difference_type n ) const {
+				return (reverse_iterator(current + n));
+			}
+
+			friend reverse_iterator operator+(difference_type n, const reverse_iterator& it){
+				return (it + n);
+			}
+
+			template < class Iter2 >
+			friend difference_type operator-(const reverse_iterator& lhs, const reverse_iterator<Iter2>& rhs){
+				return (lhs.base() - rhs.base());
+			}
+
+			// arithmetic assignment operators
+			reverse_iterator& operator+=( difference_type n ){
+				current -= n;
+				return (*this);
+			}
+
+			reverse_iterator& operator-=( difference_type n ){
+				current += n;
+				return (*this);
+			}
+
+			// relational operators
+			template < class Iter2 >
+			friend bool operator==(const reverse_iterator& lhs, const reverse_iterator<Iter2>& rhs) { return (lhs.base() == rhs.base()); }
+
+			template < class Iter2 >
+			friend bool operator!=(const reverse_iterator& lhs, const reverse_iterator<Iter2>& rhs) { return (lhs.base() != rhs.base()); }
+
+			template < class Iter2 >
+			friend bool operator<(const reverse_iterator& lhs, const reverse_iterator<Iter2>& rhs) { return (lhs.base() < rhs.base()); }
+
+			template < class Iter2 >
+			friend bool operator<=(const reverse_iterator& lhs, const reverse_iterator<Iter2>& rhs) { return (lhs.base() <= rhs.base()); }
+
+			template < class Iter2 >
+			friend bool operator>(const reverse_iterator& lhs, const reverse_iterator<Iter2>& rhs) { return (lhs.base() > rhs.base()); }
+
+			template < class Iter2 >
+			friend bool operator>=(const reverse_iterator& lhs, const reverse_iterator<Iter2>& rhs) { return (lhs.base() >= rhs.base()); }
 
 		protected:
 
 			// underlying iterator
-			Iter current;
+			iterator_type current;
 
 	};
 
