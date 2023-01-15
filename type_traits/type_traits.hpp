@@ -13,6 +13,7 @@
 
 #include <iterator.hpp>
 #include <iterator>
+#include <limits>
 
 namespace ft{
 
@@ -81,8 +82,17 @@ namespace ft{
 
 	// is_integral
 	template < class T >
-	struct is_integral : integral_constant<T, numeric_limits/*todo>{
-	};
+	struct is_integral : integral_constant<
+		bool,
+		std::numeric_limits<T>::is_integer
+	> {};
+
+	// is_floating_point
+	template < class T >
+	struct is_floating_point : integral_constant<
+		bool,
+		std::numeric_limits<T>::is_iec559
+	> {};
 
 }
 
