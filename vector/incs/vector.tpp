@@ -1,3 +1,5 @@
+/* this is an internal file that contains the implementation of vector memebers */
+
 #ifndef VECTOR_TPP
 #define VECTOR_TPP
 
@@ -33,13 +35,17 @@ namespace ft{
 		 const T& value,
 		 const Allocator& alloc)
 
-		: mAllocator(alloc)
+		: mElements(NULL)
+		, mAllocator(alloc)
 		, mCapacity(count)
 		, mSize(count){
 			
+			if (!count)
+				return ;
+
 			mElements = mAllocator.allocate(mSize);
 			
-			for (int i = 0; i < mSize; i++)
+			for (size_type i = 0; i < mSize; i++)
 				mAllocator.construct(mElements + i, value);
 
 	}
@@ -55,6 +61,8 @@ namespace ft{
 		, mCapacity(0)
 		, mSize(0) {
 
+/* construct object depending on whether InputIt is signle-pass
+
 			for (InputIt it = first; it != last; it++)
 				mCapacity++;
 
@@ -67,7 +75,17 @@ namespace ft{
 				mAllocator.construct(mElements + i, *first);
 
 			mSize = mCapacity;
+			*/
 
+	}
+	
+	template <
+		class T,
+		class Allocator
+	> vector<T,Allocator>::vector(const vector& other)
+	: mAllocator(other.mAllocator)
+	, mCapacity(other.mCapacity)
+	, mSize(other.mSize){
 	}
 
 }

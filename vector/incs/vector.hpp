@@ -1,3 +1,5 @@
+/* this file contains the implementation of the vector container*/
+
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 
@@ -60,6 +62,8 @@ namespace ft{
 			template< class InputIt >
 			vector( InputIt first, InputIt last,
 				const Allocator& alloc = Allocator() );
+
+			vector( const vector& other );
 
 			// allocator member functions
 

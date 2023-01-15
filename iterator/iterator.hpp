@@ -1,3 +1,5 @@
+/* this file contains the implementation of iterator_traits and reverse_iterator */
+
 #ifndef ITERATOR_HPP
 #define ITERATOR_HPP
 

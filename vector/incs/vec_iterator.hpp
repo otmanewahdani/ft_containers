@@ -1,3 +1,7 @@
+/* this is an internal file included by vector.hpp.
+	it contains the class template implementation from
+	which vector::iterator and vector::const_iterator are instantiated */
+
 #ifndef VEC_ITERATOR_HPP
 #define VEC_ITERATOR_HPP
 
