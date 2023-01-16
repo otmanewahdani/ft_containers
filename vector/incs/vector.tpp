@@ -87,6 +87,37 @@ namespace ft{
 	, mCapacity(other.mCapacity)
 	, mSize(other.mSize){
 	}
+	
+	template <
+		class T,
+		class Allocator
+	> void vector<T,Allocator>::assign
+		( size_type count, const T& value ){
+
+
+			for (size_type i = mSize <= count ?
+				0 : count; i < mSize; i++)
+				mAllocator.destroy(mElements[i]);
+
+			mSize = count;
+			T* tmp;
+			// allocate a new array and copy all elements
+			if (count > mCapacity){
+				tmp = mAllocator.allocate(count);
+				mCapacity = count;
+			}
+			// use old array
+			else{
+				tmp = mElements;
+				mElements = NULL;
+			}
+
+			// TODO assign new elements
+
+			mAllocator.deallocate(mElements);
+			mElements = tmp;
+
+	}
 
 }
 

@@ -65,11 +65,18 @@ namespace ft{
 
 			vector( const vector& other );
 
+			void assign( size_type count, const T& value );
+
 			// allocator member functions
 
 			// element access
 
 			//iterator getters
+
+			//capacity
+
+			//modifiers
+			void push_back( const T& value );
 
 			/* do a complete test of vec_iterator, iterator traits, reverse_iterator (with raw pointers as well) and element access. This test will be a part of evaluation*/
 
