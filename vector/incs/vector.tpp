@@ -95,13 +95,15 @@ namespace ft{
 		( size_type count, const T& value ){
 
 
+			// destroyed unused objects
 			for (size_type i = mSize <= count ?
 				0 : count; i < mSize; i++)
 				mAllocator.destroy(mElements[i]);
 
 			mSize = count;
+
 			T* tmp;
-			// allocate a new array and copy all elements
+			// allocate a new array
 			if (count > mCapacity){
 				tmp = mAllocator.allocate(count);
 				mCapacity = count;
@@ -112,7 +114,10 @@ namespace ft{
 				mElements = NULL;
 			}
 
-			// TODO assign new elements
+			// assign new elements
+			for (size_type i = 0; i < mSize; i++)
+				tmp[i] = value;
+
 
 			mAllocator.deallocate(mElements);
 			mElements = tmp;
