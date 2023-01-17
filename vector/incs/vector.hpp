@@ -7,6 +7,7 @@
 #include <iterator>
 #include <cstddef>
 #include <iterator.hpp>
+#include <type_traits.hpp>
 
 namespace ft{
 
@@ -66,6 +67,11 @@ namespace ft{
 			vector( const vector& other );
 
 			void assign( size_type count, const T& value );
+
+			template< class InputIt >
+			void assign( InputIt first, InputIt last,
+				typename enable_if<!is_integral<InputIt>() &&
+				!is_floating_point<InputIt>(), bool>::type = true);
 
 			// allocator member functions
 
