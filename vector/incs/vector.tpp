@@ -37,12 +37,9 @@ namespace ft{
 
 		: mElements(NULL)
 		, mAllocator(alloc)
-		, mCapacity(count)
-		, mSize(count){
+		, mCapacity(0)
+		, mSize(0){
 			
-			if (!count)
-				return ;
-
 			mElements = mAllocator.allocate(mSize);
 			
 			for (size_type i = 0; i < mSize; i++)
@@ -85,9 +82,10 @@ namespace ft{
 		class T,
 		class Allocator
 	> vector<T,Allocator>::vector(const vector& other)
-	: mAllocator(other.mAllocator)
-	, mCapacity(other.mCapacity)
-	, mSize(other.mSize){
+	: mElements(NULL)
+	, mAllocator(other.mAllocator)
+	, mCapacity(0)
+	, mSize(0){
 	}
 	
 	template <
@@ -156,6 +154,29 @@ namespace ft{
 		RequiresInputIt();
 
 		// check if it's an input iterator
+
+	}
+
+	// capacity
+	template <
+		class T,
+		class Allocator
+	> std::size_t vector<T,Allocator>::max_size() const{
+
+		return (mAllocator.max_size());
+
+	}
+
+	template <
+		class T,
+		class Allocator
+	> void vector<T,Allocator>::reserve( size_type new_cap ){
+		
+		if (new_cap <= mCapacity)
+			return ;
+
+		if (new_cap > max_size())
+			throw (std::length_error("vector::reserve"));
 
 	}
 

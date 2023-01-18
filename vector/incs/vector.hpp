@@ -8,6 +8,7 @@
 #include <cstddef>
 #include <iterator.hpp>
 #include <type_traits.hpp>
+#include <stdexcept>
 
 namespace ft{
 
@@ -80,6 +81,9 @@ namespace ft{
 			//iterator getters
 
 			//capacity
+			size_type max_size() const;
+
+			void reserve( size_type new_cap );
 
 			//modifiers
 			void push_back( const T& value );
