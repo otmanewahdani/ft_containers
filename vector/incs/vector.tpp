@@ -100,7 +100,7 @@ namespace ft{
 
 			T* tmp;
 			// allocate a new array
-			if (count > mCapacity){
+			if (!isAssignable){
 				tmp = mAllocator.allocate(count);
 				mCapacity = count;
 			}
@@ -111,7 +111,7 @@ namespace ft{
 			}
 
 			for (size_type i = 0; i <
-				(mSize < count) ? mSize : count; i++)
+				(mSize < count ? mSize : count); i++)
 				// copy assign value to old elements
 				if (isAssignable)
 					tmp[i] = value;
@@ -123,11 +123,16 @@ namespace ft{
 			for (size_type i = mSize; i < count; i++)
 					mAllocator.construct(tmp + i, value);
 
+			// if assignable, destroy objects in tmp because it will point to old array
+			// else destroy objects in mElements since it will be pointing on old array and tmp on newly allocated array
+			T* const arrayToDestroy = isAssignable ? tmp : mElements; 
+			
 			// destroyed unused objects
 			for (size_type i = !isAssignable ? 0
 				: count ; i < mSize; i++)
-				mAllocator.destroy(tmp + i);
+				mAllocator.destroy(arrayToDestroy + i);
 
+			// deallocate old array if another array was allocated
 			mAllocator.deallocate(mElements, mSize);
 			mElements = tmp;
 
