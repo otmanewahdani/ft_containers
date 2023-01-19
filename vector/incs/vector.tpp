@@ -87,7 +87,19 @@ namespace ft{
 	, mCapacity(0)
 	, mSize(0){
 	}
-	
+
+	template <
+		class T,
+		class Allocator
+	> vector<T,Allocator>::~vector() {
+
+		for (size_type i = 0; i < mSize; i++)
+			mAllocator.destroy(mElements + i);
+
+		mAllocator.deallocate(mElements, mCapacity);
+
+	}	
+
 	template <
 		class T,
 		class Allocator
@@ -100,7 +112,6 @@ namespace ft{
 			// allocate a new array
 			if (!isAssignable){
 				tmp = mAllocator.allocate(count);
-				mCapacity = count;
 			}
 			// use old array
 			else{
@@ -131,9 +142,11 @@ namespace ft{
 				mAllocator.destroy(arrayToDestroy + i);
 
 			// deallocate old array if another array was allocated
-			mAllocator.deallocate(mElements, mSize);
+			mAllocator.deallocate(mElements, mCapacity);
 			mElements = tmp;
 
+			if (!isAssignable)
+				mCapacity = count;
 			mSize = count;
 
 	}
@@ -157,13 +170,43 @@ namespace ft{
 
 	}
 
+	// element access
+	template <
+		class T,
+		class Allocator
+	> T* vector<T,Allocator>::data() { return mElements; }
+
+	template <
+		class T,
+		class Allocator
+	> const T* vector<T,Allocator>::data() const{
+		return (const_cast<const T*>(mElements));
+	}
+
 	// capacity
+	template <
+		class T,
+		class Allocator
+	> bool vector<T,Allocator>::empty() const{
+		return (!mSize);
+	}
+
+	template <
+		class T,
+		class Allocator
+	> std::size_t vector<T,Allocator>::size() const{
+		return mSize;
+	}
+
 	template <
 		class T,
 		class Allocator
 	> std::size_t vector<T,Allocator>::max_size() const{
 
-		return (mAllocator.max_size());
+		const size_type max1 = mAllocator.max_size();
+		const size_type max2 = std::numeric_limits<difference_type>::max();
+		// max_size of allocator cannot exceed max value of difference_type
+		return (max1 < max2 ? max1 : max2);
 
 	}
 
@@ -176,8 +219,31 @@ namespace ft{
 			return ;
 
 		if (new_cap > max_size())
-			throw (std::length_error("vector::reserve"));
+			throw (std::length_error("allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size"));
 
+		T* const tmp = mAllocator.allocate(new_cap);
+
+		// copy old elements in new array
+		for (size_type i = 0; i < mSize; i++)
+			mAllocator.construct(tmp + i, mElements[i]);
+
+		// destroy old elements
+		for (size_type i = 0; i < mSize; i++)
+			mAllocator.destroy(mElements + i);
+
+		// deallocate old array
+		mAllocator.deallocate(mElements, mCapacity);
+
+		mElements = tmp;
+		mCapacity = new_cap;
+
+	}
+
+	template <
+		class T,
+		class Allocator
+	> std::size_t vector<T,Allocator>::capacity() const{
+		return mCapacity;
 	}
 
 	// modifiers
@@ -185,6 +251,61 @@ namespace ft{
 		class T,
 		class Allocator
 	> void vector<T,Allocator>::push_back( const T& value ){
+		
+
+		// if container reached full capacity, increase the capacity
+			// to 1 if container was previously empty or else double previous capacity
+		// else keep previous capacity
+		const size_type newCapacity = mCapacity == mSize ?
+			(!mSize ? 1 : (mCapacity * 2)) : mCapacity;
+
+		// create a temporary vector, reserve newCapacity of memory in there
+		//copy current elements to it and add additional element of value
+		// swap it with current container
+		if (newCapacity != mCapacity){
+
+				vector tmp;
+				tmp.reserve(newCapacity);
+
+				for (size_type i = 0; i < mSize; i++){
+					tmp.mAllocator.construct(tmp.mElements + i, mElements[i]);
+					tmp.mSize++;
+				}
+
+				tmp.mAllocator.construct(tmp.mElements + mSize, value);
+				
+				this->swap(tmp);
+
+		}
+		else
+			mAllocator.construct(mElements + mSize, value);
+
+		mCapacity = newCapacity;
+		mSize++;
+
+	}
+
+	template <
+		class T,
+		class Allocator
+	> void vector<T,Allocator>::swap( vector& other ){
+
+		size_type tmp_size = mSize;
+		mSize = other.mSize;
+		other.mSize = tmp_size;
+
+		tmp_size = mCapacity;
+		mCapacity = other.mCapacity;
+		other.mCapacity = tmp_size;
+
+		const allocator_type tmp_alloc = mAllocator;
+		mAllocator = other.mAllocator;
+		other.mAllocator = tmp_alloc;
+
+		T* const tmp_array = mElements;
+		mElements = other.mElements;
+		other.mElements = tmp_array;
+
 	}
 
 }

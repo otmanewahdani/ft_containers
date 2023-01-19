@@ -67,6 +67,8 @@ namespace ft{
 
 			vector( const vector& other );
 
+			~vector();
+
 			void assign( size_type count, const T& value );
 
 			template< class InputIt >
@@ -77,16 +79,27 @@ namespace ft{
 			// allocator member functions
 
 			// element access
+			T* data();
+
+			const T* data() const;
 
 			//iterator getters
 
 			//capacity
+			bool empty() const;
+
+			size_type size() const;
+
 			size_type max_size() const;
 
 			void reserve( size_type new_cap );
 
+			size_type capacity() const;
+
 			//modifiers
 			void push_back( const T& value );
+
+			void swap( vector& other );
 
 			/* do a complete test of vec_iterator, iterator traits, reverse_iterator (with raw pointers as well) and element access. This test will be a part of evaluation*/
 
