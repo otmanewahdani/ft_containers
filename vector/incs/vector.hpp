@@ -73,8 +73,8 @@ namespace ft{
 
 			template< class InputIt >
 			void assign( InputIt first, InputIt last,
-				typename enable_if<!is_integral<InputIt>() &&
-				!is_floating_point<InputIt>(), bool>::type = true);
+				typename enable_if<!is_integral<InputIt>::value &&
+				!is_floating_point<InputIt>::value, bool>::type = true);
 
 			// allocator member functions
 

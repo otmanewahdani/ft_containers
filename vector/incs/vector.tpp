@@ -39,12 +39,6 @@ namespace ft{
 		, mAllocator(alloc)
 		, mCapacity(0)
 		, mSize(0){
-			
-			mElements = mAllocator.allocate(mSize);
-			
-			for (size_type i = 0; i < mSize; i++)
-				mAllocator.construct(mElements + i, value);
-
 	}
 
 	template <
@@ -156,8 +150,8 @@ namespace ft{
 		class Allocator
 	> template< class InputIt >
 	void vector<T,Allocator>::assign( InputIt first, InputIt last,
-		typename enable_if<!is_integral<InputIt>() &&
-		!is_floating_point<InputIt>(), bool>::type){
+		typename enable_if<!is_integral<InputIt>::value &&
+		!is_floating_point<InputIt>::value, bool>::type){
 		
 		// checks if it's not an output iterator
 		typedef typename enable_if<!is_output_iterator<InputIt>::value>::type 
@@ -167,6 +161,28 @@ namespace ft{
 		RequiresInputIt();
 
 		// check if it's an input iterator
+		if (is_input_iterator<InputIt>::value){
+		
+			const size_type originalSize = mSize;
+
+			// copy assign dereferenced iterator to already constrcuted objects
+			size_type i = 0;
+			for (; first != last && i < originalSize; ++first, ++i)
+				mElements[i] = *first;
+			mSize = i;
+
+			// construct new objects
+			for (; first != last; ++first)
+				push_back(*first);
+
+			// destroy unused objects
+			i = mSize;
+			for (; i < originalSize; i++)
+				mAllocator.destroy(mElements + i);
+
+		}
+		else{
+		}
 
 	}
 
