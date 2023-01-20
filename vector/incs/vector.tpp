@@ -150,8 +150,7 @@ namespace ft{
 		class Allocator
 	> template< class InputIt >
 	void vector<T,Allocator>::assign( InputIt first, InputIt last,
-		typename enable_if<!is_integral<InputIt>::value &&
-		!is_floating_point<InputIt>::value, bool>::type){
+		typename enable_if<!is_integral<InputIt>::value, bool>::type){
 		
 		// checks if it's not an output iterator
 		typedef typename enable_if<!is_output_iterator<InputIt>::value>::type 
@@ -160,29 +159,56 @@ namespace ft{
 		// just to silence warning about unused typedef
 		RequiresInputIt();
 
+		const size_type originalSize = mSize;
+		size_type i = 0;
+
 		// check if it's an input iterator
 		if (is_input_iterator<InputIt>::value){
-		
-			const size_type originalSize = mSize;
 
 			// copy assign dereferenced iterator to already constrcuted objects
-			size_type i = 0;
 			for (; first != last && i < originalSize; ++first, ++i)
 				mElements[i] = *first;
 			mSize = i;
-
+		
 			// construct new objects
 			for (; first != last; ++first)
 				push_back(*first);
 
-			// destroy unused objects
-			i = mSize;
-			for (; i < originalSize; i++)
-				mAllocator.destroy(mElements + i);
-
 		}
 		else{
+			
+			const size_type	count = std::distance(first, last);
+
+			// use old array
+			if (count <= originalSize){
+
+				i = 0;
+				for (; first != last ; ++first, ++i)
+					mElements[i] = *first;
+
+			}
+			// make new container
+			else{
+				
+				vector tmp;
+				tmp.reserve(count);
+
+				i = 0;
+				for (; i < count; ++first, ++i)
+					tmp.mAllocator.construct(tmp.mElements + i, *first);
+
+				this->swap(tmp);
+
+			}
+			
+			mSize = count;
+			
 		}
+
+		// destroy unused objects
+		i = mSize;
+		for (; i < originalSize; i++)
+			mAllocator.destroy(mElements + i);
 
 	}
 
