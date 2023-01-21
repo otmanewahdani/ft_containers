@@ -39,6 +39,9 @@ namespace ft{
 		, mAllocator(alloc)
 		, mCapacity(0)
 		, mSize(0){
+			
+			this->assign(count, value);
+
 	}
 
 	template <
@@ -46,29 +49,15 @@ namespace ft{
 		class Allocator
 	> template< class InputIt >
 	vector<T,Allocator>::vector(InputIt first, InputIt last,
-		const Allocator& alloc)
+		const Allocator& alloc,
+		typename enable_if<!is_integral<InputIt>::value 
+			,bool>::type)
 		: mElements(NULL)
 		, mAllocator(alloc)
 		, mCapacity(0)
 		, mSize(0) {
 
-		(void) first;
-		(void) last;
-/* construct object depending on whether InputIt is signle-pass
-
-			for (InputIt it = first; it != last; it++)
-				mCapacity++;
-
-			if (!mCapacity)
-				return ;
-
-			mElements = mAllocator.allocate(mCapacity);
-
-			for (int i = 0; first != last; first++, i++)
-				mAllocator.construct(mElements + i, *first);
-
-			mSize = mCapacity;
-			*/
+		this->assign(first, last);
 
 	}
 	
@@ -80,6 +69,9 @@ namespace ft{
 	, mAllocator(other.mAllocator)
 	, mCapacity(0)
 	, mSize(0){
+
+		this->assign(other.mElements, other.mElements + other.mSize);
+
 	}
 
 	template <
