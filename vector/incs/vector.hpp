@@ -105,6 +105,13 @@ namespace ft{
 			const T* data() const;
 
 			//iterator getters
+			iterator begin();
+
+			const_iterator begin() const;
+
+			iterator end();
+
+			const_iterator end() const;
 
 			//capacity
 			bool empty() const;

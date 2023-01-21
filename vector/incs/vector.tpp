@@ -293,6 +293,42 @@ namespace ft{
 		return (const_cast<const T*>(mElements));
 	}
 
+	//iterator getters
+	template <
+		class T,
+		class Allocator
+	> typename vector<T,Allocator>::iterator vector<T,Allocator>::begin(){
+		return mElements;
+
+	}
+
+	template <
+		class T,
+		class Allocator
+	> typename vector<T,Allocator>::const_iterator vector<T,Allocator>::begin() const {
+	
+		return mElements;
+
+	}
+
+	template <
+		class T,
+		class Allocator
+	> typename vector<T,Allocator>::iterator vector<T,Allocator>::end(){
+
+		return (mElements + mSize);
+
+	}
+
+	template <
+		class T,
+		class Allocator
+	> typename vector<T,Allocator>::const_iterator vector<T,Allocator>::end() const {
+
+		return (mElements + mSize);
+
+	}
+
 	// capacity
 	template <
 		class T,
