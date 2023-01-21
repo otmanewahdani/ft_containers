@@ -216,7 +216,71 @@ namespace ft{
 
 	}
 
+	// allocator member functions
+	template <
+		class T,
+		class Allocator
+	> Allocator vector<T,Allocator>::get_allocator() const { return mAllocator; }
+
 	// element access
+	template <
+		class T,
+		class Allocator
+	> T& vector<T,Allocator>::at( size_type pos ){
+
+		if (pos >= mSize)
+			throw std::out_of_range("vector");
+
+		return mElements[pos];
+
+	}
+
+	template <
+		class T,
+		class Allocator
+	> const T& vector<T,Allocator>::at( size_type pos ) const{
+	
+		if (pos >= mSize)
+			throw std::out_of_range("vector");
+
+		return mElements[pos];
+
+	}
+
+	template <
+		class T,
+		class Allocator
+	> T& vector<T,Allocator>::operator[]( size_type pos ) {return mElements[pos]; }
+
+	template <
+		class T,
+		class Allocator
+	> const T& vector<T,Allocator>::operator[]( size_type pos ) const {
+	
+		return mElements[pos];
+
+	}
+
+	template <
+		class T,
+		class Allocator
+	> T& vector<T,Allocator>::front() { return (*mElements); }
+
+	template <
+		class T,
+		class Allocator
+	> const T& vector<T,Allocator>::front() const { return (*mElements); }
+
+	template <
+		class T,
+		class Allocator
+	> T& vector<T,Allocator>::back() { return mElements[mSize - 1]; }
+
+	template <
+		class T,
+		class Allocator
+	> const T& vector<T,Allocator>::back() const { return mElements[mSize - 1]; }
+
 	template <
 		class T,
 		class Allocator

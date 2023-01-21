@@ -81,8 +81,25 @@ namespace ft{
 					, bool>::type = true);
 
 			// allocator member functions
+			allocator_type get_allocator() const;
 
 			// element access
+			reference at( size_type pos );
+
+			const_reference at( size_type pos ) const;
+
+			reference operator[]( size_type pos );
+
+			const_reference operator[]( size_type pos ) const;
+
+			reference front();
+
+			const_reference front() const;
+
+			reference back();
+
+			const_reference back() const;
+
 			T* data();
 
 			const T* data() const;
@@ -106,6 +123,10 @@ namespace ft{
 			void swap( vector& other );
 
 			/* do a complete test of vec_iterator, iterator traits, reverse_iterator (with raw pointers as well) and element access. This test will be a part of evaluation*/
+
+			/* make a script to compare two bins */
+
+			/* test vector on Imac as well */
 
 	};
 }
