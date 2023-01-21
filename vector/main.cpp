@@ -37,6 +37,8 @@ int main(){
 	std::istream_iterator<int> it(str);
 	ft::vector<A> vec3(it, std::istream_iterator<int>());
 	std::cout << "size: " << vec3.size() << ", capacity: " << vec3.capacity() << '\n' << '\n';
+
+	vec = vec1 = vec2 = vec3;
 	
 	return 0;
 

@@ -85,6 +85,18 @@ namespace ft{
 		mAllocator.deallocate(mElements, mCapacity);
 
 	}	
+	
+	template <
+		class T,
+		class Allocator
+	> vector<T,Allocator>& vector<T,Allocator>::
+		operator=( const vector& other ){
+
+		this->assign(other.mElements, other.mElements + other.mSize);
+
+		return (*this);
+
+	}
 
 	template <
 		class T,

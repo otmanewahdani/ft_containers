@@ -71,6 +71,8 @@ namespace ft{
 
 			~vector();
 
+			vector& operator=( const vector& other );
+
 			void assign( size_type count, const T& value );
 
 			template< class InputIt >
