@@ -104,7 +104,7 @@ namespace ft{
 
 			const T* data() const;
 
-			//iterator getters
+			//regular iterator getters
 			iterator begin();
 
 			const_iterator begin() const;
@@ -112,6 +112,15 @@ namespace ft{
 			iterator end();
 
 			const_iterator end() const;
+
+			// reverse iterator getters
+			reverse_iterator rbegin();
+
+			const_reverse_iterator rbegin() const;
+
+			reverse_iterator rend();
+
+			const_reverse_iterator rend() const;
 
 			//capacity
 			bool empty() const;

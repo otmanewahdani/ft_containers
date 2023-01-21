@@ -293,7 +293,7 @@ namespace ft{
 		return (const_cast<const T*>(mElements));
 	}
 
-	//iterator getters
+	//regular iterator getters
 	template <
 		class T,
 		class Allocator
@@ -326,6 +326,43 @@ namespace ft{
 	> typename vector<T,Allocator>::const_iterator vector<T,Allocator>::end() const {
 
 		return (mElements + mSize);
+
+	}
+
+	// reverse iterator getters
+	template <
+		class T,
+		class Allocator
+	> typename vector<T,Allocator>::reverse_iterator vector<T,Allocator>::rbegin(){
+
+		return reverse_iterator(mElements + mSize);
+
+	}
+
+	template <
+		class T,
+		class Allocator
+	> typename vector<T,Allocator>::const_reverse_iterator vector<T,Allocator>::rbegin() const {
+	
+		return const_reverse_iterator(mElements + mSize);
+
+	}
+
+	template <
+		class T,
+		class Allocator
+	> typename vector<T,Allocator>::reverse_iterator vector<T,Allocator>::rend(){
+
+		return reverse_iterator(mElements);
+
+	}
+
+	template <
+		class T,
+		class Allocator
+	> typename vector<T,Allocator>::const_reverse_iterator vector<T,Allocator>::rend() const{
+
+		return const_reverse_iterator(mElements);
 
 	}
 
