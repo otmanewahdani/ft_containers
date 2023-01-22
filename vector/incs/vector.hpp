@@ -134,6 +134,12 @@ namespace ft{
 			size_type capacity() const;
 
 			//modifiers
+			void clear();
+
+			iterator insert( const_iterator pos, const T& value );
+
+			void insert( const_iterator pos, size_type count, const T& value );
+
 			void push_back( const T& value );
 
 			void swap( vector& other );

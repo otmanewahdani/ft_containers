@@ -433,6 +433,58 @@ namespace ft{
 	template <
 		class T,
 		class Allocator
+	> void vector<T,Allocator>::clear(){
+
+		for (size_type i = 0; i < mSize; i++)
+			mAllocator.destroy(mElements + i);
+
+		mSize = 0;
+
+	}
+
+	template <
+		class T,
+		class Allocator
+	> typename vector<T,Allocator>::iterator
+		vector<T,Allocator>::insert
+		( const_iterator pos, const T& value ){
+	
+		// distance from pos to beginning of mElements
+		const size_type offset = pos - mElements; 
+
+		insert(pos, 1, value);
+
+		return (mElements + offset);
+
+	}
+
+	template <
+		class T,
+		class Allocator
+	> void vector<T,Allocator>::insert
+		( const_iterator pos, size_type count, const T& value ){
+		
+			// distance from pos to beginning of mElements
+			// elements after pos will be moved to the right
+			// new position = old posiiton + offset + 1
+			const size_type offset = pos - mElements;
+
+			const size_type newSize = mSize + count;
+
+			if (newSize > mCapacity){
+
+				/* to be continued
+				vector tmp;
+				tmp.reserve(mCapacity * 2 + (newSize - mCapacity * 2 ));
+				tmp.assign(mElements, mElements + offset);
+
+			}
+
+	}
+
+	template <
+		class T,
+		class Allocator
 	> void vector<T,Allocator>::push_back( const T& value ){
 		
 
