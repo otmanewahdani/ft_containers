@@ -466,19 +466,46 @@ namespace ft{
 		
 			// distance from pos to beginning of mElements
 			// elements after pos will be moved to the right
-			// new position = old posiiton + offset + 1
 			const size_type offset = pos - mElements;
 
 			const size_type newSize = mSize + count;
 
 			if (newSize > mCapacity){
 
-				/* to be continued
 				vector tmp;
-				tmp.reserve(mCapacity * 2 + (newSize - mCapacity * 2 ));
+
+				// if doubling the capacity isn't enough to hold new size
+				// add the difference between new size and doubled capacity
+				const size_type newCapacity = 
+					(mCapacity * 2) >= newSize ? (mCapacity * 2) : 
+					(mCapacity * 2 + (newSize - mCapacity * 2));
+
+				tmp.reserve(newCapacity);
+
+				// adds old elements before pos (insertion point)
 				tmp.assign(mElements, mElements + offset);
 
+				// inserts new count elements starting from pos location
+				for (size_type i = 0; i < count; i++)
+					tmp.push_back(value);
+
+				// adds old elements after insertion point
+				for (size_type i = offset; i < mSize; i++)
+					tmp.push_back(mElements[i]);
+
+				this->swap(tmp);
+
+				return ;
+
 			}
+
+			shiftElemsToRight(offset, count);
+
+			// insert elems
+			for (size_type i = offset; i < count; i++)
+				mElements[i] = value;
+
+			mSize = newSize;
 
 	}
 

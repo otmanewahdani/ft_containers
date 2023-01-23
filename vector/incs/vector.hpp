@@ -150,6 +150,27 @@ namespace ft{
 
 			/* test vector on Imac as well */
 
+		private:
+		
+			void shiftElemsToRight(const size_type start, const size_type new_pos){
+				for (size_type i = start + 1; i <= mSize; i++){
+					
+					// constructs new element
+					if (mSize - i + new_pos >= mSize){
+
+						mAllocator.construct(mElements + mSize - i + new_pos,
+							mElements[mSize - i]);
+						continue;
+
+					}
+
+					// copy assigns to old element
+					mElements[mSize - i + new_pos] = mElements[mSize - i];
+
+				}
+
+			}
+
 	};
 }
 
