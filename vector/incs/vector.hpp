@@ -152,20 +152,24 @@ namespace ft{
 
 		private:
 		
+			// move to the right all elements starting from start to the end of the array
+			// new position = old position + new_pos
+			// the moving starts from the back so no subsequent elements are overwritten
 			void shiftElemsToRight(const size_type start, const size_type new_pos){
-				for (size_type i = start + 1; i <= mSize; i++){
+
+				for (size_type i = mSize; i > start; --i){
 					
 					// constructs new element
-					if (mSize - i + new_pos >= mSize){
+					if (i - 1 + new_pos >= mSize){
 
-						mAllocator.construct(mElements + mSize - i + new_pos,
-							mElements[mSize - i]);
+						mAllocator.construct(mElements + i - 1 + new_pos,
+							mElements[i - 1]);
 						continue;
 
 					}
 
 					// copy assigns to old element
-					mElements[mSize - i + new_pos] = mElements[mSize - i];
+					mElements[i - 1 + new_pos] = mElements[i - 1];
 
 				}
 

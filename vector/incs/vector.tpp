@@ -184,11 +184,16 @@ namespace ft{
 			const size_type	count = std::distance(first, last);
 
 			// use old array
-			if (count <= originalSize){
+			if (count <= mCapacity){
 
 				i = 0;
-				for (; first != last ; ++first, ++i)
+				// copy assigns to existing objects
+				for (; first != last && i < originalSize; ++first, ++i)
 					mElements[i] = *first;
+
+				// create new objects
+				for (; first != last; ++first, ++i)
+					mAllocator.construct(mElements + i, *first);
 
 			}
 			// make new container
@@ -450,7 +455,7 @@ namespace ft{
 		( const_iterator pos, const T& value ){
 	
 		// distance from pos to beginning of mElements
-		const size_type offset = pos - mElements; 
+		const size_type offset = pos.base() - mElements; 
 
 		insert(pos, 1, value);
 
@@ -466,7 +471,7 @@ namespace ft{
 		
 			// distance from pos to beginning of mElements
 			// elements after pos will be moved to the right
-			const size_type offset = pos - mElements;
+			const size_type offset = pos.base() - mElements;
 
 			const size_type newSize = mSize + count;
 
@@ -501,9 +506,16 @@ namespace ft{
 
 			shiftElemsToRight(offset, count);
 
+			// location where insertions stop relative to offset
+			// offset being the starting location for insertions
+			const size_type endOfInsertions = offset + count;
+
 			// insert elems
-			for (size_type i = offset; i < count; i++)
-				mElements[i] = value;
+			for (size_type i = offset; i < endOfInsertions; i++)
+				if (i < mSize)
+					mElements[i] = value;
+				else
+					mAllocator.construct(mElements + i, value);
 
 			mSize = newSize;
 
