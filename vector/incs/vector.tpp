@@ -512,12 +512,90 @@ namespace ft{
 
 			// insert elems
 			for (size_type i = offset; i < endOfInsertions; i++)
+				// copy assigns to old object
 				if (i < mSize)
 					mElements[i] = value;
+				// creates new object
 				else
 					mAllocator.construct(mElements + i, value);
 
 			mSize = newSize;
+
+	}
+
+	template <
+		class T,
+		class Allocator
+	> template < class InputIt > void vector<T,Allocator>::insert
+		( const_iterator pos, InputIt first, InputIt last,
+		typename enable_if<!is_integral<InputIt>::value
+			, bool>::type){
+	
+		// checks if it's not an output iterator
+		typedef typename enable_if<!is_output_iterator<InputIt>::value>::type 
+			RequiresInputIt;
+
+		// just to silence warning about unused typedef
+		RequiresInputIt();
+
+		// check if it's an input iterator
+		if (is_input_iterator<InputIt>::value){
+
+			// temporary buffer to store data from first to last
+			vector tmp;
+			for (; first != last; ++first)
+				tmp.push_back(*first);
+
+			// calling this same function will use the ready-to-use range stored in tmp
+			// the code executed will be after this after this if statement
+			this->insert(pos, tmp.mElements, tmp.mElements + tmp.mSize);
+
+			return ;
+
+		}
+
+		// distance from pos to beginning of mElements
+		// elements starting at and after pos will be moved to the right
+		const size_type offset = pos.base() - mElements;
+
+		// number of elements to be inserted
+		const size_type	count = std::distance(first, last);
+
+		if (mSize + count > mCapacity){
+
+			vector tmp;
+
+			tmp.reserve(mSize + count);
+			
+			// adds old elements before pos (insertion point)
+			tmp.assign(mElements, mElements + offset);
+
+			// inserts new count elements starting from pos location
+			for (size_type i = 0; first != last && i < count;
+				++i, ++first)
+				tmp.push_back(*first);
+
+			// adds old elements after insertion point
+			for (size_type i = offset; i < mSize; ++i)
+				tmp.push_back(mElements[i]);
+
+			this->swap(tmp);
+
+			return ;
+
+		}
+
+		this->shiftElemsToRight(offset, count);
+
+
+		// inserts new elements starting at insertion point(offset)
+		for (size_type i = offset; first != last; ++i, ++first)
+			if (i < mSize)
+				mElements[i] = *first;
+			else
+				mAllocator.construct(mElements + i, *first);
+
+		mSize += count;
 
 	}
 

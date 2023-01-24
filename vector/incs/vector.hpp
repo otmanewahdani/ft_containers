@@ -140,6 +140,11 @@ namespace ft{
 
 			void insert( const_iterator pos, size_type count, const T& value );
 
+			template< class InputIt >
+			void insert( const_iterator pos, InputIt first, InputIt last,
+				typename enable_if<!is_integral<InputIt>::value
+					, bool>::type = true);
+
 			void push_back( const T& value );
 
 			void swap( vector& other );
