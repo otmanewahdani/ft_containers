@@ -678,6 +678,16 @@ namespace ft{
 	template <
 		class T,
 		class Allocator
+	> void vector<T,Allocator>::pop_back(){
+
+		mAllocator.destroy(mElements + mSize - 1);
+		mSize--;
+	
+	}
+
+	template <
+		class T,
+		class Allocator
 	> void vector<T,Allocator>::swap( vector& other ){
 
 		size_type tmp_size = mSize;
