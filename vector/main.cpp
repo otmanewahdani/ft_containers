@@ -36,7 +36,25 @@ int main(){
 		std::cout << *it << '\n';
 	std::cout << '\n';
 
+	std::cout << *vec.erase(vec.begin() + 5) << '\n';
+	std::cout << "size: " << vec.size()  << '\n';
+	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
+		std::cout << *it << '\n';
+	std::cout << '\n';
+
 	vec.insert(vec.begin() + 5, 109, 35);
+	std::cout << "size: " << vec.size()  << '\n';
+	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
+		std::cout << *it << '\n';
+	std::cout << '\n';
+
+	std::cout << *vec.erase(vec.begin(), vec.begin() + 50) << '\n';
+	std::cout << "size: " << vec.size()  << '\n';
+	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
+		std::cout << *it << '\n';
+	std::cout << '\n';
+
+	std::cout << (vec.erase(vec.end() - 1) == vec.end()) << '\n';
 	std::cout << "size: " << vec.size()  << '\n';
 	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
 		std::cout << *it << '\n';
@@ -48,7 +66,19 @@ int main(){
 		std::cout << *it << '\n';
 	std::cout << '\n';
 
+	std::cout << *vec.erase(vec.begin()) << '\n';
+	std::cout << "size: " << vec.size()  << '\n';
+	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
+		std::cout << *it << '\n';
+	std::cout << '\n';
+
 	vec.insert(vec.begin() + 10, arr, arr + 12);
+	std::cout << "size: " << vec.size()  << '\n';
+	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
+		std::cout << *it << '\n';
+	std::cout << '\n';
+
+	std::cout << (vec.erase(vec.begin(), vec.end()) == vec.end()) << '\n';
 	std::cout << "size: " << vec.size()  << '\n';
 	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
 		std::cout << *it << '\n';
@@ -60,7 +90,19 @@ int main(){
 		std::cout << *it << '\n';
 	std::cout << '\n';
 
+	std::cout << *vec.erase(vec.begin() + 10, vec.begin() + 10) << '\n';
+	std::cout << "size: " << vec.size()  << '\n';
+	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
+		std::cout << *it << '\n';
+	std::cout << '\n';
+
 	vec.insert(vec.end(), 13804, 123);
+	std::cout << "size: " << vec.size()  << '\n';
+	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
+		std::cout << *it << '\n';
+	std::cout << '\n';
+
+	std::cout << *vec.erase(vec.begin() + 10, vec.begin() + 7384) << '\n';
 	std::cout << "size: " << vec.size()  << '\n';
 	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
 		std::cout << *it << '\n';
@@ -77,6 +119,7 @@ int main(){
 	544554 545 5 55 5 5 5 5 5 5 5 5 5 5 5 5 5    555   5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 89 ");
 	std::istream_iterator<int> it(str);
 	vec.insert(vec.begin() + 10, it, std::istream_iterator<int>());
+	std::cout << *vec.erase(vec.begin(), vec.begin() + 1000) << '\n';
 	std::cout << "size: " << vec.size()  << '\n';
 	for (Avec::const_iterator it = vec.begin(); it != vec.end(); it++)
 		std::cout << *it << '\n';
