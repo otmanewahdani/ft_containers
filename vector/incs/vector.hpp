@@ -145,6 +145,10 @@ namespace ft{
 				typename enable_if<!is_integral<InputIt>::value
 					, bool>::type = true);
 
+			iterator erase( iterator pos );
+
+			iterator erase( iterator first, iterator last );
+
 			void push_back( const T& value );
 
 			void swap( vector& other );

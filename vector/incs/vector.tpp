@@ -602,6 +602,44 @@ namespace ft{
 	template <
 		class T,
 		class Allocator
+	> typename vector<T,Allocator>::iterator
+		vector<T,Allocator>::erase( iterator pos ){
+
+		return this->erase(pos, pos + 1);
+
+	}
+
+	template <
+		class T,
+		class Allocator
+	> typename vector<T,Allocator>::iterator
+		vector<T,Allocator>::erase( iterator first, iterator last ){
+
+			const size_type count = last - first;
+
+			// distance from first to beginning of array
+			const size_type offset = first.base() - mElements;
+
+			// shifts to the left by count all elements from last to the end
+			for (size_type i = last.base() - mElements;
+				i < mSize; ++i)
+				mElements[i - count] = mElements[i];
+
+			const size_type newSize = mSize - count;
+
+			// destroy erased objects
+			for (size_type i = newSize; i < mSize; ++i)
+				mAllocator.destroy(mElements + i);
+
+			mSize = newSize;
+
+			return (mElements + offset);
+
+	}
+
+	template <
+		class T,
+		class Allocator
 	> void vector<T,Allocator>::push_back( const T& value ){
 		
 
