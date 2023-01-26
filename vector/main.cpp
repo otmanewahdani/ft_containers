@@ -64,6 +64,28 @@ int main(){
 	std::cout << (vec >= vec2) << '\n';
 	std::cout << (vec1 >= vec2) << '\n';
 
+	std::swap(vec1, vec2);
+	std::cout << "size: " << vec1.size()  << '\n';
+	for (Avec::iterator it = vec1.begin(); it != vec1.end(); it++)
+		std::cout << *it << '\n';
+	std::cout << '\n';
+
+	std::cout << "size: " << vec2.size()  << '\n';
+	for (Avec::iterator it = vec2.begin(); it != vec2.end(); it++)
+		std::cout << *it << '\n';
+	std::cout << '\n';
+
+	std::swap(vec, vec2);
+	std::cout << "size: " << vec.size()  << '\n';
+	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
+		std::cout << *it << '\n';
+	std::cout << '\n';
+
+	std::cout << "size: " << vec2.size()  << '\n';
+	for (Avec::iterator it = vec2.begin(); it != vec2.end(); it++)
+		std::cout << *it << '\n';
+	std::cout << '\n';
+
 	return 0;
 
 }

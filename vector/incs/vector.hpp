@@ -218,9 +218,12 @@ namespace ft{
 	bool operator>=( const vector<T,Alloc>& lhs,
 		const vector<T,Alloc>& rhs );
 
-	// std::swap specialization
-
 }
+
+// std::swap specialization
+template< class T, class Alloc >
+void std::swap( ft::vector<T,Alloc>& lhs,
+	ft::vector<T,Alloc>& rhs );
 
 #include <vec_iterator.hpp>
 #include <vector.tpp>
