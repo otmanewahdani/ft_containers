@@ -9,6 +9,8 @@
 #include <iterator.hpp>
 #include <type_traits.hpp>
 #include <stdexcept>
+#include <algorithm>
+#include <algorithm.hpp>
 
 namespace ft{
 
@@ -189,6 +191,18 @@ namespace ft{
 			}
 
 	};
+
+	// non-member overloads
+	template< class T, class Alloc >
+	bool operator==( const vector<T,Alloc>& lhs,
+		const vector<T,Alloc>& rhs );
+
+	template< class T, class Alloc >
+	bool operator!=( const vector<T,Alloc>& lhs,
+		const vector<T,Alloc>& rhs );
+
+	// std::swap specialization
+
 }
 
 #include <vec_iterator.hpp>

@@ -134,6 +134,15 @@ int main(){
 		std::cout << *it << '\n';
 	std::cout << '\n';
 
+	Avec vec1(10, 198);
+	Avec vec2(3674, 198);
+	std::cout << (vec1 == vec) << '\n';
+	std::cout << (vec2 == vec) << '\n';
+	std::cout << (vec == ft::vector<A>(vec.begin(), vec.begin() + 4)) << '\n';
+
+	std::cout << (vec1 != vec) << '\n';
+	std::cout << (vec2 != vec) << '\n';
+
 	return 0;
 
 }

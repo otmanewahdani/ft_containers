@@ -3,7 +3,7 @@ CPPFLAGS = -std=c++98 -c -Wall -Wextra -Werror
 
 SHELL = /bin/bash
 
-INCS = -Iiterator -Itype_traits
+INCS = -Iiterator -Itype_traits -Ialgorithm
 
 VECTOR_OBJ = vector/objs/main.o vector/objs/std_main.o 
 

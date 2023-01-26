@@ -742,6 +742,29 @@ namespace ft{
 
 	}
 
+	// non-member overloads
+	template< class T, class Alloc >
+	bool operator==( const vector<T,Alloc>& lhs,
+		const vector<T,Alloc>& rhs ){
+
+		if (lhs.size() != rhs.size())
+			return false;
+
+		return equal(lhs.begin(), lhs.end(), rhs.begin());
+
+	}
+
+	template< class T, class Alloc >
+	bool operator!=( const vector<T,Alloc>& lhs,
+		const vector<T,Alloc>& rhs ){
+
+		if (lhs.size() != rhs.size())
+			return true;
+
+		return !(equal(lhs.begin(), lhs.end(), rhs.begin()));
+
+	}
+
 }
 
 #endif
