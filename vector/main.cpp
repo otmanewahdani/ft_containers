@@ -30,30 +30,34 @@ int main(){
 	A arr[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 
 		14, 15, 16, 17, 18, 19, 20};
 
-	Avec vec(arr, arr + 14);
+	Avec vec(arr, arr + 20);
 	std::cout << "size: " << vec.size()  << '\n';
 	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
 		std::cout << *it << '\n';
 	std::cout << '\n';
 
+	vec.resize(12);
 	std::cout << *vec.erase(vec.begin() + 5) << '\n';
 	std::cout << "size: " << vec.size()  << '\n';
 	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
 		std::cout << *it << '\n';
 	std::cout << '\n';
 
+	vec.resize(vec.capacity(), 99);
 	vec.insert(vec.begin() + 5, 109, 35);
 	std::cout << "size: " << vec.size()  << '\n';
 	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
 		std::cout << *it << '\n';
 	std::cout << '\n';
 
+	vec.resize(193749, 287483);
 	std::cout << *vec.erase(vec.begin(), vec.begin() + 50) << '\n';
 	std::cout << "size: " << vec.size()  << '\n';
 	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
 		std::cout << *it << '\n';
 	std::cout << '\n';
 
+	vec.resize(100);
 	std::cout << (vec.erase(vec.end() - 1) == vec.end()) << '\n';
 	std::cout << "size: " << vec.size()  << '\n';
 	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
@@ -72,6 +76,7 @@ int main(){
 		std::cout << *it << '\n';
 	std::cout << '\n';
 
+	vec.resize(10293, 1923);
 	vec.insert(vec.begin() + 10, arr, arr + 12);
 	std::cout << "size: " << vec.size()  << '\n';
 	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
@@ -84,12 +89,14 @@ int main(){
 		std::cout << *it << '\n';
 	std::cout << '\n';
 
+	vec.resize(0);
 	vec.insert(vec.end(), arr + 5, arr + 18);
 	std::cout << "size: " << vec.size()  << '\n';
 	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
 		std::cout << *it << '\n';
 	std::cout << '\n';
 
+	vec.resize(300, 10);
 	std::cout << *vec.erase(vec.begin() + 10, vec.begin() + 10) << '\n';
 	std::cout << "size: " << vec.size()  << '\n';
 	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
@@ -108,6 +115,7 @@ int main(){
 		std::cout << *it << '\n';
 	std::cout << '\n';
 
+	vec.resize(1000);
 	vec.insert(vec.begin() + 4, arr, arr + 20);
 	std::cout << "size: " << vec.size()  << '\n';
 	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
@@ -120,6 +128,7 @@ int main(){
 	std::istream_iterator<int> it(str);
 	vec.insert(vec.begin() + 10, it, std::istream_iterator<int>());
 	std::cout << *vec.erase(vec.begin(), vec.begin() + 1000) << '\n';
+	vec.resize(10);
 	std::cout << "size: " << vec.size()  << '\n';
 	for (Avec::const_iterator it = vec.begin(); it != vec.end(); it++)
 		std::cout << *it << '\n';

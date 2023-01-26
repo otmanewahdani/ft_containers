@@ -688,6 +688,40 @@ namespace ft{
 	template <
 		class T,
 		class Allocator
+	> void vector<T,Allocator>::resize
+		( size_type count, T value){
+
+			if (count <= mSize){
+
+				erase(iterator(mElements + count), end());
+
+				return ;
+
+			}
+
+			if (count > mCapacity){
+
+				vector tmp;
+
+				tmp.reserve(count);
+				// copy old elements
+				tmp.assign(this->begin(), this->end());
+				// append new elements to the end initialized to value
+				tmp.insert(tmp.end(), count - mSize, value);
+
+				this->swap(tmp);
+
+				return ;
+
+			}
+
+			insert(end(), count - mSize, value);
+			
+	}
+
+	template <
+		class T,
+		class Allocator
 	> void vector<T,Allocator>::swap( vector& other ){
 
 		size_type tmp_size = mSize;
