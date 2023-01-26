@@ -11,6 +11,7 @@
 #include <stdexcept>
 #include <algorithm>
 #include <algorithm.hpp>
+#include <functional>
 
 namespace ft{
 
@@ -199,6 +200,22 @@ namespace ft{
 
 	template< class T, class Alloc >
 	bool operator!=( const vector<T,Alloc>& lhs,
+		const vector<T,Alloc>& rhs );
+
+	template< class T, class Alloc >
+	bool operator<( const vector<T,Alloc>& lhs,
+		const vector<T,Alloc>& rhs );
+
+	template< class T, class Alloc >
+	bool operator<=( const vector<T,Alloc>& lhs,
+		const vector<T,Alloc>& rhs );
+
+	template< class T, class Alloc >
+	bool operator>( const vector<T,Alloc>& lhs,
+		const vector<T,Alloc>& rhs );
+
+	template< class T, class Alloc >
+	bool operator>=( const vector<T,Alloc>& lhs,
 		const vector<T,Alloc>& rhs );
 
 	// std::swap specialization

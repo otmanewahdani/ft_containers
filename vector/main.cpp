@@ -30,118 +30,39 @@ int main(){
 	A arr[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 
 		14, 15, 16, 17, 18, 19, 20};
 
-	Avec vec(arr, arr + 20);
+	Avec vec(arr + 1, arr + 20);
 	std::cout << "size: " << vec.size()  << '\n';
 	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
 		std::cout << *it << '\n';
 	std::cout << '\n';
 
-	vec.resize(12);
-	std::cout << *vec.erase(vec.begin() + 5) << '\n';
-	std::cout << "size: " << vec.size()  << '\n';
-	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
-		std::cout << *it << '\n';
-	std::cout << '\n';
+	Avec vec1(arr + 4, arr + 10);
 
-	vec.resize(vec.capacity(), 99);
-	vec.insert(vec.begin() + 5, 109, 35);
-	std::cout << "size: " << vec.size()  << '\n';
-	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
-		std::cout << *it << '\n';
-	std::cout << '\n';
+	Avec vec2(vec);
 
-	vec.resize(193749, 287483);
-	std::cout << *vec.erase(vec.begin(), vec.begin() + 50) << '\n';
-	std::cout << "size: " << vec.size()  << '\n';
-	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
-		std::cout << *it << '\n';
-	std::cout << '\n';
+	std::cout << (vec == vec1) << '\n';
+	std::cout << (vec == vec2) << '\n';
+	std::cout << (vec1 == vec2) << '\n';
 
-	vec.resize(100);
-	std::cout << (vec.erase(vec.end() - 1) == vec.end()) << '\n';
-	std::cout << "size: " << vec.size()  << '\n';
-	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
-		std::cout << *it << '\n';
-	std::cout << '\n';
+	std::cout << (vec != vec1) << '\n';
+	std::cout << (vec != vec2) << '\n';
+	std::cout << (vec1 != vec2) << '\n';
 
-	vec.insert(vec.begin() + 5, arr, arr);
-	std::cout << "size: " << vec.size()  << '\n';
-	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
-		std::cout << *it << '\n';
-	std::cout << '\n';
+	std::cout << (vec < vec1) << '\n';
+	std::cout << (vec < vec2) << '\n';
+	std::cout << (vec1 < vec2) << '\n';
 
-	std::cout << *vec.erase(vec.begin()) << '\n';
-	std::cout << "size: " << vec.size()  << '\n';
-	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
-		std::cout << *it << '\n';
-	std::cout << '\n';
+	std::cout << (vec <= vec1) << '\n';
+	std::cout << (vec <= vec2) << '\n';
+	std::cout << (vec1 <= vec2) << '\n';
 
-	vec.resize(10293, 1923);
-	vec.insert(vec.begin() + 10, arr, arr + 12);
-	std::cout << "size: " << vec.size()  << '\n';
-	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
-		std::cout << *it << '\n';
-	std::cout << '\n';
+	std::cout << (vec > vec1) << '\n';
+	std::cout << (vec > vec2) << '\n';
+	std::cout << (vec1 > vec2) << '\n';
 
-	std::cout << (vec.erase(vec.begin(), vec.end()) == vec.end()) << '\n';
-	std::cout << "size: " << vec.size()  << '\n';
-	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
-		std::cout << *it << '\n';
-	std::cout << '\n';
-
-	vec.resize(0);
-	vec.insert(vec.end(), arr + 5, arr + 18);
-	std::cout << "size: " << vec.size()  << '\n';
-	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
-		std::cout << *it << '\n';
-	std::cout << '\n';
-
-	vec.resize(300, 10);
-	std::cout << *vec.erase(vec.begin() + 10, vec.begin() + 10) << '\n';
-	std::cout << "size: " << vec.size()  << '\n';
-	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
-		std::cout << *it << '\n';
-	std::cout << '\n';
-
-	vec.insert(vec.end(), 13804, 123);
-	std::cout << "size: " << vec.size()  << '\n';
-	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
-		std::cout << *it << '\n';
-	std::cout << '\n';
-
-	std::cout << *vec.erase(vec.begin() + 10, vec.begin() + 7384) << '\n';
-	std::cout << "size: " << vec.size()  << '\n';
-	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
-		std::cout << *it << '\n';
-	std::cout << '\n';
-
-	vec.resize(1000);
-	vec.insert(vec.begin() + 4, arr, arr + 20);
-	std::cout << "size: " << vec.size()  << '\n';
-	for (Avec::iterator it = vec.begin(); it != vec.end(); it++)
-		std::cout << *it << '\n';
-	std::cout << '\n';
-
-
-	std::istringstream str("12 5 47 734 747 47 7474 445 54 5445 544\
-	544554 545 5 55 5 5 5 5 5 5 5 5 5 5 5 5 5    555   5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 89 ");
-	std::istream_iterator<int> it(str);
-	vec.insert(vec.begin() + 10, it, std::istream_iterator<int>());
-	std::cout << *vec.erase(vec.begin(), vec.begin() + 1000) << '\n';
-	vec.resize(10);
-	std::cout << "size: " << vec.size()  << '\n';
-	for (Avec::const_iterator it = vec.begin(); it != vec.end(); it++)
-		std::cout << *it << '\n';
-	std::cout << '\n';
-
-	Avec vec1(10, 198);
-	Avec vec2(3674, 198);
-	std::cout << (vec1 == vec) << '\n';
-	std::cout << (vec2 == vec) << '\n';
-	std::cout << (vec == ft::vector<A>(vec.begin(), vec.begin() + 4)) << '\n';
-
-	std::cout << (vec1 != vec) << '\n';
-	std::cout << (vec2 != vec) << '\n';
+	std::cout << (vec >= vec1) << '\n';
+	std::cout << (vec >= vec2) << '\n';
+	std::cout << (vec1 >= vec2) << '\n';
 
 	return 0;
 
