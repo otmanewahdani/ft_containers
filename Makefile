@@ -62,8 +62,10 @@ $(NAME): $$(dir $$@)objs/main.o
 $(TEST): CONT = $(lastword $(subst -, ,$@))
 
 $(TEST): $$(CONT)/$$(CONT) 
+	@rm -f "$(CONT) execution time"
 	@./$< > $(CONT)/ftOutput
 	@./$(CONT)/std_$(CONT) > $(CONT)/stdOutput
+	@cat "$(CONT) execution time"
 	@diff $(CONT)/ftOutput $(CONT)/stdOutput > $(CONT)/diff_results; \
 	FAIL="\e[1;31m\u26A0";\
 	SUCCESS="\e[1;32m\u2705";\
@@ -73,3 +75,4 @@ $(TEST): $$(CONT)/$$(CONT)
 	else\
 		echo -e "$${FAIL} ft::$(CONT) failed the tests!\e[0m" ; \
 	fi
+	@rm -f "$(CONT) execution time"
