@@ -162,8 +162,6 @@ namespace ft{
 
 			/* do a complete test of vec_iterator, iterator traits, reverse_iterator (with raw pointers as well) and element access. This test will be a part of evaluation*/
 
-			/* make a script to compare two bins */
-
 			/* test vector on Imac as well */
 
 		private:

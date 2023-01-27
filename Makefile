@@ -13,6 +13,8 @@ NAME = vector/vector
 
 VPATH = vector
 
+TEST = test-vector test-stack test-map
+
 all: $(NAME)
 
 vector: vector/vector
@@ -35,11 +37,12 @@ fclean: clean
 	@rm -f $(NAME)
 	@rm -f $(join $(DIR),$(PROGRAM))
 	@echo -e "\e[1;31m\u26A0 full cleaning complete\e[0m"
+	@rm -f $(DIR)stdOutput $(DIR)ftOutput $(DIR)diff_results
 
 re: fclean all
 	@echo -e "\e[1;32m\u2705 all targets were re-created!\e[0m"
 
-.PHONY: all clean fclean re vector
+.PHONY: all clean fclean re vector $(TEST)
 
 .SECONDEXPANSION:
 
@@ -55,3 +58,18 @@ $(NAME): $$(dir $$@)objs/main.o
 		COLOR="\e[1;34m";\
 	fi;\
 	echo -e "\e[$$COLOR\u2705 $(notdir $@) was compiled successfully\e[0m"
+
+$(TEST): CONT = $(lastword $(subst -, ,$@))
+
+$(TEST): $$(CONT)/$$(CONT) 
+	@./$< > $(CONT)/ftOutput
+	@./$(CONT)/std_$(CONT) > $(CONT)/stdOutput
+	@diff $(CONT)/ftOutput $(CONT)/stdOutput > $(CONT)/diff_results; \
+	FAIL="\e[1;31m\u26A0";\
+	SUCCESS="\e[1;32m\u2705";\
+	if [ ! -s $(CONT)/diff_results ]; \
+	then \
+		echo -e "$${SUCCESS} ft::$(CONT) passed the tests!\e[0m";\
+	else\
+		echo -e "$${FAIL} ft::$(CONT) failed the tests!\e[0m" ; \
+	fi
