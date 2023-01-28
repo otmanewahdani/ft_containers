@@ -36,8 +36,9 @@ fclean: clean
 	$(eval PROGRAM=$(addprefix std_, $(notdir $(NAME))))
 	@rm -f $(NAME)
 	@rm -f $(join $(DIR),$(PROGRAM))
-	@echo -e "\e[1;31m\u26A0 full cleaning complete\e[0m"
 	@rm -f $(DIR)stdOutput $(DIR)ftOutput $(DIR)diff_results
+	@echo -e "\e[1;31m\u26A0 all test files were removed permanently\e[0m"
+	@echo -e "\e[1;31m\u26A0 full cleaning complete\e[0m"
 
 re: fclean all
 	@echo -e "\e[1;32m\u2705 all targets were re-created!\e[0m"
