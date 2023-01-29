@@ -235,7 +235,7 @@ int main(){
 	for (ft::vector<int>::size_type i = 0; i < constIntVec.size(); ++i)
 		cout << constIntVec[i] << '\n';
 
-	delete arr;
+	delete[] arr;
 
 	// testing vector<string>
 	const int strVecSize = 1000000;

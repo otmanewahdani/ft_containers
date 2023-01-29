@@ -216,9 +216,11 @@ namespace ft{
 }
 
 // std::swap specialization
-template< class T, class Alloc >
-void std::swap( ft::vector<T,Alloc>& lhs,
-	ft::vector<T,Alloc>& rhs );
+namespace std {
+	template< class T, class Alloc >
+	void swap( ft::vector<T,Alloc>& lhs,
+		ft::vector<T,Alloc>& rhs );
+}
 
 #include <vec_iterator.hpp>
 #include <vector.tpp>
