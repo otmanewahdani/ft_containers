@@ -51,11 +51,11 @@ $(NAME): $$(dir $$@)objs/main.o
 	@$(CC) $< -o $@
 	@$(eval DIR = $(dir $@))
 	@$(CC) $(DIR)objs/std_main.o -o $(DIR)std_$(notdir $@)
-	@if [ $(DIR) == "vector/" ]; then\
+	@if [[ $(DIR) == "vector/" ]]; then\
 		COLOR="\e[1;35m";\
-	elif [ $(DIR) == "map/" ]; then\
+	elif [[ $(DIR) == "map/" ]]; then\
 		COLOR="\e[1;33m";\
-	elif [ $(DIR) == "stack/" ]; then\
+	elif [[ $(DIR) == "stack/" ]]; then\
 		COLOR="\e[1;34m";\
 	fi;\
 	echo -e "\e[$$COLOR\u2705 $(notdir $@) was compiled successfully\e[0m"
@@ -70,7 +70,7 @@ $(TEST): $$(CONT)/$$(CONT)
 	@diff $(CONT)/ftOutput $(CONT)/stdOutput > $(CONT)/diff_results; \
 	FAIL="\e[1;31m\u26A0";\
 	SUCCESS="\e[1;32m\u2705";\
-	if [ ! -s $(CONT)/diff_results ]; \
+	if [[ ! -s $(CONT)/diff_results ]]; \
 	then \
 		echo -e "$${SUCCESS} ft::$(CONT) passed the tests!\e[0m";\
 	else\
