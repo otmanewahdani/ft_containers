@@ -181,7 +181,7 @@ namespace ft{
 		}
 		else{
 			
-			const size_type	count = std::distance(first, last);
+			const size_type	count = labs(std::distance(first, last));
 
 			// use old array
 			if (count <= mCapacity){
@@ -559,7 +559,7 @@ namespace ft{
 		const size_type offset = pos.base() - mElements;
 
 		// number of elements to be inserted
-		const size_type	count = std::distance(first, last);
+		const size_type	count = labs(std::distance(first, last));
 
 		if (mSize + count > mCapacity){
 

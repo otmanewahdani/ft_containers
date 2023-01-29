@@ -6,6 +6,7 @@
 #include <memory>
 #include <iterator>
 #include <cstddef>
+#include <cstdlib>
 #include <iterator.hpp>
 #include <type_traits.hpp>
 #include <stdexcept>
