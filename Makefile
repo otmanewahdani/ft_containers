@@ -74,7 +74,7 @@ $(TEST): $$(CONT)/$$(CONT)
 	@diff $(CONT)/ftOutput $(CONT)/stdOutput > $(CONT)/diff_results; \
 	FAIL="\e[1;31m\u26A0";\
 	SUCCESS="\e[1;32m\u2705";\
-	if [[ ! -s $(CONT)/diff_results ]; \
+	if [[ ! -s $(CONT)/diff_results ]]; \
 	then \
 		echo -e "$${SUCCESS} ft::$(CONT) passed the tests!\e[0m";\
 	else\
