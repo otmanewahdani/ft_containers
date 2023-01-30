@@ -12,7 +12,6 @@
 #include <stdexcept>
 #include <algorithm>
 #include <algorithm.hpp>
-#include <functional>
 
 namespace ft{
 

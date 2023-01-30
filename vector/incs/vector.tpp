@@ -786,8 +786,13 @@ namespace ft{
 	bool operator>( const vector<T,Alloc>& lhs,
 		const vector<T,Alloc>& rhs ){
 
-		return std::lexicographical_compare(lhs.begin(), lhs.end(),
-			rhs.begin(), rhs.end(), std::greater<T>());
+		typename vector<T,Alloc>::const_iterator it1 = lhs.begin(),
+			it2 = rhs.begin(), end1 = lhs.end(), end2 = rhs.end();
+		
+		for (; it1 != end1 && it2 != end2 && *it1 == *it2; ++it1, ++it2)
+			; // empty for loop body
+
+		return (it1 != end1 && (it2 == end2 || *it1 > *it2));
 	
 	}
 
