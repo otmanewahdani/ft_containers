@@ -82,9 +82,10 @@ namespace ft{
 		for (size_type i = 0; i < mSize; i++)
 			mAllocator.destroy(mElements + i);
 
-		mAllocator.deallocate(mElements, mCapacity);
+		if (mElements)
+			mAllocator.deallocate(mElements, mCapacity);
 
-	}	
+	}
 	
 	template <
 		class T,
@@ -103,49 +104,40 @@ namespace ft{
 		class Allocator
 	> void vector<T,Allocator>::assign
 		( size_type count, const T& value ){
-
-			const bool isAssignable = count > mCapacity ? false : true;
-
-			T* tmp;
-			// allocate a new array
-			if (!isAssignable){
-				tmp = mAllocator.allocate(count);
-			}
-			// use old array
-			else{
-				tmp = mElements;
-				mElements = NULL;
-			}
-
-			for (size_type i = 0; i <
-				(mSize < count ? mSize : count); i++)
-				// copy assign value to old elements
-				if (isAssignable)
-					tmp[i] = value;
-				// construct new object in the newly allocated memory
-				else
-					mAllocator.construct(tmp + i, value);
-
-			// continue constructing if count is more than previous size
-			for (size_type i = mSize; i < count; i++)
-					mAllocator.construct(tmp + i, value);
-
-			// if assignable, destroy objects in tmp because it will point to old array
-			// else destroy objects in mElements since it will be pointing on old array and tmp on newly allocated array
-			T* const arrayToDestroy = isAssignable ? tmp : mElements; 
 			
-			// destroyed unused objects
-			for (size_type i = !isAssignable ? 0
-				: count ; i < mSize; i++)
-				mAllocator.destroy(arrayToDestroy + i);
+		const size_type	originalSize = mSize;
 
-			// deallocate old array if another array was allocated
-			mAllocator.deallocate(mElements, mCapacity);
-			mElements = tmp;
+		// use old array
+		if (count <= mCapacity){
 
-			if (!isAssignable)
-				mCapacity = count;
-			mSize = count;
+			size_type i = 0;
+			// copy assigns to existing objects
+			for (; i < originalSize; ++i)
+				mElements[i] = value;
+
+			// create new objects
+			for (; i < count; ++i)
+				mAllocator.construct(mElements + i, value);
+
+		}
+		// make new container
+		else{
+			
+			vector tmp;
+			tmp.reserve(count);
+
+			for (size_type i = 0; i < count; ++i)
+				tmp.mAllocator.construct(tmp.mElements + i, value);
+
+			this->swap(tmp);
+
+		}
+		
+		mSize = count;
+		
+		// destroy unused objects
+		for (size_type i = mSize; i < originalSize; ++i)
+			mAllocator.destroy(mElements + i);
 
 	}
 
@@ -420,7 +412,8 @@ namespace ft{
 			mAllocator.destroy(mElements + i);
 
 		// deallocate old array
-		mAllocator.deallocate(mElements, mCapacity);
+		if (mElements)
+			mAllocator.deallocate(mElements, mCapacity);
 
 		mElements = tmp;
 		mCapacity = new_cap;
@@ -750,7 +743,7 @@ namespace ft{
 		if (lhs.size() != rhs.size())
 			return false;
 
-		return equal(lhs.begin(), lhs.end(), rhs.begin());
+		return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
 
 	}
 
