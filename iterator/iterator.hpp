@@ -125,7 +125,7 @@ namespace ft{
 
 			template < class Iter2 >
 			friend difference_type operator-(const reverse_iterator& lhs, const reverse_iterator<Iter2>& rhs){
-				return (lhs.base() - rhs.base());
+				return (rhs.base() - lhs.base());
 			}
 
 			// arithmetic assignment operators
