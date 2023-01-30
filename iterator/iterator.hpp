@@ -147,16 +147,16 @@ namespace ft{
 			friend bool operator!=(const reverse_iterator& lhs, const reverse_iterator<Iter2>& rhs) { return (lhs.base() != rhs.base()); }
 
 			template < class Iter2 >
-			friend bool operator<(const reverse_iterator& lhs, const reverse_iterator<Iter2>& rhs) { return (lhs.base() < rhs.base()); }
+			friend bool operator<(const reverse_iterator& lhs, const reverse_iterator<Iter2>& rhs) { return (lhs.base() > rhs.base()); }
 
 			template < class Iter2 >
-			friend bool operator<=(const reverse_iterator& lhs, const reverse_iterator<Iter2>& rhs) { return (lhs.base() <= rhs.base()); }
+			friend bool operator<=(const reverse_iterator& lhs, const reverse_iterator<Iter2>& rhs) { return (lhs.base() >= rhs.base()); }
 
 			template < class Iter2 >
-			friend bool operator>(const reverse_iterator& lhs, const reverse_iterator<Iter2>& rhs) { return (lhs.base() > rhs.base()); }
+			friend bool operator>(const reverse_iterator& lhs, const reverse_iterator<Iter2>& rhs) { return (lhs.base() < rhs.base()); }
 
 			template < class Iter2 >
-			friend bool operator>=(const reverse_iterator& lhs, const reverse_iterator<Iter2>& rhs) { return (lhs.base() >= rhs.base()); }
+			friend bool operator>=(const reverse_iterator& lhs, const reverse_iterator<Iter2>& rhs) { return (lhs.base() <= rhs.base()); }
 
 		protected:
 
