@@ -9,8 +9,10 @@
 #include <ctime>
 #include <algorithm>
 #include <iterator>
+#include <utility>
 
 using std::cout;
+using std::pair;
 using std::string;
 using std::stringstream;
 using std::ostream_iterator;
@@ -292,6 +294,55 @@ int main(){
 	for (ft::vector<string>::const_iterator it = strVec2.begin();
 		it != strVec2.end(); ++it)
 		cout << *it << '\n';
+
+	//reverse_iterator tests
+	ft::vector<int>::const_reverse_iterator crit = constIntVec.rbegin();
+	ft::vector<int>::const_reverse_iterator crend = constIntVec.rend();
+	ft::vector<int>::reverse_iterator rit = intVec1.rbegin();
+	ft::vector<int>::reverse_iterator rend = intVec1.rend();
+
+	ft::vector< pair<int,string> > pairVec(1, pair<int,string>());
+	insertRandomInt(pairVec.begin()->first);
+	insertRandomString(pairVec.begin()->second);
+	ft::vector< pair<int,string> >::const_reverse_iterator pairIt = pairVec.rbegin();
+
+
+	*(rit++) = 1337;
+	cout << *(--rit) << '\n';
+	++rit;
+	*(--rit) = 42;
+	cout << *rit << '\n';
+	rit += 10;
+	insertRandomInt(*(rit -= 2));
+	cout << *rit << '\n';
+	cout << rit - (rit + 2) << '\n';
+
+	cout << (rit == rend) << '\n';
+	cout << (crit == crend) << '\n';
+	cout << (rit == crit) << '\n';
+	cout << (rit == rit + 0) << '\n';
+	cout << (rit == rit + 1) << '\n';
+	cout << (*rit == rit[0]) << '\n';
+	cout << (crit != crend) << '\n';
+	cout << (rit != rend) << '\n';
+	cout << (rit != crit) << '\n';
+	cout << (rit != rit + 0) << '\n';
+	cout << (rit != rit + 1) << '\n';
+	cout << (crit > crend) << '\n';
+	cout << (rit > rend) << '\n';
+	cout << (rit > rit) << '\n';
+	cout << (rit > rit + 1) << '\n';
+	cout << (crit >= crend) << '\n';
+	cout << (rit >= rend) << '\n';
+	cout << (rit >= rit) << '\n';
+	cout << (rit >= rit + 1) << '\n';
+	cout << (crit < crend) << '\n';
+	cout << (rit < rit) << '\n';
+	cout << (rit <= rit + 1) << '\n';
+	cout << (rit <= rend) << '\n';
+
+	cout << pairIt->first << '\n';
+	cout << pairIt->second << '\n';
 
 	std::fstream executionTime("vector execution time",
 		std::fstream::app | std::fstream::out);
