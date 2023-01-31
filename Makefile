@@ -7,21 +7,25 @@ else
 SHELL = /bin/bash
 endif
 
-INCS = -Iiterator -Itype_traits -Ialgorithm
+INCS = -Iiterator -Itype_traits -Ialgorithm -Ivector/incs
 
 VECTOR_OBJ = vector/objs/main.o vector/objs/std_main.o 
 
-OBJ = $(VECTOR_OBJ)
+STACK_OBJ = stack/objs/main.o stack/objs/std_main.o 
 
-NAME = vector/vector
+OBJ = $(VECTOR_OBJ) $(STACK_OBJ)
 
-VPATH = vector
+NAME = vector/vector stack/stack
+
+VPATH = vector stack
 
 TEST = test-vector test-stack test-map
 
 all: $(NAME)
 
 vector: vector/vector
+
+stack: stack/stack
 
 %/objs/main.o : main.cpp incs/%.hpp incs/%.tpp
 	@$(eval CONTAINER=$*)
@@ -40,14 +44,16 @@ fclean: clean
 	$(eval PROGRAM=$(addprefix std_, $(notdir $(NAME))))
 	@rm -f $(NAME)
 	@rm -f $(join $(DIR),$(PROGRAM))
-	@rm -f $(DIR)stdOutput $(DIR)ftOutput $(DIR)diff_results
+	@for dir in $(DIR); do \
+		rm -f $${dir}stdOutput $${dir}ftOutput $${dir}diff_results; \
+	done
 	@echo -e "\e[1;31m\u26A0 all test files were removed permanently\e[0m"
 	@echo -e "\e[1;31m\u26A0 full cleaning complete\e[0m"
 
 re: fclean all
 	@echo -e "\e[1;32m\u2705 all targets were re-created!\e[0m"
 
-.PHONY: all clean fclean re vector $(TEST)
+.PHONY: all clean fclean re vector stack map $(TEST)
 
 .SECONDEXPANSION:
 

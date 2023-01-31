@@ -1,3 +1,8 @@
+/* this file contains tests of the ft::vector container class.
+	these tests are meant to produce the same output as std::vector
+	in order to demonstrate that ft::vector is a re-implementation of 
+	its STL counterpart */
+
 #include <vector>
 #include <iostream>
 #include <fstream>
