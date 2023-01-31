@@ -4,10 +4,16 @@
 	its STL counterpart */
 
 #include <stack.hpp>
+#include <stack>
+#include <list>
+#include <deque>
+#include <vector>
 
 int main() {
 
 	ft::stack<int> intStack1;
+
+	(void) intStack1;
 
 	return 0;
 
