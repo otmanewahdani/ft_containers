@@ -50,12 +50,11 @@ inline bool isLenLess100(const string& str){ return str.length() < 100; }
 
 int main(){
 
-
 	std::time_t start = std::time(NULL);
 
-	// testing vector<int>
 	std::srand(42);
 	
+	// testing vector<int>
 	int intArrSize = 1000000;
 	int* arr = new int[intArrSize];
 

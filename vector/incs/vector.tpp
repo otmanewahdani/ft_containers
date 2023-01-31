@@ -754,7 +754,7 @@ namespace ft{
 		if (lhs.size() != rhs.size())
 			return true;
 
-		return !(equal(lhs.begin(), lhs.end(), rhs.begin()));
+		return !(ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 
 	}
 
