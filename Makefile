@@ -27,7 +27,7 @@ vector: vector/vector
 
 stack: stack/stack
 
-%/objs/main.o : main.cpp incs/%.hpp incs/%.tpp
+%/objs/main.o : %/main.cpp incs/%.hpp incs/%.tpp
 	@$(eval CONTAINER=$*)
 	@test -d $(CONTAINER)/objs/ || mkdir $(CONTAINER)/objs/
 	@sed 's/ft::/std::/g' $< > $(CONTAINER)/std_main.cpp
