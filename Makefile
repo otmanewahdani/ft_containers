@@ -23,7 +23,7 @@ all: $(NAME)
 
 vector: vector/vector
 
-%/objs/main.o : main.cpp incs/%.hpp
+%/objs/main.o : main.cpp incs/%.hpp incs/%.tpp
 	@$(eval CONTAINER=$*)
 	@test -d $(CONTAINER)/objs/ || mkdir $(CONTAINER)/objs/
 	@sed 's/ft::/std::/g' $< > $(CONTAINER)/std_main.cpp
