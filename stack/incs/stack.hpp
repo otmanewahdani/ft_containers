@@ -55,6 +55,8 @@ namespace ft {
 			// constructor, destructor and copy assignment operator
 			explicit stack( const Container& cont = Container() );
 
+			stack( const stack& other );
+
 			~stack();
 
 			stack& operator=( const stack& other );

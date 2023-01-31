@@ -20,6 +20,10 @@ namespace ft {
 	}
 
 	template < class T, class Container >
+	stack<T, Container>::stack( const stack& other )
+				: c(other.c) {}
+
+	template < class T, class Container >
 	stack<T, Container>::~stack() {}
 
 	template < class T, class Container >
