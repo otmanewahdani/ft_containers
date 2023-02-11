@@ -696,7 +696,11 @@ namespace ft{
 
 				vector tmp;
 
-				tmp.reserve(count);
+				const size_type newCapacity = (mCapacity * 2) < count ?
+					 count : mCapacity * 2;
+
+				tmp.reserve(newCapacity);
+
 				// copy old elements
 				tmp.assign(this->begin(), this->end());
 				// append new elements to the end initialized to value
