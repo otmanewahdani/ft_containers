@@ -1,4 +1,4 @@
-/* this file contains the implementation of the vector container*/
+/* this file contains the definition of the vector container class*/
 
 #ifndef VECTOR_HPP
 #define VECTOR_HPP

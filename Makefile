@@ -7,7 +7,7 @@ else
 SHELL = /bin/bash
 endif
 
-INCS = -Iiterator -Itype_traits -Ialgorithm -Ivector/incs
+INCS = -Iiterator -Itype_traits -Ialgorithm -Ivector/incs -Iutility
 
 VECTOR_OBJ = vector/objs/main.o vector/objs/std_main.o 
 
@@ -15,9 +15,9 @@ STACK_OBJ = stack/objs/main.o stack/objs/std_main.o
 
 OBJ = $(VECTOR_OBJ) $(STACK_OBJ)
 
-NAME = vector/vector stack/stack
+NAME = vector/vector stack/stack map/map
 
-VPATH = vector stack
+VPATH = vector stack map
 
 TEST = test-vector test-stack test-map
 
@@ -26,6 +26,8 @@ all: $(NAME)
 vector: vector/vector
 
 stack: stack/stack
+
+map: map/map
 
 %/objs/main.o : %/main.cpp incs/%.hpp incs/%.tpp
 	@$(eval CONTAINER=$*)
