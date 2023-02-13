@@ -13,7 +13,11 @@ VECTOR_OBJ = vector/objs/main.o vector/objs/std_main.o
 
 STACK_OBJ = stack/objs/main.o stack/objs/std_main.o 
 
-OBJ = $(VECTOR_OBJ) $(STACK_OBJ)
+MAP_OBJ = map/objs/main.o map/objs/std_main.o 
+
+PAIR_OBJ = map/objs/pairTests.o map/objs/std_pairTests.o
+
+OBJ = $(VECTOR_OBJ) $(STACK_OBJ) $(MAP_OBJ) $(PAIR_OBJ)
 
 NAME = vector/vector stack/stack map/map
 
@@ -57,12 +61,23 @@ re: fclean all
 
 .PHONY: all clean fclean re vector stack map $(TEST)
 
+map/objs/pairTests.o: map/pairTests.cpp incs/pairTests.hpp
+	@test -d map/objs/ || mkdir map/objs/
+	@sed 's/ft::/std::/g' $< > map/std_pairTests.cpp
+	@$(CC) $(CPPFLAGS) $(INCS) -Imap/incs $< -o $@
+	@$(CC) $(CPPFLAGS) $(INCS) -Imap/incs map/std_pairTests.cpp \
+		-o map/objs/std_pairTests.o
+	@rm -f map/std_pairTests.cpp
+
 .SECONDEXPANSION:
 
-$(NAME): $$(dir $$@)objs/main.o
-	@$(CC) $< -o $@
+map/map: EXTRA_OBJ = map/objs/pairTests.o map/objs/std_pairTests.o
+
+$(NAME): $$(dir $$@)objs/main.o $$(EXTRA_OBJ)
+	@$(CC) $< $(firstword $(EXTRA_OBJ)) -o $@
 	@$(eval DIR = $(dir $@))
-	@$(CC) $(DIR)objs/std_main.o -o $(DIR)std_$(notdir $@)
+	@$(CC) $(DIR)objs/std_main.o $(lastword $(EXTRA_OBJ)) \
+		-o $(DIR)std_$(notdir $@)
 	@if [[ $(DIR) == "vector/" ]]; then\
 		COLOR="\e[1;35m";\
 	elif [[ $(DIR) == "map/" ]]; then\

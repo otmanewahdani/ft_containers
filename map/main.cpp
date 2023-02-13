@@ -8,13 +8,20 @@
 #include <utility>
 #include <cstdlib>
 #include <ctime>
+#include <string>
 #include <fstream>
 #include <utility.hpp>
 #include <map.hpp>
+#include <pairTests.hpp>
+
+using std::string;
+using std::cout;
 
 int main(){
 
 	std::time_t start = std::time(NULL);
+
+	runPairtests();
 
 	std::fstream executionTime("map execution time",
 		std::fstream::app | std::fstream::out);
