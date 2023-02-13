@@ -5,7 +5,7 @@
 
 namespace ft{
 
-			// constructors, destructors, assignment {operators, member functions}
+	// constructors, destructors, assignment {operators, member functions}
 	template <
 		class T,
 		class Allocator
