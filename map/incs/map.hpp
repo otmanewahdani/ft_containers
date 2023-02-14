@@ -48,22 +48,19 @@ namespace ft {
 			class value_compare;
 
 			// constructors
-			value_comparator(Compare());
 
 		private:
-			// forward declaration of AVL binary search tree class template
-			// object used to compare elments of map
-			value_compare value_comparator;
-
-			// associated allocator
-			allocator_type mAllocator;
+			// forward declaration of AVL binary search tree struct
+			struct AVL_Tree;
 
 			// underlying associative array (AVL tree)
+			AVL_Tree mArray;
 
 	};
 
 }
 
+#include <AVL.hpp>
 #include <map_iterator.hpp>
 #include <map.tpp>
 

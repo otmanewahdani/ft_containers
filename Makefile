@@ -33,6 +33,12 @@ stack: stack/stack
 
 map: map/map
 
+map/objs/main.o: incs/AVL.hpp incs/AVL.tpp incs/map_iterator.hpp
+
+vector/objs/main.o: incs/vec_iterator.hpp
+
+stack/objs/main.o: incs/vector.hpp incs/vector.tpp
+
 %/objs/main.o : %/main.cpp incs/%.hpp incs/%.tpp
 	@$(eval CONTAINER=$*)
 	@test -d $(CONTAINER)/objs/ || mkdir $(CONTAINER)/objs/

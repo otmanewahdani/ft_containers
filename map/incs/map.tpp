@@ -36,5 +36,7 @@ class ft::map<K, T, C, A>::value_compare
 };
 
 // map container class implementation
+namespace ft {
+}
 
 #endif
