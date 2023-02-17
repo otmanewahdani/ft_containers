@@ -55,7 +55,8 @@ namespace ft {
 			// underlying associative array (AVL tree)
 			AVL_Tree<
 				value_type,
-				value_compare
+				value_compare,
+				Allocator
 			> mArray( value_compare(key_compare()) );
 
 	};

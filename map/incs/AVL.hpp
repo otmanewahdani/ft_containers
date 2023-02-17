@@ -1,5 +1,5 @@
 /* this is an internal file included by map.hpp. it contains 
-	the definition of AVL binary search tree class template.
+	the definition of AVL binary search tree and its node class templates
 	Duplicate values are not allowed in this tree */
 
 #ifndef AVL_HPP
@@ -14,29 +14,39 @@
 namespace ft {
 
 	// AVL Node struct template definition
-	template< class T >
-	struct AVL_Node{
+	template<
+		class T,
+		class Allocator = std::allocator<T>
+	> struct AVL_Node{
 
 		/******* members types *******/
 		typedef AVL_Node Node;
+		typedef Allocator allocator_type;
 
-		/******* constructor *******/
+		/******* constructors *******/
 		AVL_Node(const T& data,
 			int height = 0,
 			int balanceFactor = 0,
 			Node* parent = NULL,
 			Node* left = NULL,
-			Node* right = NULL)
+			Node* right = NULL);
 
-			: data(data)
-			, height(height)
-			, balanceFactor(balanceFactor)
-			, parent(parent)
-			, left(left)
-			, right(right) {}
+		AVL_Node(const AVL_Node& other);
+
+		/******* destructor *******/
+		~AVL_Node();
+
+		/******* memory management memeber functions *******/
+		// allocates and constructs data object
+		// does nothing if object already exists
+		void createDataObject(const T& data);
+
+		// deallocates and destructs data object
+		// does nothing if object doesn't exist
+		void removeDataObject(); 
 
 		/******* member objects *******/
-		T data;
+		T* data;
 		int height, balanceFactor;
 		Node* parent;
 		Node* left;
@@ -47,12 +57,12 @@ namespace ft {
 	template<
 		class T,
 		class Compare = std::less<T> ,
-		class Allocator = std::allocator< AVL_Node<T> >
+		class Allocator = std::allocator<T>
 	> class AVL_Tree {
 
 		public:
-			/******* member types *******/
-			typedef AVL_Node<T> Node;
+			/******* public member types *******/
+			typedef AVL_Node<T, Allocator> Node;
 
 			/******* constructors *******/
 			AVL_Tree(const Compare& comparator = Compare());
@@ -83,6 +93,13 @@ namespace ft {
 			std::pair<const Node*, bool> insert(const T& data);
 
 		private:
+
+			/******* private member types *******/
+			// get allocator type for allocating nodes in AVL_Tree
+			typedef typename
+				Allocator::template rebind< AVL_Node<T> >::other
+				node_allocator_type;
+
 			/******* member objects *******/
 			Node* mRoot;
 			
@@ -99,7 +116,7 @@ namespace ft {
 			Compare mComparator;
 
 			// object used to allocate memory for nodes
-			Allocator mAllocator;
+			node_allocator_type mAllocator;
 
 			/******* private member functions *******/
 			// returns a newly allocated node

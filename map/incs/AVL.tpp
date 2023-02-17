@@ -1,9 +1,81 @@
 /* this is an internal file included by AVL.hpp. it contains 
-	the implementation of AVL binary search tree */
+	the implementation of AVL binary search tree and its node class templates */
 
 #ifndef AVL_TPP
 #define AVL_TPP
 
+/******* AVL_Node implementation *******/
+namespace ft {
+
+	/******* constructors *******/
+	// A = Allocator
+	template< class T, class A >
+	AVL_Node<T, A>::AVL_Node(const T& data, int height,
+		int balanceFactor, Node* parent, Node* left, Node* right)
+		: data()
+		, height(height)
+		, balanceFactor(balanceFactor)
+		, parent(parent)
+		, left(left)
+		, right(right) {
+
+			createDataObject(data);
+
+	}
+
+	template< class T, class A >
+	AVL_Node<T, A>::AVL_Node(const AVL_Node& other)
+		: data()
+		, height(other.height)
+		, balanceFactor(other.balanceFactor)
+		, parent(other.parent)
+		, left(other.left)
+		, right(other.right) {
+
+			createDataObject(*other.data);
+
+	}
+
+	/******* destructor *******/
+	template< class T, class A >
+	AVL_Node<T, A>::~AVL_Node(){
+
+		removeDataObject();
+
+	}
+
+	/******* memory management memeber functions *******/
+	template< class T, class A >
+	void AVL_Node<T, A>::createDataObject(const T& data){
+
+		allocator_type allocatorObj;
+
+		if (data)
+			return ;
+
+		this->data = allocatorObj.allocate(1);
+
+		allocatorObj.construct(this->data, data);
+
+	}
+
+	template< class T, class A >
+	void AVL_Node<T, A>::removeDataObject(){
+
+		allocator_type allocatorObj;
+
+		if (!data)
+			return ;
+
+		allocatorObj.deallocate(data, 1);
+		
+		allocatorObj.destroy(data);
+
+	}
+
+}
+
+/******* AVL_Tree implementation *******/
 namespace ft {
 
 	/******* constructors *******/
@@ -26,6 +98,19 @@ namespace ft {
 	, mComparator(other.mComparator)
 	, mAllocator() {
 	}
+
+	/******* public member functions *******/
+
+	template
+	void swap(AVL_Tree& tree);
+
+	std::size_t size() const;
+
+	bool isEmpty() const;
+
+	void clear();
+
+	std::pair<const Node*, bool> insert(const T& data);
 
 	/******* private member functions *******/
 	template< class T, class C, class A>
@@ -64,7 +149,7 @@ namespace ft {
 
 		}
 
-		if (data == node->data){
+		if (data == *node->data){
 
 			// save node that prevented insertion
 			*insertPosition = node;
@@ -73,11 +158,11 @@ namespace ft {
 
 		}
 
-		if (data < node->data){
+		if (data < *node->data){
 			node->left = add(node->left, data);
 			node->left->parent = node;
 		}
-		else if (data > node->data){
+		else if (data > *node->data){
 			node->right = add(node->right, data);
 			node->right->parent = node;
 		}
@@ -200,7 +285,7 @@ namespace ft {
 	template< class T, class C, class A>
 	void AVL_Tree<T, C, A>::updateFirst(Node *node){
 
-		if (!mFirst || mFirst->data > node->data)
+		if (!mFirst || *mFirst->data > node->data)
 			mFirst = node;
 
 	}
@@ -208,10 +293,12 @@ namespace ft {
 	template< class T, class C, class A>
 	void AVL_Tree<T, C, A>::updateLast(Node *node){
 
-		if (!mLast || mLast->data < node->data)
+		if (!mLast || *mLast->data < node->data)
 			mLast = node;
 
 	}
+
+	void clear(Node* node);
 
 }
 
