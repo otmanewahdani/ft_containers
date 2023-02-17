@@ -9,6 +9,7 @@
 #include <memory>
 #include <utility>
 #include <functional>
+#include <algorithm>
 
 namespace ft {
 
@@ -111,17 +112,18 @@ namespace ft {
 			// or to an already existing node that has same value as data
 			Node* insert(Node* node, const T& data, const Node** insertPosition);
 
-			// removes all elements from tree
-			void clear(Node* node);
-
 			// updates height and balance factor of node
 			void updateAVLTraits(Node* node);
 
 			// if needed, rebalances node by performing the neccessary rotations
-			void reBalance(Node* node);
+			// returns the node that replaces node
+				// in the tree after rebalancing
+			Node* reBalance(Node* node);
 
+			// returns the node that replaces node after right rotation
 			Node* rotateRight(Node* node);
 
+			// returns the node that replaces node after left rotation
 			Node* rotateLeft(Node* node);
 
 			// update mFirst if node->data < mFirst->data
@@ -129,6 +131,9 @@ namespace ft {
 
 			// update mLast if node->data > mLast->data
 			void updateLast(Node* node);
+
+			// removes all elements from tree
+			void clear(Node* node);
 
 	};
 
