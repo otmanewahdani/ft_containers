@@ -23,6 +23,8 @@ int main(){
 
 	runPairtests();
 
+	ft::map<int, std::string> testMap;
+
 	std::fstream executionTime("map execution time",
 		std::fstream::app | std::fstream::out);
 

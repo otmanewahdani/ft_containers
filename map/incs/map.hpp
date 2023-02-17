@@ -10,6 +10,7 @@
 #include <memory>
 #include <cstddef>
 #include <iterator.hpp>
+#include <AVL.hpp>
 
 namespace ft {
 
@@ -21,7 +22,7 @@ namespace ft {
 	> class map {
 
 		private:
-			// forward declaration of map::iterator class template
+			// forward declaration of member map::iterator class template
 			template < class U >
 			class map_iterator;
 
@@ -50,17 +51,17 @@ namespace ft {
 			// constructors
 
 		private:
-			// forward declaration of AVL binary search tree struct
-			struct AVL_Tree;
 
 			// underlying associative array (AVL tree)
-			AVL_Tree mArray;
+			AVL_Tree<
+				value_type,
+				value_compare
+			> mArray( value_compare(key_compare()) );
 
 	};
 
 }
 
-#include <AVL.hpp>
 #include <map_iterator.hpp>
 #include <map.tpp>
 

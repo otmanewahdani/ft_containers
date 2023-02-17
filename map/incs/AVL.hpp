@@ -1,64 +1,138 @@
 /* this is an internal file included by map.hpp. it contains 
-	the definition of AVL binary search tree */
+	the definition of AVL binary search tree class template.
+	Duplicate values are not allowed in this tree */
 
 #ifndef AVL_HPP
 #define AVL_HPP
 
-template<
-	class Key,
-	class T,
-	class Compare,
-	class Allocator
-> struct ft::map<Key, T, Compare, Allocator>::AVL_Tree {
+#include <cstddef>
+#include <memory>
+#include <utility>
+#include <functional>
 
-	// Node struct definition
-	struct Node{
+namespace ft {
 
-		/* constructor requires passing a tree class pointer
-			to the tree containg this node so that tree size
-			can be modified directly after removal or insertion
-			of a new node */
-		Node(const value_type& data, AVL_Tree* tree)
+	// AVL Node struct template definition
+	template< class T >
+	struct AVL_Node{
+
+		/******* members types *******/
+		typedef AVL_Node Node;
+
+		/******* constructor *******/
+		AVL_Node(const T& data,
+			int height = 0,
+			int balanceFactor = 0,
+			Node* parent = NULL,
+			Node* left = NULL,
+			Node* right = NULL)
+
 			: data(data)
-			, height()
-			, balanceFactor()
-			, left()
-			, right()
-			, parent()
-			, tree(tree) { ++tree->nodeCount; }
+			, height(height)
+			, balanceFactor(balanceFactor)
+			, parent(parent)
+			, left(left)
+			, right(right) {}
 
-		~Node() { --tree->nodeCount; }
-
-		value_type data, height, balanceFactor;
+		/******* member objects *******/
+		T data;
+		int height, balanceFactor;
+		Node* parent;
 		Node* left;
 		Node* right;
-		Node* parent;
-
-		// pointer to the tree class defining this node
-		AVL_Tree* tree;
 
 	};
 
-	// constructors
-	AVL_Tree();
+	template<
+		class T,
+		class Compare = std::less<T> ,
+		class Allocator = std::allocator< AVL_Node<T> >
+	> class AVL_Tree {
 
-	// copy assignment operator
+		public:
+			/******* member types *******/
+			typedef AVL_Node<T> Node;
 
-	// destructor
+			/******* constructors *******/
+			AVL_Tree(const Compare& comparator = Compare());
 
-	// member objects
+			AVL_Tree(const AVL_Tree& other);
 
-	Node* mRoot;
+			/******* copy assignment operator *******/
+			AVL_Tree& operator=(AVL_Tree tree);
 
-	// number of nodes in tree
-	size_type nodeCount;
+			/******* destructor *******/
+			~AVL_Tree();
 
-	// object used to compare two nodes
-	value_compare value_comparator;
+			/******* public member functions *******/
+			void swap(AVL_Tree& tree);
 
-	// member functions
+			// returns size of tree
+			std::size_t size() const;
 
-};
+			// tests if tree is empty
+			bool isEmpty() const;
+
+			// make tree empty
+			void clear();
+
+			//inserts new element in tree. returns pair that contains either "the new inserted node and true to indicate success" or
+			// "an already existing node and false to indicate failure 
+			// because an element with the same value already exists" 
+			std::pair<const Node*, bool> insert(const T& data);
+
+		private:
+			/******* member objects *******/
+			Node* mRoot;
+			
+			// first node in tree by order (aka node with smallest value)
+			Node* mFirst;
+
+			// last node in tree by order (aka node with largest value)
+			Node* mLast;
+
+			// number of nodes in tree
+			std::size_t mNodeCount;
+
+			// object used to compare two nodes' values
+			Compare mComparator;
+
+			// object used to allocate memory for nodes
+			Allocator mAllocator;
+
+			/******* private member functions *******/
+			// returns a newly allocated node
+			Node* makeNewNode(const T& data, int height = 0,
+				int balanceFactor = 0, Node* parent = NULL,
+				Node* left = NULL, Node* right = NULL);
+
+			// inserts data starting from node and sets insertPosition
+			// to the newly inserted node
+			// or to an already existing node that has same value as data
+			Node* insert(Node* node, const T& data, const Node** insertPosition);
+
+			// removes all elements from tree
+			void clear(Node* node);
+
+			// updates height and balance factor of node
+			void updateAVLTraits(Node* node);
+
+			// if needed, rebalances node by performing the neccessary rotations
+			void reBalance(Node* node);
+
+			Node* rotateRight(Node* node);
+
+			Node* rotateLeft(Node* node);
+
+			// update mFirst if node->data < mFirst->data
+			void updateFirst(Node* node);
+
+			// update mLast if node->data > mLast->data
+			void updateLast(Node* node);
+
+	};
+
+}
 
 #include <AVL.tpp>
 
