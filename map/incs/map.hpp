@@ -27,7 +27,7 @@ namespace ft {
 			class map_iterator;
 
 		public:
-			// member types
+			/******* member types *******/
 			typedef Key key_type;
 			typedef T mapped_type;
 			typedef pair<const Key, T> value_type;
@@ -44,14 +44,16 @@ namespace ft {
 			typedef ft::reverse_iterator<iterator> reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
-			// member classes
+			/******* member classes *******/
 			// forward declaration of value_compare class
 			class value_compare;
 
-			// constructors
+			/******* constructors *******/
+			// 
 
 		private:
 
+			/******* member objects *******/
 			// underlying associative array (AVL tree)
 			AVL_Tree<
 				value_type,

@@ -66,10 +66,21 @@ namespace ft {
 
 		if (!data)
 			return ;
-
-		allocatorObj.deallocate(data, 1);
 		
 		allocatorObj.destroy(data);
+
+		allocatorObj.deallocate(data, 1);
+
+		data = NULL;
+
+	}
+
+	template< class T, class A >
+	void AVL_Node<T, A>::changeDataObject(const T& data){
+
+		removeDataObject();
+
+		createDataObject(data);
 
 	}
 
@@ -96,21 +107,82 @@ namespace ft {
 	, mLast()
 	, mNodeCount(other.mNodeCount)
 	, mComparator(other.mComparator)
-	, mAllocator() {
+	, mAllocator(){
 	}
 
 	/******* public member functions *******/
+	template< class T, class C, class A>
+	void AVL_Tree<T, C, A>::swap(AVL_Tree& other){
 
-	template
-	void swap(AVL_Tree& tree);
+		// swap mNodeCount
+		{
+			std::size_t tmp = mNodeCount;
+			mNodeCount = other.mNodeCount;
+			other.mNodeCount = tmp;
+		}
 
-	std::size_t size() const;
+		//swap mRoot
+		Node* tmp = mRoot;
+		mRoot = other.mRoot;
+		other.mRoot = tmp;
 
-	bool isEmpty() const;
+		//swap mFirst
+		tmp = mFirst;
+		mFirst = other.mFirst;
+		other.mFirst = tmp;
 
-	void clear();
+		//swap mLast
+		tmp = mLast;
+		mLast = other.mLast;
+		other.mLast = tmp;
 
-	std::pair<const Node*, bool> insert(const T& data);
+	}
+
+	template< class T, class C, class A>
+	std::size_t AVL_Tree<T, C, A>::size() const {
+
+		return mNodeCount;
+
+	}
+
+	template< class T, class C, class A>
+	bool AVL_Tree<T, C, A>::isEmpty() const {
+
+		return (!mNodeCount);
+
+	}
+
+	template< class T, class C, class A>
+	void AVL_Tree<T, C, A>::clear(){
+
+		clear(mRoot);
+
+		mRoot = mFirst = mLast = NULL;
+		mNodeCount = 0;
+
+	}
+
+	template< class T, class C, class A>
+	std::pair<const typename AVL_Tree<T, C, A>::Node*, bool> 
+		AVL_Tree<T, C, A>::insert(const T& data) {
+
+		// saves current node count to test it again new
+			// node count to check if a node was added
+		const std::size_t oldNodeCount = mNodeCount;
+
+		// passes it to insert so the newly added node is saved here
+			// or saves node that prevented insertion because
+			// it already has the value as data
+		Node* insertPosition = NULL;
+
+		mRoot = insert(mRoot, data, &insertPosition);
+
+		// if mNodeCount changed then insertPosition is the new node
+			// else insertPosition is an already existing node
+		return (std::make_pair(insertPosition,
+			oldNodeCount != mNodeCount));
+
+	}
 
 	/******* private member functions *******/
 	template< class T, class C, class A>
@@ -126,6 +198,15 @@ namespace ft {
 				, parent, left, right));
 
 		return newNode;
+
+	}
+
+	template< class T, class C, class A>
+	void AVL_Tree<T, C, A>::destroyNode(Node* node){
+
+		mAllocator.destroy(node);
+		
+		mAllocator.deallocate(node, 1);
 
 	}
 
@@ -298,7 +379,18 @@ namespace ft {
 
 	}
 
-	void clear(Node* node);
+	template< class T, class C, class A>
+	void AVL_Tree<T, C, A>::clear(Node* node) {
+
+		if (!node)
+			return ;
+
+		clear(node->left);
+		clear(node->right);
+
+		destroyNode(node);
+
+	}
 
 }
 

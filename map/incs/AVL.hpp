@@ -43,7 +43,11 @@ namespace ft {
 
 		// deallocates and destructs data object
 		// does nothing if object doesn't exist
-		void removeDataObject(); 
+		void removeDataObject();
+
+		// removes existing object
+		// creates a new one and initialize it to data
+		void changeDataObject(const T& data);
 
 		/******* member objects *******/
 		T* data;
@@ -70,13 +74,13 @@ namespace ft {
 			AVL_Tree(const AVL_Tree& other);
 
 			/******* copy assignment operator *******/
-			AVL_Tree& operator=(AVL_Tree tree);
+			AVL_Tree& operator=(AVL_Tree other);
 
 			/******* destructor *******/
 			~AVL_Tree();
 
 			/******* public member functions *******/
-			void swap(AVL_Tree& tree);
+			void swap(AVL_Tree& other);
 
 			// returns size of tree
 			std::size_t size() const;
@@ -123,6 +127,9 @@ namespace ft {
 			Node* makeNewNode(const T& data, int height = 0,
 				int balanceFactor = 0, Node* parent = NULL,
 				Node* left = NULL, Node* right = NULL);
+
+			// deallocates and destructs node
+			void destroyNode(Node* node);
 
 			// inserts data starting from node and sets insertPosition
 			// to the newly inserted node
