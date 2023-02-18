@@ -108,7 +108,109 @@ namespace ft {
 	, mNodeCount(other.mNodeCount)
 	, mComparator(other.mComparator)
 	, mAllocator(){
+
+		// copies tree nodes in a BFS manner from other
+			// by adding a given nodes's children after dequeueing it
+		// retrieves all nodes of level N from other
+		// and inserts them directly below level N - 1 in this tree
+		// thus no traveral of the tree nor rotations are needed
+		// time complexity of this method is O(n)
+
+		// enqueue nodes from other here and copies their data
+		// into newly allocated nodes in tree
+		Queue<Node*> nodesToCopyQueue;
+		// new nodes will have their parents set by dequeuing them from here
+		// after that the new nodes themselves will be enqueued here as parents
+		// so that next nodes set them as their parents and so on...
+		Queue<Node*> newNodesParentsQueue;
+
+		if (!mNodeCount)
+			return ;
+
+		nodesToCopyQueue.enqueue(other.mRoot);
+
+		Node* nodeToCopyFrom = NULL, newNodeToInsert = NULL, newNodeParent = NULL;
+
+		// while there are nodes to copy in other
+		while (!nodesToCopyQueue.empty()) {
+
+			// get next node to copy and remove it from queue
+			nodeToCopyFrom = nodesToCopyQueue.front();
+			nodesToCopyQueue.dequeue();
+
+			// get parent of the new node
+			if (!newNodesParentsQueue.empty()){
+
+				newNodeParent = newNodesParentsQueue.front();
+				newNodesParentsQueue.dequeue();
+
+			}
+
+			// copies node
+			newNodeToInsert = makeNewNode(*nodeToCopyFrom->data
+				, nodeToCopyFrom->height, nodeToCopyFrom->balanceFactor
+				, newNodeParent);
+
+			// sets first node as root
+			if (!newNodeParent)
+				mRoot = newNodeToInsert;
+
+			// if new node comes before parent, sets its parent's
+				// left child to new node
+			else if (mComparator(newNodeToInsert->data,
+				newNodeParent->data))
+				newNodeParent->left = newNodeToInsert;
+
+			// if new node comes after parent, sets its parent's
+				// right child to new node
+			else
+				newNodeParent->right = newNodeToInsert;
+
+			// if first node by order reached in other
+			// then set mFirst to the newly copied node
+			if (nodeToCopyFrom == other.mFirst)
+				mFirst = newNodeToInsert;
+
+			// if last node by order reached in other
+			// then set mLast to the newly copied node
+			if (nodeToCopyFrom == other.mLast)
+				mLast = newNodeToInsert;
+
+			// if node that was copied from still has a left child
+			// then adds its left child to nodesToCopyQueue to 
+			// be copied from later
+			// and adds the node that was just inserted (newly copied)
+			// to newNodesParentsQueue so that it can be set as the
+			// parent of the node that's going to copy the left
+			// child of the nodeToCopyFrom when its turn comes
+			if (nodeToCopyFrom->left){ 
+
+				newNodesParentsQueue.enqueue(newNodeToInsert);
+				nodesToCopyQueue.enqueue(nodeToCopyFrom->left);
+
+			}
+
+			// if node that was copied from still has a right child
+			// then adds its right child to nodesToCopyQueue to 
+			// be copied from later
+			// and adds the node that was just inserted (newly copied)
+			// to newNodesParentsQueue so that it can be set as the
+			// parent of the node that's going to copy the right
+			// child of the nodeToCopyFrom when its turn comes
+			if (nodeToCopyFrom->right){
+
+				newNodesParentsQueue.enqueue(newNodeToInsert);
+				nodesToCopyQueue.enqueue(nodeToCopyFrom->right);
+
+			}
+
+
+		}
+
 	}
+
+	/******* destructor *******/
+	~AVL_Tree();
 
 	/******* public member functions *******/
 	template< class T, class C, class A>
@@ -230,22 +332,21 @@ namespace ft {
 
 		}
 
-		if (data == *node->data){
+		if (mComparator(data, *node->data)){
+			node->left = add(node->left, data);
+			node->left->parent = node;
+		}
+		else if (mComparator(*node->data, data)){
+			node->right = add(node->right, data);
+			node->right->parent = node;
+		}
+		else {
 
 			// save node that prevented insertion
 			*insertPosition = node;
 
 			return node;
 
-		}
-
-		if (data < *node->data){
-			node->left = add(node->left, data);
-			node->left->parent = node;
-		}
-		else if (data > *node->data){
-			node->right = add(node->right, data);
-			node->right->parent = node;
 		}
 
 		updateAVLTraits(node);
@@ -366,7 +467,7 @@ namespace ft {
 	template< class T, class C, class A>
 	void AVL_Tree<T, C, A>::updateFirst(Node *node){
 
-		if (!mFirst || *mFirst->data > node->data)
+		if (!mFirst || mComparator(node->data, *mFirst->data))
 			mFirst = node;
 
 	}
@@ -374,7 +475,7 @@ namespace ft {
 	template< class T, class C, class A>
 	void AVL_Tree<T, C, A>::updateLast(Node *node){
 
-		if (!mLast || *mLast->data < node->data)
+		if (!mLast || mComparator(*mLast->data, node->data))
 			mLast = node;
 
 	}
