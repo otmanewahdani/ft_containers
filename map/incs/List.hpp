@@ -47,7 +47,7 @@ namespace ft {
 			std::size_t size();
 
 			// checks whether list is empty
-			bool isEmpty();
+			bool empty();
 
 			/******* modifiers *******/
 			// appends data to list
@@ -76,6 +76,11 @@ namespace ft {
 
 			// object used to allocate memory for nodes
 			node_allocator_type mAllocator;
+
+			/******* memory management *******/
+			Node* makeNewNode(const T& data);
+
+			void destroyNode(Node* node);
 
 	};
 
