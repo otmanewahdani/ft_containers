@@ -23,6 +23,8 @@ NAME = vector/vector stack/stack map/map
 
 VPATH = vector stack map
 
+VPATH := $(VPATH) $(addsuffix /incs, $(VPATH))
+
 TEST = test-vector test-stack test-map
 
 all: $(NAME)
@@ -33,13 +35,13 @@ stack: stack/stack
 
 map: map/map
 
-map/objs/main.o: incs/AVL.hpp incs/AVL.tpp incs/map_iterator.hpp
+map/objs/main.o: AVL.hpp AVL.tpp List.hpp List.tpp Queue.hpp Queue.tpp map_iterator.hpp
 
-vector/objs/main.o: incs/vec_iterator.hpp
+vector/objs/main.o: vec_iterator.hpp
 
-stack/objs/main.o: incs/vector.hpp incs/vector.tpp
+stack/objs/main.o: vector.hpp vector.tpp
 
-%/objs/main.o : %/main.cpp incs/%.hpp incs/%.tpp
+%/objs/main.o : %/main.cpp %.hpp %.tpp
 	@$(eval CONTAINER=$*)
 	@test -d $(CONTAINER)/objs/ || mkdir $(CONTAINER)/objs/
 	@sed 's/ft::/std::/g' $< > $(CONTAINER)/std_main.cpp
