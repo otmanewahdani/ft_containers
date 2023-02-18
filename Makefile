@@ -35,7 +35,7 @@ stack: stack/stack
 
 map: map/map
 
-map/objs/main.o: AVL.hpp AVL.tpp List.hpp List.tpp Queue.hpp Queue.tpp map_iterator.hpp
+map/objs/main.o: AVL.hpp AVL.tpp List.hpp List.tpp Queue.hpp Queue.tpp map_iterator.hpp map_iterator.tpp
 
 vector/objs/main.o: vec_iterator.hpp
 
