@@ -209,8 +209,23 @@ namespace ft {
 
 	}
 
+	/******* copy assignment operator *******/
+	template< class T, class C, class A>
+	AVL_Tree<T, C, A>&
+		AVL_Tree<T, C, A>::operator=(AVL_Tree other){
+
+		this->swap(other);
+		return *this;
+
+	}
+
 	/******* destructor *******/
-	~AVL_Tree();
+	template< class T, class C, class A>
+	AVL_Tree<T, C, A>::~AVL_Tree(){
+
+		clear();
+
+	}
 
 	/******* public member functions *******/
 	template< class T, class C, class A>
@@ -285,6 +300,30 @@ namespace ft {
 			oldNodeCount != mNodeCount));
 
 	}
+
+	template< class T, class C, class A>
+	bool AVL_Tree<T, C, A>::remove(const T& data){
+
+		// saves current node count to test it again new
+			// node count to check if a node was effectively removed
+		const std::size_t oldNodeCount = mNodeCount;
+
+		// calls actual removal method
+		mRoot = remove(mRoot, data);
+
+		// returns true if new nodeCount changed
+			// otherwise false
+		return (oldNodeCount != mNodeCount);
+
+	}
+
+	Node* nextNode(Node* node);
+
+	const Node* nextNode(const Node* node) const ;
+
+	Node* previousNode(Node* node);
+
+	const Node* previousNode(const Node* node) const ;
 
 	/******* private member functions *******/
 	template< class T, class C, class A>
@@ -492,6 +531,98 @@ namespace ft {
 		destroyNode(node);
 
 	}
+
+	template< class T, class C, class A>
+	typename AVL_Tree<T, C, A>::Node*
+		AVL_Tree<T, C, A>::remove(Node* node, const T& data){
+
+			if (!node)
+				return NULL;
+
+			// if node is on left of current node
+			if (mComparator(data, *node->data))
+				node->left = remove(node->left, data);
+
+			// if node is on right of current node
+			else if (mComparator(*node->data, data))
+				node->right = remove(node->right, data);
+
+			// found node and it has no left child
+				// or no right child or no neither child
+			else if (!node->left || !node->right){
+
+				// select child that's going to replace node
+				Node* replacement = node->left
+					? node->left
+					: node->right;
+
+				// new mFirst node in case node deleted was
+					// the one pointed at by mFirst
+				// nextNode() gets the next least significant
+					// node after mFirst
+				Node* newFirst = mFirst != node
+					? mFirst
+					: nextNode(mFirst);
+
+				// new mLast node in case node deleted was
+					// the one pointed at by mLast
+				//previousNode() gets the previous most
+					// significant node before mLast
+				Node* newLast = mLast != node
+					? mLast
+					: previousNode(mLast);
+
+				// new parent of node's child (replacement)
+				Node* newParent = node->parent;
+
+				destroyNode(node);
+
+				// update mFirst and mLast after removal
+				mFirst = newFirst;
+				mLast = newLast;
+
+				// updates size of tree
+				--mNodeCount;
+				
+				// checks if replacement is an actual node
+					// before setting its parent
+				if (replacement)
+					replacement->parent = newParent;
+
+				return replacement;
+
+			}
+
+			// found node and it has both of its children
+			else {
+
+				// gets node that succeeds node in order
+				Node* successor = nextNode(node);
+
+				// copies succesor data into the removed node
+					// aka replaces node only by copying
+					// its succesor's data into it
+				node->changeDataObject(*successor->data);
+
+				// removes successor node after copying it
+					// into node
+				node->right = remove(node->right, *successor->data);
+
+			}
+
+			updateAVLTraits(node);
+
+			return reBalance(node);
+
+	}
+
+	Node* findLSNode(Node* start);
+
+	const Node* findLSNode(const Node* start) const;
+
+	Node* findMSNode(Node* start);
+
+	const Node* findMSNode(const Node* start) const;
 
 }
 

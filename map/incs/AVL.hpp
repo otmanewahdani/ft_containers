@@ -14,7 +14,7 @@
 
 namespace ft {
 
-	// AVL Node struct template definition
+	/******* AVL Node struct template definition *******/
 	template<
 		class T,
 		class Allocator = std::allocator<T>
@@ -59,6 +59,7 @@ namespace ft {
 
 	};
 
+	/******* AVL_Tree class template definition *******/
 	template<
 		class T,
 		class Compare = std::less<T> ,
@@ -96,6 +97,23 @@ namespace ft {
 			// "an already existing node and false to indicate failure 
 			// because an element with the same value already exists" 
 			std::pair<const Node*, bool> insert(const T& data);
+
+			// removes node whose data equals data parameter
+			bool remove(const T& data);
+
+			// finds next node that follows node in order
+				// if node was last node, then NULL is returned
+				// to indicate end of traversal
+			Node* nextNode(Node* node);
+
+			const Node* nextNode(const Node* node) const ;
+
+			// finds previous node that precedes node in order
+				// if node was first node, then NULL is returned
+				// to indicate end of traversal
+			Node* previousNode(Node* node);
+
+			const Node* previousNode(const Node* node) const ;
 
 		private:
 
@@ -152,13 +170,33 @@ namespace ft {
 			Node* rotateLeft(Node* node);
 
 			// update mFirst if node->data < mFirst->data
+				// only works with insert(Node*, const T&, ...)
 			void updateFirst(Node* node);
 
 			// update mLast if node->data > mLast->data
+				// only works with insert(Node*, const T&, ...)
 			void updateLast(Node* node);
 
 			// removes all elements from tree
 			void clear(Node* node);
+
+			// actual removal function that's called by
+				// remove(const T& data) public interface
+			Node* remove(Node* node, const T& data);
+
+			// LS = least significant
+			// finds node with least significant value ( that comes first in order )
+				// starting from start
+			Node* findLSNode(Node* start);
+
+			const Node* findLSNode(const Node* start) const;
+
+			// MS = most significant
+			// finds node with most significant value ( that comes last in order )
+				// starting from start
+			Node* findMSNode(Node* start);
+
+			const Node* findMSNode(const Node* start) const;
 
 	};
 
