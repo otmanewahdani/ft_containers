@@ -317,13 +317,112 @@ namespace ft {
 
 	}
 
-	Node* nextNode(Node* node);
+	template< class T, class C, class A>
+	typename AVL_Tree<T, C, A>::Node*
+		AVL_Tree<T, C, A>::nextNode(Node* node){
 
-	const Node* nextNode(const Node* node) const ;
+		if (!node || node == mLast)
+			return NULL;
 
-	Node* previousNode(Node* node);
+		Node* next = node;
 
-	const Node* previousNode(const Node* node) const ;
+		// as long as a node with a more significant value (data)
+			//	hasn't been found yet (since next node must have a more
+			// significant value than the current), keep searching
+
+		// loop = while next comes before node or while they are equivalent
+		while (mComparator(*next->data, *node->data)
+			|| next == node){ 
+
+			// if right subtree has already been visited
+				// keeps going back up the tree
+			// the above condition is checked by verifying
+				// whether the right child of next precedes node
+				// of if they're equivalent
+				// if right child's value has a more significant
+				// value than node, the body of this if statement
+				// is skipped and execution goes to next step
+				// which is to get the successor node from right subtree
+			if (!next->right
+				|| mComparator(*next->right->data, *node->data)
+				|| next->right == node) { 
+
+				next = next->parent;
+				continue;
+
+			}
+
+			// gets successor from right subtree
+			next = findLSNode(next->right);
+
+		}
+		
+		return next;
+
+	}
+
+	template< class T, class C, class A>
+	const typename AVL_Tree<T, C, A>::Node*
+		AVL_Tree<T, C, A>::nextNode(const Node* node) const {
+
+		return ( const_cast<AVL_Tree*>(this)->nextNode
+			(const_cast<Node*>(node)) );
+
+	}
+
+	template< class T, class C, class A>
+	typename AVL_Tree<T, C, A>::Node*
+		AVL_Tree<T, C, A>::previousNode(Node* node){
+
+		if (!node || node == mFirst)
+			return NULL;
+
+		Node* previous = node;
+
+		// as long as a node with a less significant value (data) hasn't 
+			// been found yet (since previous node must have a less
+			// significant value than the current), keep searching
+
+		// loop = while previous comes after node (has a more significant
+			// value than node) or while they are equivalent
+		while (mComparator(node->data, previous->data)
+			|| node == previous){
+
+			// if left subtree has already been visited
+				// keeps going back up the tree
+			// the above condition is checked by verifying
+				// whether the left child of next succeeds node
+				// of if they're equivalent
+				// if left child's value has a more significant or equivalent
+				// value than node, the body of this if statement
+				// is skipped and execution goes to next step
+				// which is to get the predecessor node from left subtree
+			if (!previous->left ||
+				mComparator(*node->data, *previous->left->data)
+				|| previous->left == node) {
+
+				previous = previous->parent;
+				continue ;
+
+			}
+
+			// gets predecessor from left subtree
+			previous = findMSNode(previous->left);
+
+		}
+
+		return previous;
+	
+	}
+
+	template< class T, class C, class A>
+	const typename AVL_Tree<T, C, A>::Node*
+		AVL_Tree<T, C, A>::previousNode(const Node* node) const {
+
+		return ( const_cast<AVL_Tree*>(this)->previousNode
+			(const_cast<Node*>(node)) );
+
+	}
 
 	/******* private member functions *******/
 	template< class T, class C, class A>
