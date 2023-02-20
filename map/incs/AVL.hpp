@@ -115,6 +115,7 @@ namespace ft {
 
 			const Node* previousNode(const Node* node) const ;
 
+			// performs binary search
 			// searches for node in whole tree
 				// if not found returns NULL
 			Node* findNode(const T& data);

@@ -763,13 +763,67 @@ namespace ft {
 
 	}
 
-	Node* findMSNode(Node* start);
+	template< class T, class C, class A>
+	typename AVL_Tree<T, C, A>::Node*
+		AVL_Tree<T, C, A>::findMSNode(Node* start) {
 
-	const Node* findMSNode(const Node* start) const;
-				// search starts from node parameter
-			Node* findNode(Node* node, const T& data);
+		if (!start)
+			return start;
 
-			const Node* findNode(const Node* node, const T& data) const ;
+		// just keeps digging as far right of the tree as possible
+		while (start->right)
+			start = start->right;
+		
+		return start;
+
+	}
+
+	template< class T, class C, class A>
+	const typename AVL_Tree<T, C, A>::Node*
+		AVL_Tree<T, C, A>::findMSNode(const Node* start) const {
+
+		// calls non-const version of findLSNode
+		return ( const_cast<AVL_Tree*>(this)->findMSnode
+			(const_cast<Node*>(start)) );
+
+	}
+
+	template< class T, class C, class A>
+	typename AVL_Tree<T, C, A>::Node*
+		AVL_Tree<T, C, A>::findNode(Node* node, const T& data) {
+
+			while (node) {
+
+				// if data is less significant than current node's
+					// data, then go to left subtree
+				if (mComparator(data, *node->data))
+					node = node->left;
+
+				// if data is more significant than current node's
+					// data, then go to right subtree
+				else if (mComparator(*node->data, data))
+					node = node->right;
+
+				// node found
+				else
+					break;
+
+			}
+
+			return node;
+
+	}
+
+	template< class T, class C, class A>
+	const typename AVL_Tree<T, C, A>::Node*
+		AVL_Tree<T, C, A>::findNode
+		(const Node* node, const T& data) const {
+
+			// calls non_const version of findNode
+			return ( const_cast<AVL_Tree*>(this)->findNode(
+				const_cast<Node*>(node), data) );
+
+	}
 
 }
 
