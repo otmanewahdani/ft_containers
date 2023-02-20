@@ -30,11 +30,6 @@ namespace ft {
 			typedef pair<const Key, T> value_type;
 
 		private:
-			/******* member class templates *******/
-			// forward declaration of member map::iterator class template
-			template < class U >
-			class map_iterator;
-
 			/******* member types *******/
 			// underlying associative array type used to represent elements of map
 			typedef AVL_Tree<value_type, value_compare, Allocator>
@@ -42,6 +37,11 @@ namespace ft {
 
 			// node type used in array_type
 			typedef typename array_type::Node node_type ;
+
+			/******* member class templates *******/
+			// forward declaration of member map::iterator class template
+			template < class U >
+			class map_iterator;
 
 		public:
 			/******* member types *******/
@@ -55,8 +55,8 @@ namespace ft {
 			typedef const value_type& const_reference;
 			typedef typename Allocator::pointer pointer;
 			typedef typename Allocator::const_pointer const_pointer;
-			typedef map_iterator<node_type> iterator;
-			typedef map_iterator<const node_type> const_iterator;
+			typedef map_iterator<value_type> iterator;
+			typedef map_iterator<const value_type> const_iterator;
 			typedef ft::reverse_iterator<iterator> reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
