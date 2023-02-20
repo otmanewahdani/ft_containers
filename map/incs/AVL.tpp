@@ -48,10 +48,10 @@ namespace ft {
 	template< class T, class A >
 	void AVL_Node<T, A>::createDataObject(const T& data){
 
-		allocator_type allocatorObj;
-
-		if (data)
+		if (this->data)
 			return ;
+
+		allocator_type allocatorObj;
 
 		this->data = allocatorObj.allocate(1);
 
@@ -62,16 +62,16 @@ namespace ft {
 	template< class T, class A >
 	void AVL_Node<T, A>::removeDataObject(){
 
-		allocator_type allocatorObj;
-
-		if (!data)
+		if (!this->data)
 			return ;
+
+		allocator_type allocatorObj;
 		
-		allocatorObj.destroy(data);
+		allocatorObj.destroy(this->data);
 
-		allocatorObj.deallocate(data, 1);
+		allocatorObj.deallocate(this->data, 1);
 
-		data = NULL;
+		this->data = NULL;
 
 	}
 
@@ -129,7 +129,7 @@ namespace ft {
 
 		nodesToCopyQueue.enqueue(other.mRoot);
 
-		Node* nodeToCopyFrom = NULL, newNodeToInsert = NULL, newNodeParent = NULL;
+		Node* nodeToCopyFrom = NULL, *newNodeToInsert = NULL, *newNodeParent = NULL;
 
 		// while there are nodes to copy in other
 		while (!nodesToCopyQueue.empty()) {
@@ -157,8 +157,8 @@ namespace ft {
 
 			// if new node comes before parent, sets its parent's
 				// left child to new node
-			else if (mComparator(newNodeToInsert->data,
-				newNodeParent->data))
+			else if (mComparator(*newNodeToInsert->data,
+				*newNodeParent->data))
 				newNodeParent->left = newNodeToInsert;
 
 			// if new node comes after parent, sets its parent's
@@ -263,7 +263,7 @@ namespace ft {
 	}
 
 	template< class T, class C, class A>
-	bool AVL_Tree<T, C, A>::isEmpty() const {
+	bool AVL_Tree<T, C, A>::empty() const {
 
 		return (!mNodeCount);
 
@@ -386,7 +386,7 @@ namespace ft {
 
 		// loop = while previous comes after node (has a more significant
 			// value than node) or while they are equivalent
-		while (mComparator(node->data, previous->data)
+		while (mComparator(*node->data, *previous->data)
 			|| node == previous){
 
 			// if left subtree has already been visited
@@ -447,6 +447,22 @@ namespace ft {
 
 	}
 
+	template< class T, class C, class A>
+	const typename AVL_Tree<T, C, A>::Node*
+		AVL_Tree<T, C, A>::getFirstNode() const {
+
+			return mFirst;
+
+	}
+
+	template< class T, class C, class A>
+	const typename AVL_Tree<T, C, A>::Node*
+		AVL_Tree<T, C, A>::getLastNode() const {
+
+			return mLast;
+
+	}
+
 	/******* private member functions *******/
 	template< class T, class C, class A>
 	typename AVL_Tree<T, C, A>::Node* 
@@ -475,14 +491,14 @@ namespace ft {
 
 	template< class T, class C, class A>
 	typename AVL_Tree<T, C, A>::Node* AVL_Tree<T, C, A>::insert
-		(Node* node, const T& data, const Node** insertPosition){
+		(Node* node, const T& data, Node** const insertPosition){
 		
 		if (!node){
 
 			Node* newNode = makeNewNode(data);
 
 			// update tree attributes
-			mNodeCount++;
+			++mNodeCount;
 			updateFirst(newNode);
 			updateLast(newNode);
 
@@ -494,11 +510,11 @@ namespace ft {
 		}
 
 		if (mComparator(data, *node->data)){
-			node->left = add(node->left, data);
+			node->left = insert(node->left, data, insertPosition);
 			node->left->parent = node;
 		}
 		else if (mComparator(*node->data, data)){
-			node->right = add(node->right, data);
+			node->right = insert(node->right, data, insertPosition);
 			node->right->parent = node;
 		}
 		else {
@@ -541,13 +557,13 @@ namespace ft {
 
 			// right right case
 			if (node->right->balanceFactor <= 0)
-				return leftRotate(node);
+				return rotateLeft(node);
 
 			// right left case
 			else{
 
-				node->right = rightRotate(node->right);
-				return leftRotate(node);
+				node->right = rotateRight(node->right);
+				return rotateLeft(node);
 
 			}
 
@@ -557,13 +573,13 @@ namespace ft {
 
 			// left left case
 			if (node->left->balanceFactor >= 0)
-				return rightRotate(node);
+				return rotateRight(node);
 
 			// left right case
 			else{
 
-				node->left = leftRotate(node->left);
-				return rightRotate(node);
+				node->left = rotateLeft(node->left);
+				return rotateRight(node);
 
 			}
 
@@ -628,7 +644,7 @@ namespace ft {
 	template< class T, class C, class A>
 	void AVL_Tree<T, C, A>::updateFirst(Node *node){
 
-		if (!mFirst || mComparator(node->data, *mFirst->data))
+		if (!mFirst || mComparator(*node->data, *mFirst->data))
 			mFirst = node;
 
 	}
@@ -636,7 +652,7 @@ namespace ft {
 	template< class T, class C, class A>
 	void AVL_Tree<T, C, A>::updateLast(Node *node){
 
-		if (!mLast || mComparator(*mLast->data, node->data))
+		if (!mLast || mComparator(*mLast->data, *node->data))
 			mLast = node;
 
 	}

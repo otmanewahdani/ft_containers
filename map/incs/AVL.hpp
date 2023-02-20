@@ -88,7 +88,7 @@ namespace ft {
 			std::size_t size() const;
 
 			// tests if tree is empty
-			bool isEmpty() const;
+			bool empty() const;
 
 			// make tree empty
 			void clear();
@@ -121,6 +121,14 @@ namespace ft {
 			Node* findNode(const T& data);
 
 			const Node* findNode(const T& data) const ;
+
+			// gets least significant node in whole tree
+			// returns NULL if empty() == true
+			const Node* getFirstNode() const;
+
+			// gets most significant node in whole tree
+			// returns same value as getFirstNode if empty() == true
+			const Node* getLastNode() const;
 
 		private:
 
@@ -160,7 +168,7 @@ namespace ft {
 			// inserts data starting from node and sets insertPosition
 			// to the newly inserted node
 			// or to an already existing node that has same value as data
-			Node* insert(Node* node, const T& data, const Node** insertPosition);
+			Node* insert(Node* node, const T& data, Node** const insertPosition);
 
 			// updates height and balance factor of node
 			void updateAVLTraits(Node* node);
