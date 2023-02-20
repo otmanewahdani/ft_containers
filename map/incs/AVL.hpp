@@ -115,6 +115,12 @@ namespace ft {
 
 			const Node* previousNode(const Node* node) const ;
 
+			// searches for node in whole tree
+				// if not found returns NULL
+			Node* findNode(const T& data);
+
+			const Node* findNode(const T& data) const ;
+
 		private:
 
 			/******* private member types *******/
@@ -189,14 +195,20 @@ namespace ft {
 				// starting from start
 			Node* findLSNode(Node* start);
 
-			const Node* findLSNode(const Node* start) const;
+			const Node* findLSNode(const Node* start) const ;
 
 			// MS = most significant
 			// finds node with most significant value ( that comes last in order )
 				// starting from start
 			Node* findMSNode(Node* start);
 
-			const Node* findMSNode(const Node* start) const;
+			const Node* findMSNode(const Node* start) const ;
+
+			// finds node that has same value as data
+				// search starts from node parameter
+			Node* findNode(Node* node, const T& data);
+
+			const Node* findNode(const Node* node, const T& data) const ;
 
 	};
 

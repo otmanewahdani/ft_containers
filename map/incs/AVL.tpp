@@ -365,6 +365,7 @@ namespace ft {
 	const typename AVL_Tree<T, C, A>::Node*
 		AVL_Tree<T, C, A>::nextNode(const Node* node) const {
 
+		// calls non-const version of nextNode()
 		return ( const_cast<AVL_Tree*>(this)->nextNode
 			(const_cast<Node*>(node)) );
 
@@ -419,8 +420,30 @@ namespace ft {
 	const typename AVL_Tree<T, C, A>::Node*
 		AVL_Tree<T, C, A>::previousNode(const Node* node) const {
 
+		// calls non-const version of previousNode()
 		return ( const_cast<AVL_Tree*>(this)->previousNode
 			(const_cast<Node*>(node)) );
+
+	}
+
+	template< class T, class C, class A>
+	typename AVL_Tree<T, C, A>::Node*
+		AVL_Tree<T, C, A>::findNode(const T& data) {
+
+		// calls private version: findNode(Node*, const T&)
+			// with mRoot as starting point of search
+		return (findNode(mRoot, data));
+
+	}
+
+	template< class T, class C, class A>
+	const typename AVL_Tree<T, C, A>::Node*
+		AVL_Tree<T, C, A>::findNode(const T& data) const {
+
+		// calls private version: findNode(const Node*, const T&)
+			// with mRoot (implicitly cast to const)
+			// as starting point of search
+		return (findNode(mRoot, data));
 
 	}
 
@@ -715,13 +738,38 @@ namespace ft {
 
 	}
 
-	Node* findLSNode(Node* start);
+	template< class T, class C, class A>
+	typename AVL_Tree<T, C, A>::Node*
+		AVL_Tree<T, C, A>::findLSNode(Node* start) {
 
-	const Node* findLSNode(const Node* start) const;
+			if (!start)
+				return start;
+
+			// just keeps digging as far left of the tree as possible
+			while (start->left)
+				start = start->left;
+			
+			return start;
+
+	}
+
+	template< class T, class C, class A>
+	const typename AVL_Tree<T, C, A>::Node*
+		AVL_Tree<T, C, A>::findLSNode(const Node* start) const {
+
+		// calls non-const version of findLSNode
+		return ( const_cast<AVL_Tree*>(this)->findLSNode
+			(const_cast<Node*>(start)) );
+
+	}
 
 	Node* findMSNode(Node* start);
 
 	const Node* findMSNode(const Node* start) const;
+				// search starts from node parameter
+			Node* findNode(Node* node, const T& data);
+
+			const Node* findNode(const Node* node, const T& data) const ;
 
 }
 
