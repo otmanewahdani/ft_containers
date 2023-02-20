@@ -21,16 +21,32 @@ namespace ft {
 		class Allocator = std::allocator< pair<const Key, T> >
 	> class map {
 
+		public:
+			/******* member classes *******/
+			// forward declaration of value_compare class
+			class value_compare;
+
+			/******* member types *******/
+			typedef pair<const Key, T> value_type;
+
 		private:
+			/******* member class templates *******/
 			// forward declaration of member map::iterator class template
 			template < class U >
 			class map_iterator;
+
+			/******* member types *******/
+			// underlying associative array type used to represent elements of map
+			typedef AVL_Tree<value_type, value_compare, Allocator>
+				array_type ;
+
+			// node type used in array_type
+			typedef typename array_type::Node node_type ;
 
 		public:
 			/******* member types *******/
 			typedef Key key_type;
 			typedef T mapped_type;
-			typedef pair<const Key, T> value_type;
 			typedef std::size_t size_type;
 			typedef std::ptrdiff_t difference_type;
 			typedef Compare key_compare;
@@ -39,27 +55,17 @@ namespace ft {
 			typedef const value_type& const_reference;
 			typedef typename Allocator::pointer pointer;
 			typedef typename Allocator::const_pointer const_pointer;
-			typedef map_iterator<value_type> iterator;
-			typedef map_iterator<const value_type> const_iterator;
+			typedef map_iterator<node_type> iterator;
+			typedef map_iterator<const node_type> const_iterator;
 			typedef ft::reverse_iterator<iterator> reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
-			/******* member classes *******/
-			// forward declaration of value_compare class
-			class value_compare;
-
 			/******* constructors *******/
-			// 
 
 		private:
-
 			/******* member objects *******/
-			// underlying associative array (AVL tree)
-			AVL_Tree<
-				value_type,
-				value_compare,
-				Allocator
-			> mArray( value_compare(key_compare()) );
+			// underlying associative array object
+			array_type mArray( value_compare(key_compare()) );
 
 	};
 
