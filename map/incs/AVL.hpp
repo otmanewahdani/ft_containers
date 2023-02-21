@@ -29,9 +29,9 @@ namespace ft {
 			int height = 0,
 			int balanceFactor = 0,
 			Node* parent = NULL,
+			const allocator_type& allocatorObj = allocator_type(),
 			Node* left = NULL,
-			Node* right = NULL,
-			const allocator_type& allocatorObj = allocator_type() );
+			Node* right = NULL);
 
 		AVL_Node(const AVL_Node& other);
 
@@ -55,9 +55,9 @@ namespace ft {
 		T* data;
 		int height, balanceFactor;
 		Node* parent;
+		allocator_type mAllocator;
 		Node* left;
 		Node* right;
-		allocator_type mAllocator;
 
 	};
 
@@ -71,10 +71,11 @@ namespace ft {
 		public:
 			/******* public member types *******/
 			typedef AVL_Node<T, Allocator> Node;
+			typedef Allocator allocator_type;
 
 			/******* constructors *******/
-			AVL_Tree(const Compare& comparator = Compare()
-				const Allocator& allocatorObj = Allocator());
+			AVL_Tree(const Compare& comparator = Compare(),
+				const allocator_type& allocatorObj = allocator_type() );
 
 			AVL_Tree(const AVL_Tree& other);
 

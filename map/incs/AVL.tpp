@@ -11,11 +11,13 @@ namespace ft {
 	// A = Allocator
 	template< class T, class A >
 	AVL_Node<T, A>::AVL_Node(const T& data, int height,
-		int balanceFactor, Node* parent, Node* left, Node* right)
+		int balanceFactor, Node* parent,
+		const allocator_type& allocatorObj, Node* left, Node* right)
 		: data()
 		, height(height)
 		, balanceFactor(balanceFactor)
 		, parent(parent)
+		, mAllocator(allocatorObj)
 		, left(left)
 		, right(right) {
 
@@ -29,6 +31,7 @@ namespace ft {
 		, height(other.height)
 		, balanceFactor(other.balanceFactor)
 		, parent(other.parent)
+		, mAllocator(other.mAllocator)
 		, left(other.left)
 		, right(other.right) {
 
@@ -51,11 +54,9 @@ namespace ft {
 		if (this->data)
 			return ;
 
-		allocator_type allocatorObj;
+		this->data = mAllocator.allocate(1);
 
-		this->data = allocatorObj.allocate(1);
-
-		allocatorObj.construct(this->data, data);
+		mAllocator.construct(this->data, data);
 
 	}
 
@@ -65,11 +66,9 @@ namespace ft {
 		if (!this->data)
 			return ;
 
-		allocator_type allocatorObj;
-		
-		allocatorObj.destroy(this->data);
+		mAllocator.destroy(this->data);
 
-		allocatorObj.deallocate(this->data, 1);
+		mAllocator.deallocate(this->data, 1);
 
 		this->data = NULL;
 
@@ -92,13 +91,15 @@ namespace ft {
 	/******* constructors *******/
 	// C = Compare; A = Allocator
 	template< class T, class C, class A>
-	AVL_Tree<T, C, A>::AVL_Tree(const C& comparator)
+	AVL_Tree<T, C, A>::AVL_Tree(const C& comparator,
+		const allocator_type& allocatorObj)
 		: mRoot()
 		, mFirst()
 		, mLast()
 		, mNodeCount()
 		, mComparator(comparator)
-		, mAllocator() {}
+		, mAllocator(allocatorObj)
+		, mNodeAllocator() {}
 
 	template< class T, class C, class A>
 	AVL_Tree<T, C, A>::AVL_Tree(const AVL_Tree& other)
@@ -107,7 +108,8 @@ namespace ft {
 	, mLast()
 	, mNodeCount(other.mNodeCount)
 	, mComparator(other.mComparator)
-	, mAllocator(){
+	, mAllocator(other.mAllocator)
+	, mNodeAllocator(other.mNodeAllocator) {
 
 		// copies tree nodes in a BFS manner from other
 			// by adding a given nodes's children after dequeueing it
@@ -264,7 +266,7 @@ namespace ft {
 
 		// swap mAllocator
 		{
-			A tmp = mAllocator;
+			allocator_type tmp = mAllocator;
 			mAllocator = other.mAllocator;
 			other.mAllocator = mAllocator;
 		}
@@ -493,11 +495,11 @@ namespace ft {
 		const T& data, int height, int balanceFactor,
 		Node* parent, Node* left, Node* right){
 
-		Node* newNode = mAllocator.allocate(1);
+		Node* newNode = mNodeAllocator.allocate(1);
 
-		mAllocator.construct(newNode,
+		mNodeAllocator.construct(newNode,
 			Node(data, height, balanceFactor
-				, parent, left, right));
+				, parent, mAllocator, left, right));
 
 		return newNode;
 
@@ -506,9 +508,9 @@ namespace ft {
 	template< class T, class C, class A>
 	void AVL_Tree<T, C, A>::destroyNode(Node* node){
 
-		mAllocator.destroy(node);
+		mNodeAllocator.destroy(node);
 		
-		mAllocator.deallocate(node, 1);
+		mNodeAllocator.deallocate(node, 1);
 
 	}
 

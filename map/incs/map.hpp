@@ -61,6 +61,10 @@ namespace ft {
 			typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
 			/******* constructors *******/
+			map();
+
+			explicit map( const key_compare& comp,
+				const allocator_type& alloc = Allocator() );
 
 		private:
 			/******* member objects *******/
@@ -69,6 +73,9 @@ namespace ft {
 
 			// underlying object that compares keys
 			key_compare mKeyComparator;
+
+			// underlying object that compares elements of map
+			value_compare mValueComparator;
 
 			// underlying associative array object
 			array_type mArray;

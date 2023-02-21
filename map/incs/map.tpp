@@ -37,6 +37,26 @@ class ft::map<K, T, C, A>::value_compare
 
 // map container class implementation
 namespace ft {
+
+	// map template parameters meaning:
+		// K = Key, T = type, C = Compare, A = Allocator
+
+	/******* constructors *******/
+	template< class K, class T, class C, class A >
+	map<K, T, C, A>::map()
+		: mAllocator()
+		, mKeyComparator()
+		, mValueComparator(mKeyComparator)
+		, mArray(mValueComparator) {}
+
+	template< class K, class T, class C, class A >
+	map<K, T, C, A>::map(const key_compare& comp,
+		const allocator_type& alloc)
+		: mAllocator(alloc)
+		, mKeyComparator(comp)
+		, mValueComparator(mKeyComparator)
+		, mArray(mValueComparator) {}
+
 }
 
 #endif
