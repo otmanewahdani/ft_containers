@@ -20,6 +20,14 @@ namespace ft {
 
 		friend class map;
 
+		// make all instantiations of map_iterator friend so that copy
+			// operations and comparisons of a map_iterator object with 
+			// const value_type and another one with non-const
+			// value_type would work by having access directly
+			// to their private member objects.
+		template <class X>
+		friend class map_iterator;
+
 		public:
 			/******* member types *******/
 			typedef std::bidirectional_iterator_tag iterator_category;
@@ -81,7 +89,7 @@ namespace ft {
 			// pointer to whole associative array that underlies map
 			const array_type* mArrayPtr;
 
-			/******* parameterized contructor *******/
+			/******* parameterized constructor *******/
 			// a valid iterator will be one that's instantiated 
 				// through this constructor
 			// it needs be passed to it a pointer to the node
