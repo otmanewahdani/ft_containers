@@ -55,8 +55,8 @@ namespace ft {
 	typename map<K, T, C, A>::map_iterator<U>::reference
 		map<K, T, C, A>::map_iterator<U>::operator*() const {
 
-			return (*mNodePtr->data);
-
+		// gets the pointer to value_type and derefenrences it
+		return (*this->operator->());
 	}
 
 	template<class K, class T, class C, class A>
@@ -64,7 +64,9 @@ namespace ft {
 	typename map<K, T, C, A>::map_iterator<U>::pointer
 		map<K, T, C, A>::map_iterator<U>::operator->() const {
 
-			return (mNodePtr->data);
+		// removes constness of the node pointer in case
+			// the underlying data was to be modified
+		return (const_cast<node_type*>(mNodePtr)->data);
 
 	}
 
@@ -90,6 +92,68 @@ namespace ft {
 	}
 
 	/******* increment/decrement operators *******/
+	template<class K, class T, class C, class A>
+	template <class U> 
+	map<K, T, C, A>::map_iterator<U>&
+		map<K, T, C, A>::map_iterator<U>::operator++(){
+
+		// if node pointer wasn't pointing at any element in array,
+			// makes it point at first element
+		if (!mNodePtr)
+			mNodePtr = mArrayPtr->mFirst;
+		// makes node pointer points to next node (node that
+			// follows currently pointed at node in order)
+		else
+			mNodePtr = mArrayPtr->nextNode(mNodePtr);
+
+		return (*this);
+
+	}
+
+	template<class K, class T, class C, class A>
+	template <class U> 
+	map<K, T, C, A>::map_iterator<U>
+		map<K, T, C, A>::map_iterator<U>::operator++(int) {
+
+			// makes a copy of current object
+			map_iterator tmp(*this);
+
+			this->operator++();
+
+			return tmp;
+
+	}
+
+	template<class K, class T, class C, class A>
+	template <class U> 
+	map<K, T, C, A>::map_iterator<U>&
+		map<K, T, C, A>::map_iterator<U>::operator--() {
+
+		// if node pointer wasn't pointing at any element in array,
+			// makes it point at last element
+		if (!mNodePtr)
+			mNodePtr = mArrayPtr->mLast;
+
+		// gets pointer to node that precedes the node that's
+			// currently being pointed at
+		else
+			mNodePtr = mArrayPtr->previousNode(mNodePtr);
+
+	}
+
+	template<class K, class T, class C, class A>
+	template <class U> 
+	map<K, T, C, A>::map_iterator<U>
+		map<K, T, C, A>::map_iterator<U>::operator--(int) {
+
+			// same comment as the post-increment operator
+			map_iterator tmp(*this);
+
+			this->operator--();
+
+			return tmp;
+
+	}
 
 }
 
