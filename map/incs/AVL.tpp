@@ -238,20 +238,43 @@ namespace ft {
 			other.mNodeCount = tmp;
 		}
 
-		//swap mRoot
-		Node* tmp = mRoot;
-		mRoot = other.mRoot;
-		other.mRoot = tmp;
+		{
+			//swap mRoot
+			Node* tmp = mRoot;
+			mRoot = other.mRoot;
+			other.mRoot = tmp;
 
-		//swap mFirst
-		tmp = mFirst;
-		mFirst = other.mFirst;
-		other.mFirst = tmp;
+			//swap mFirst
+			tmp = mFirst;
+			mFirst = other.mFirst;
+			other.mFirst = tmp;
 
-		//swap mLast
-		tmp = mLast;
-		mLast = other.mLast;
-		other.mLast = tmp;
+			//swap mLast
+			tmp = mLast;
+			mLast = other.mLast;
+			other.mLast = tmp;
+		}
+
+		// swap mComparator
+		{
+			C tmp = mComparator;
+			mComparator = other.mComparator;
+			other.mComparator = tmp;
+		}
+
+		// swap mAllocator
+		{
+			A tmp = mAllocator;
+			mAllocator = other.mAllocator;
+			other.mAllocator = mAllocator;
+		}
+
+		// swap mNodeAllocator
+		{
+			node_allocator_type tmp = mNodeAllocator;
+			mNodeAllocator = other.mNodeAllocator;
+			other.mNodeAllocator = mNodeAllocator;
+		}
 
 	}
 

@@ -30,7 +30,8 @@ namespace ft {
 			int balanceFactor = 0,
 			Node* parent = NULL,
 			Node* left = NULL,
-			Node* right = NULL);
+			Node* right = NULL,
+			const allocator_type& allocatorObj = allocator_type() );
 
 		AVL_Node(const AVL_Node& other);
 
@@ -56,6 +57,7 @@ namespace ft {
 		Node* parent;
 		Node* left;
 		Node* right;
+		allocator_type mAllocator;
 
 	};
 
@@ -71,7 +73,8 @@ namespace ft {
 			typedef AVL_Node<T, Allocator> Node;
 
 			/******* constructors *******/
-			AVL_Tree(const Compare& comparator = Compare());
+			AVL_Tree(const Compare& comparator = Compare()
+				const Allocator& allocatorObj = Allocator());
 
 			AVL_Tree(const AVL_Tree& other);
 
@@ -153,8 +156,11 @@ namespace ft {
 			// object used to compare two nodes' values
 			Compare mComparator;
 
+			// object used to allocate memory for T type (inside Node)
+			Allocator mAllocator;
+
 			// object used to allocate memory for nodes
-			node_allocator_type mAllocator;
+			node_allocator_type mNodeAllocator;
 
 			/******* private member functions *******/
 			// returns a newly allocated node

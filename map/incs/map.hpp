@@ -64,8 +64,14 @@ namespace ft {
 
 		private:
 			/******* member objects *******/
+			// underlying allocator
+			allocator_type mAllocator;
+
+			// underlying object that compares keys
+			key_compare mKeyComparator;
+
 			// underlying associative array object
-			array_type mArray( value_compare(key_compare()) );
+			array_type mArray;
 
 	};
 
