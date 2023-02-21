@@ -44,13 +44,57 @@ namespace ft {
 			template<class X>
 			map_iterator& operator=(const map_iterator<X>& other);
 
+			/******* access operators *******/
+			// returns a reference to a value_type
+				// value_type could be const
+			reference operator*() const;
+
+			// returns a pointer to a value_type
+				// same remark about constness as above operator
+			pointer operator->() const;
+
+			/******* relational operators *******/
+			// this operator was templated so that comparisons
+				// can work between iterators who differ only
+				// in the constness of their template arguments
+			template<class X>
+			bool operator==(const map_iterator<X>& other) const;
+
+			// same remark as the above operator
+			template <class X>
+			bool operator!=(const map_iterator<X>& other) const;
+
+			/******* increment/decrement operators *******/
+			map_iterator& operator++();
+
+			map_iterator operator++(int);
+
+			map_iterator& operator--();
+
+			map_iterator operator--(int);
+
 		private:
 			/******* member objects *******/
 			// underlying node pointer to element in map
 			const node_type* mNodePtr;
 
+			// pointer to whole associative array that underlies map
+			const array_type* mArrayPtr;
+
 			/******* parameterized contructor *******/
-			map_iterator(const node_type* nodePtr);
+			// a valid iterator will be one that's instantiated 
+				// through this constructor
+			// it needs be passed to it a pointer to the node
+				// represented by this iterator and a pointer to the
+				// array object containing this node
+			// a past_the_end or before-begin iterator (for reverse
+				// iteration) will be represented by passing a NULL
+				// pointer to node_type but the pointer to array_type
+				// still has to be valid and dereferenceable
+			// this constructor can only be instantied by the map
+				// container class (hence the friend declaration)
+			map_iterator(const node_type* const nodePtr,
+				const array_type* const arrayPtr);
 
 	};
 
