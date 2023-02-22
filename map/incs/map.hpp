@@ -11,6 +11,7 @@
 #include <cstddef>
 #include <iterator.hpp>
 #include <AVL.hpp>
+#include <utility>
 
 namespace ft {
 
@@ -65,6 +66,16 @@ namespace ft {
 
 			explicit map( const key_compare& comp,
 				const allocator_type& alloc = Allocator() );
+
+			/******* modifiers *******/
+			void clear();
+
+			pair<iterator, bool> insert( const value_type& value );
+
+			iterator insert( iterator , const value_type& value );
+
+			template< class InputIt >
+			void insert( InputIt first, InputIt last );
 
 		private:
 			/******* member objects *******/
