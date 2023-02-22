@@ -57,6 +57,52 @@ namespace ft {
 		, mValueComparator(mKeyComparator)
 		, mArray(mValueComparator, mAllocator) {}
 
+	template< class K, class T, class C, class A >
+	template< class InputIt >
+	map<K, T, C, A>::map( InputIt first, InputIt last,
+		const key_compare& comp, const allocator_type& alloc )
+		: mAllocator(alloc)
+		, mKeyComparator(comp)
+		, mValueComparator(mKeyComparator)
+		, mArray(mValueComparator, mAllocator) {
+
+			// copies range
+			insert(first, last);
+
+	}
+
+	template< class K, class T, class C, class A >
+	map<K, T, C, A>::map( const map& other )
+		: mAllocator(other.mAllocator)
+		, mKeyComparator(other.mKeyComparator)
+		, mValueComparator(mKeyComparator)
+		// calls copy constructor of mArray
+		, mArray(other.mArray) {}
+	
+	/******* destructor *******/
+	// implicitly calls destructor of mArray which handles
+		// the process of cleaning
+	template< class K, class T, class C, class A >
+	map<K, T, C, A>::~map() {}
+
+	/******* copy assignment operator *******/
+	template< class K, class T, class C, class A >
+	map<K, T, C, A>::map&
+		map<K, T, C, A>::operator=( const map& other ) {
+
+		// copies other temporarily
+		map tmp(other);
+
+		// then swaps it with this map
+		this->swap(tmp);
+
+		return *this;
+
+	}
+
+	/******* allocator getter *******/
+	allocator_type get_allocator() const;
+
 	/******* modifiers *******/
 	template< class K, class T, class C, class A >
 	void map<K, T, C, A>::clear() {
@@ -82,9 +128,10 @@ namespace ft {
 				// (duplicate values aren't allowed)
 			// second member of type bool indicates whether value 
 				// got actually inserted
-			// takes first member of ret and converts it to an iterator
+			// takes first member of ret and address of underlying
+				// array and converts them to an iterator
 			// second member is returned as is
-			return ( make_pair(iterator(ret.first), ret.second) );
+			return ( make_pair(iterator(ret.first, &mArray), ret.second) );
 
 	}
 
@@ -115,6 +162,23 @@ namespace ft {
 			// on each element in range first to last (not including last)
 		for (; first != last; ++first)
 			insert(*first);
+
+	}
+
+	template< class K, class T, class C, class A >
+	void map<K, T, C, A>::swap( map& other ) {
+
+		// swapping allocators
+		std::swap(mAllocator, other.mAllocator);
+
+		// swapping key comparators
+		std::swap(mKeyComparator, other.mKeyComparator);
+
+		// swapping value comparators
+		std::swap(mValueComparator, other.mValueComparator);
+
+		// swapping underlying arrays
+		mArray.swap(other.mArray);
 
 	}
 

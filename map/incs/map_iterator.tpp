@@ -32,7 +32,7 @@ namespace ft {
 	map<K, T, C, A>::map_iterator<U>::map_iterator
 	(const node_type* const nodePtr, const array_type* const arrayPtr)
 		: mNodePtr(nodePtr)
-		, mArrayPtr(mArrayPtr) {}
+		, mArrayPtr(arrayPtr) {}
 
 	/******* copy assignment operator *******/
 	template<class K, class T, class C, class A>

@@ -1,5 +1,6 @@
 /* this is an internal file included by AVL.hpp. it contains 
-	the implementation of AVL binary search tree and its node class templates */
+	the implementation of AVL binary search tree class template
+	and its node class template */
 
 #ifndef AVL_TPP
 #define AVL_TPP

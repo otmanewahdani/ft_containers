@@ -29,7 +29,9 @@ int main(){
 
 	std::time_t start = std::time(NULL);
 
+	// testing ft::pair and ft::make_pair
 	runPairtests();
+	cout << "end of pair tests\n\n";
 
 	/******* types used in tests *******/
 	// comparison objects types
@@ -37,7 +39,7 @@ int main(){
 	typedef greater<int> Greater;
 
 	// making a keyVectorSize amount of unique int keys
-	const int keyVectorSize = 1000000;
+	const int keyVectorSize = 1000;
 	vector<int> keyVector;
 	keyVector.reserve(keyVectorSize);
 	for (int i = 0; i < keyVectorSize; ++i)
@@ -45,7 +47,7 @@ int main(){
 	std::random_shuffle(keyVector.begin(), keyVector.end());
 	
 	// making a randomIntsVecSize amount of random ints
-	const int randomIntsVecSize = 1000000;
+	const int randomIntsVecSize = keyVectorSize;
 	vector<int> randomIntsVec(randomIntsVecSize);
 	std::for_each(randomIntsVec.begin(), randomIntsVec.end(),
 		insertRandomInt);
@@ -56,10 +58,6 @@ int main(){
 		// map::value_type aka pair
 		typedef ft::pair<const int, int> PairVal;
 
-		// comparator
-		typedef greater<int> Greater;
-		typedef less<int> Less;
-
 		// allocator type
 		typedef std::allocator< PairVal > Allocator;
 
@@ -68,8 +66,8 @@ int main(){
 		vector< ft::pair<int, int> > doubleIntPairVec;
 		doubleIntPairVec.reserve(keyVectorSize);
 		for (size_t i = 0; i < keyVector.size(); ++i)
-			doubleIntPairVec[i] = 
-				ft::make_pair(keyVector[i], randomIntsVec[i]);
+			doubleIntPairVec.push_back(
+				ft::make_pair(keyVector[i], randomIntsVec[i]) );
 
 		// testing with comparator of type std::less
 		{
@@ -81,8 +79,8 @@ int main(){
 			// iterators types
 			typedef Map::iterator Iter;
 			typedef Map::const_iterator ConstIter;
-			typedef Map::reverse_iterator RevIter;
-			typedef Map::const_reverse_iterator ConstRevIter;
+			//typedef Map::reverse_iterator RevIter;
+			//typedef Map::const_reverse_iterator ConstRevIter;
 
 			// insert return type
 			typedef ft::pair< Iter, bool> InsertPair;
@@ -91,22 +89,61 @@ int main(){
 
 			// testing simple constructors
 			{
-				Map Map1(Less());
-				Map Map2(Less(), Allocator());
+				Map map1(Less());
+				Map map2(Less(), Allocator());
 			}
 
-			Map Map1;
+			Map map1;
 
+			/******* testing map(first, last) *******/
+			const Map map2(doubleIntPairVec.begin(),
+				doubleIntPairVec.begin() + doubleIntPairVec.size() / 2);
+
+			/******* testing copy constructor *******/
+			Map map3(map2);
+
+			/******* testing copy assignment operator *******/
+			map3 = map1;
+
+			/******* testing insert(value) *******/ 
 			InsertPair insertRet;
 			for (size_t i = 0; i < doubleIntPairVec.size(); ++i){
 
-				insertRet = Map1.insert(doubleIntPairVec[i]);
+				insertRet = map1.insert(doubleIntPairVec[i]);
 				cout << insertRet.first->first << " " << 
 					insertRet.first->second << " " << insertRet.second << '\n';
 
 			}
 
+			insertRet = map1.insert(*doubleIntPairVec.begin());
+			cout << insertRet.first->first << " " << 
+				insertRet.first->second << " " << insertRet.second << '\n';
+
+			insertRet = map1.insert( *(doubleIntPairVec.begin()
+				+ doubleIntPairVec.size() / 2) );
+			cout << insertRet.first->first << " " << 
+				insertRet.first->second << " " << insertRet.second << '\n';
 			cout << '\n';
+
+			/******* testing insert(iterator, value) *******/
+			Map map4;
+
+			ConstIter cIter = map4.insert(map4.begin(), *doubleIntPairVec.begin());
+			cout << cIter->first << " " << cIter->second << '\n';
+
+			cIter = map4.insert(map4.begin(), *(doubleIntPairVec.begin()
+				+ doubleIntPairVec.size() / 2) );
+			cout << cIter->first << " " << cIter->second << '\n';
+
+			cIter = map4.insert(map4.begin(), *doubleIntPairVec.begin());
+			cout << cIter->first << " " << cIter->second << '\n';
+
+			/******* testing insert(first, last) *******/ 
+			map4.insert(doubleIntPairVec.begin(),
+				doubleIntPairVec.end());
+
+			/******* testing copy assignment operator *******/
+			map3 = map4;
 
 		} // end of testing with comparator of type std::less
 
@@ -119,8 +156,8 @@ int main(){
 			// iterators types
 			typedef Map::iterator Iter;
 			typedef Map::const_iterator ConstIter;
-			typedef Map::reverse_iterator RevIter;
-			typedef Map::const_reverse_iterator ConstRevIter;
+			//typedef Map::reverse_iterator RevIter;
+			//typedef Map::const_reverse_iterator ConstRevIter;
 
 			// insert return type
 			typedef ft::pair< Iter, bool> InsertPair;
@@ -129,20 +166,57 @@ int main(){
 
 			// testing simple constructors
 			{
-				Map Map1(Greater());
-				Map Map2(Greater(), Allocator());
+				Map map1(Greater());
+				Map map2(Greater(), Allocator());
 			}
 
-			Map Map1;
+			Map map1;
 
+			/******* testing map(first, last) *******/
+			Map map2(doubleIntPairVec.begin(),
+				doubleIntPairVec.begin() + doubleIntPairVec.size() / 2);
+
+			/******* testing copy constructor *******/
+			Map map3(map2);
+
+			/******* testing insert(value) *******/ 
 			InsertPair insertRet;
 			for (size_t i = 0; i < doubleIntPairVec.size(); ++i){
 
-				insertRet = Map1.insert(doubleIntPairVec[i]);
+				insertRet = map1.insert(doubleIntPairVec[i]);
 				cout << insertRet.first->first << " " << 
 					insertRet.first->second << " " << insertRet.second << '\n';
 
 			}
+
+			insertRet = map1.insert(*doubleIntPairVec.begin());
+			cout << insertRet.first->first << " " << 
+				insertRet.first->second << " " << insertRet.second << '\n';
+
+			insertRet = map1.insert( *(doubleIntPairVec.begin()
+				+ doubleIntPairVec.size() / 2) );
+			cout << insertRet.first->first << " " << 
+				insertRet.first->second << " " << insertRet.second << '\n';
+
+			/******* testing insert(iterator, value) *******/
+			Map map4;
+
+			ConstIter cIter = map4.insert(map4.begin(), *doubleIntPairVec.begin());
+			cout << cIter->first << " " << cIter->second << '\n';
+
+			cIter = map4.insert(map4.begin(), *(doubleIntPairVec.begin()
+				+ doubleIntPairVec.size() / 2) );
+			cout << cIter->first << " " << cIter->second << '\n';
+
+			cIter = map4.insert(map4.begin(), *doubleIntPairVec.begin());
+			cout << cIter->first << " " << cIter->second << '\n';
+
+			/******* testing insert(first, last) *******/ 
+			map4.insert(doubleIntPairVec.begin(),
+				doubleIntPairVec.end());
+
+			/******* testing swap *******/ 
+			map4.swap(map2);
 
 			cout << '\n';
 

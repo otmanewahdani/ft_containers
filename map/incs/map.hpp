@@ -67,6 +67,22 @@ namespace ft {
 			explicit map( const key_compare& comp,
 				const allocator_type& alloc = Allocator() );
 
+			template< class InputIt >
+			map( InputIt first, InputIt last,
+				const key_compare& comp = Compare(),
+				const allocator_type& alloc = Allocator() );
+
+			map( const map& other );
+
+			/******* destructor *******/
+			~map();
+
+			/******* copy assignment operator *******/
+			map& operator=( const map& other );
+
+			/******* allocator getter *******/
+			allocator_type get_allocator() const;
+
 			/******* modifiers *******/
 			void clear();
 
@@ -76,6 +92,8 @@ namespace ft {
 
 			template< class InputIt >
 			void insert( InputIt first, InputIt last );
+
+			void swap( map& other );
 
 		private:
 			/******* member objects *******/
