@@ -15,7 +15,7 @@ namespace ft {
 		class T,
 		class Compare,
 		class Allocator
-	> template <class U>
+	> template <class U, class NODE, class ARRAY>
 	class map<Key, T, Compare, Allocator>::map_iterator {
 
 		friend class map;
@@ -25,7 +25,7 @@ namespace ft {
 			// const value_type and another one with non-const
 			// value_type would work by having access directly
 			// to their private member objects.
-		template <class X>
+		template <class U2, class N2, class AR2>
 		friend class map_iterator;
 
 		public:
@@ -44,13 +44,13 @@ namespace ft {
 				// it can still copy objects with non-const value_type
 				// which is essentially a different
 				// template parameter
-			template<class X>
-			map_iterator(const map_iterator<X>& other);
+			template<class U2, class N2, class AR2>
+			map_iterator(const map_iterator<U2, N2, AR2>& other);
 
 			/******* copy assignment operator *******/
 			// same remark as the templated copy constructor
-			template<class X>
-			map_iterator& operator=(const map_iterator<X>& other);
+			template<class U2, class N2, class AR2>
+			map_iterator& operator=(const map_iterator<U2, N2, AR2>& other);
 
 			/******* access operators *******/
 			// returns a reference to a value_type
@@ -65,12 +65,12 @@ namespace ft {
 			// this operator was templated so that comparisons
 				// can work between iterators who differ only
 				// in the constness of their template arguments
-			template<class X>
-			bool operator==(const map_iterator<X>& other) const;
+			template<class U2, class N2, class AR2>
+			bool operator==(const map_iterator<U2, N2, AR2>& other) const;
 
 			// same remark as the above operator
-			template <class X>
-			bool operator!=(const map_iterator<X>& other) const;
+			template <class U2, class N2, class AR2>
+			bool operator!=(const map_iterator<U2, N2, AR2>& other) const;
 
 			/******* increment/decrement operators *******/
 			map_iterator& operator++();
@@ -82,12 +82,16 @@ namespace ft {
 			map_iterator operator--(int);
 
 		private:
+
+			typedef NODE node_type;
+			typedef ARRAY array_type;
+
 			/******* member objects *******/
 			// underlying node pointer to element in map
-			const node_type* mNodePtr;
+			node_type* mNodePtr;
 
 			// pointer to whole associative array that underlies map
-			const array_type* mArrayPtr;
+			array_type* mArrayPtr;
 
 			/******* parameterized constructor *******/
 			// a valid iterator will be one that's instantiated 
@@ -101,8 +105,8 @@ namespace ft {
 				// still has to be valid and dereferenceable
 			// this constructor can only be instantied by the map
 				// container class (hence the friend declaration)
-			map_iterator(const node_type* const nodePtr,
-				const array_type* const arrayPtr);
+			map_iterator(node_type* const nodePtr,
+				array_type* const arrayPtr);
 
 	};
 

@@ -17,13 +17,21 @@
 #include <vector>
 #include <algorithm>
 
-static void insertRandomInt(int& a){ a = std::rand() % 100000; }
-
 using std::string;
 using std::cout;
 using std::less;
 using std::greater;
 using std::vector;
+using std::for_each;
+
+void insertRandomInt(int& a){ a = std::rand() % 100000; }
+
+template <class T, class U>
+void printPair(const ft::pair<T, U>& pairObj){
+
+	cout << pairObj.first << " " << pairObj.second << '\n';
+
+}
 
 int main(){
 
@@ -39,7 +47,7 @@ int main(){
 	typedef greater<int> Greater;
 
 	// making a keyVectorSize amount of unique int keys
-	const int keyVectorSize = 500000;
+	const int keyVectorSize = 5000;
 	vector<int> keyVector;
 	keyVector.reserve(keyVectorSize);
 	for (int i = 0; i < keyVectorSize; ++i)
@@ -145,6 +153,19 @@ int main(){
 			/******* testing copy assignment operator *******/
 			map3 = map4;
 
+			/******* printing map's elements *******/
+			// in order
+			for_each(map1.begin(), map1.end(), printPair<const int, int>);
+			for_each(map2.begin(), map2.end(), printPair<const int, int>);
+			for_each(map3.begin(), map3.end(), printPair<const int, int>);
+			for_each(map4.begin(), map4.end(), printPair<const int, int>);
+
+			// in reverse order
+			for_each(map1.rbegin(), map1.rend(), printPair<const int, int>);
+			for_each(map2.rbegin(), map2.rend(), printPair<const int, int>);
+			for_each(map3.rbegin(), map3.rend(), printPair<const int, int>);
+			for_each(map4.rbegin(), map4.rend(), printPair<const int, int>);
+
 		} // end of testing with comparator of type std::less
 
 		// testing with comparator of type std::greater
@@ -156,8 +177,8 @@ int main(){
 			// iterators types
 			typedef Map::iterator Iter;
 			typedef Map::const_iterator ConstIter;
-			//typedef Map::reverse_iterator RevIter;
-			//typedef Map::const_reverse_iterator ConstRevIter;
+			typedef Map::reverse_iterator RevIter;
+			typedef Map::const_reverse_iterator ConstRevIter;
 
 			// insert return type
 			typedef ft::pair< Iter, bool> InsertPair;
@@ -218,13 +239,41 @@ int main(){
 			/******* testing swap *******/ 
 			map4.swap(map2);
 
-			cout << '\n';
+			/******* testing iterators *******/ 
+			Iter it1;
+
+			Iter it2 = map1.begin();
+
+			it2->second = 10;
+
+			ConstIter constIt(it2);
+
+			const Iter constNormalIt(map2.begin());
+
+			constIt = map2.begin();
+
+			it1 = constNormalIt;
+
+			RevIter rit(map3.rbegin());
+
+			ConstRevIter constRit(rit);
+
+			/******* printing map's elements *******/
+			// in order
+			for_each(map1.begin(), map1.end(), printPair<const int, int>);
+			for_each(map2.begin(), map2.end(), printPair<const int, int>);
+			for_each(map3.begin(), map3.end(), printPair<const int, int>);
+			for_each(map4.begin(), map4.end(), printPair<const int, int>);
+
+			// in reverse order
+			for_each(map1.rbegin(), map1.rend(), printPair<const int, int>);
+			for_each(map2.rbegin(), map2.rend(), printPair<const int, int>);
+			for_each(map3.rbegin(), map3.rend(), printPair<const int, int>);
+			for_each(map4.rbegin(), map4.rend(), printPair<const int, int>);
 
 		} // end of testing with comparator of type std::greater
 
 	} // end of testing map with value_type of pair<int, int>
-
-	// testing map with value_type of pair<int, string>
 
 	std::fstream executionTime("map execution time",
 		std::fstream::app | std::fstream::out);

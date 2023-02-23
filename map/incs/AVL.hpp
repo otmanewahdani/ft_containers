@@ -100,7 +100,7 @@ namespace ft {
 			//inserts new element in tree. returns pair that contains either "the new inserted node and true to indicate success" or
 			// "an already existing node and false to indicate failure 
 			// because an element with the same value already exists" 
-			std::pair<const Node*, bool> insert(const T& data);
+			std::pair<Node*, bool> insert(const T& data);
 
 			// removes node whose data equals data parameter
 			bool remove(const T& data);
@@ -128,10 +128,14 @@ namespace ft {
 
 			// gets least significant node in whole tree
 			// returns NULL if empty() == true
+			Node* getFirstNode();
+
 			const Node* getFirstNode() const;
 
 			// gets most significant node in whole tree
 			// returns same value as getFirstNode if empty() == true
+			Node* getLastNode();
+
 			const Node* getLastNode() const;
 
 		private:

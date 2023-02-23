@@ -201,7 +201,7 @@ namespace ft {
 
 			// inserting value by calling insert interface
 				// of underlying associative arrau
-			std::pair<const node_type*, bool>
+			std::pair<node_type*, bool>
 			// return of array_type::insert(const T&)
 				ret = mArray.insert(value);
 
@@ -215,7 +215,7 @@ namespace ft {
 			// takes first member of ret and address of underlying
 				// array and converts them to an iterator
 			// second member is returned as is
-			return ( make_pair(iterator(ret.first, &mArray), ret.second) );
+			return ( ft::make_pair(iterator(ret.first, &mArray), ret.second) );
 
 	}
 

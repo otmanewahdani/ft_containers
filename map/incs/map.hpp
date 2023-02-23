@@ -41,7 +41,10 @@ namespace ft {
 
 			/******* member class templates *******/
 			// forward declaration of member map::iterator class template
-			template < class U >
+			// U = type
+			// NODE = type of node being used
+			// ARRAY = type of array where type NODE belongs
+			template < class U, class NODE, class ARRAY >
 			class map_iterator;
 
 		public:
@@ -56,8 +59,10 @@ namespace ft {
 			typedef const value_type& const_reference;
 			typedef typename Allocator::pointer pointer;
 			typedef typename Allocator::const_pointer const_pointer;
-			typedef map_iterator<value_type> iterator;
-			typedef map_iterator<const value_type> const_iterator;
+			typedef map_iterator<value_type, node_type,
+				array_type> iterator;
+			typedef map_iterator<const value_type,
+				const node_type, const array_type> const_iterator;
 			typedef ft::reverse_iterator<iterator> reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 

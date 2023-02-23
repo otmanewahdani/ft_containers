@@ -306,7 +306,7 @@ namespace ft {
 	}
 
 	template< class T, class C, class A>
-	std::pair<const typename AVL_Tree<T, C, A>::Node*, bool> 
+	std::pair<typename AVL_Tree<T, C, A>::Node*, bool> 
 		AVL_Tree<T, C, A>::insert(const T& data) {
 
 		// saves current node count to test it again new
@@ -474,10 +474,27 @@ namespace ft {
 	}
 
 	template< class T, class C, class A>
+	typename AVL_Tree<T, C, A>::Node*
+		AVL_Tree<T, C, A>::getFirstNode() {
+
+		return mFirst;
+
+	}
+
+	template< class T, class C, class A>
 	const typename AVL_Tree<T, C, A>::Node*
 		AVL_Tree<T, C, A>::getFirstNode() const {
 
-			return mFirst;
+		// calls non-const version of this method
+		return ( const_cast<AVL_Tree*>(this)->getFirstNode() );
+
+	}
+
+	template< class T, class C, class A>
+	typename AVL_Tree<T, C, A>::Node*
+		AVL_Tree<T, C, A>::getLastNode() {
+
+		return mLast;
 
 	}
 
@@ -485,7 +502,8 @@ namespace ft {
 	const typename AVL_Tree<T, C, A>::Node*
 		AVL_Tree<T, C, A>::getLastNode() const {
 
-			return mLast;
+		// calls non-const version of this method
+		return ( const_cast<AVL_Tree*>(this)->getLastNode() );
 
 	}
 
