@@ -96,6 +96,8 @@ namespace ft {
 
 			const mapped_type& at( const key_type& key ) const;
 
+			mapped_type& operator[]( const key_type& key );
+
 			/******* iterators *******/
 			iterator begin();
 

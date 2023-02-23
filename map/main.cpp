@@ -25,7 +25,7 @@ using std::vector;
 using std::for_each;
 
 // max of number of elements to test
-const int MAX_ITEMS = 100000;
+const int MAX_ITEMS = 1000000;
 
 void insertRandomInt(int& a){ a = std::rand() % 100000; }
 
@@ -293,6 +293,18 @@ int main(){
 			/******* testing insert(first, last) *******/ 
 			map4.insert(doubleIntPairVec.begin(),
 				doubleIntPairVec.end());
+
+			/******* testing operator[] *******/ 
+			cout << map1[ keyVector[0] ] << '\n';
+			insertRandomInt(map1[ keyVector[0] ] );
+			cout << map1[ keyVector[0] ] << '\n';
+
+			cout << map1[ keyVector[keyVectorSize / 2] ] << '\n';
+			insertRandomInt(map1[ keyVector[keyVectorSize / 2] ]); 
+
+			cout << map1[ keyVectorSize * 2 ] << '\n';
+			insertRandomInt(map1[ keyVectorSize ]); 
+			cout << map1[ keyVectorSize * 2 ] << '\n';
 
 			/******* testing swap *******/ 
 			map4.swap(map2);

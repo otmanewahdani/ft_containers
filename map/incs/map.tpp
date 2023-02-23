@@ -105,6 +105,54 @@ namespace ft {
 	typename map<K, T, C, A>::allocator_type
 		map<K, T, C, A>::get_allocator() const { return mAllocator; }
 
+	/******* element access *******/
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::mapped_type&
+		map<K, T, C, A>::at( const key_type& key ) {
+
+			// look key up
+			iterator tmp = find(key);
+
+			// element doesn't exist
+			if (tmp == end())
+				throw std::out_of_range("no such element");
+
+			// returns mapped value
+			return tmp->second;
+
+	}
+
+	template< class K, class T, class C, class A >
+	const typename map<K, T, C, A>::mapped_type&
+		map<K, T, C, A>::at( const key_type& key ) const {
+
+			// calls non-const version of this method
+			return ( const_cast<map*>(this)->at(key) );
+
+	}
+
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::mapped_type&
+		map<K, T, C, A>::operator[]( const key_type& key ) {
+
+			// looks key up first to see the element exists already
+			iterator searchedElem = find(key);
+
+			// element already exists
+			if (searchedElem != end())
+				return searchedElem->second;
+
+			// inserts a pair of key and a default-constructed value of
+				// mapped type
+			// accesses the first member of insert return which is
+				// of type iterator, then derenferences that iterator
+				// and selects second member of mapped_type
+				// reference type and returns it
+			return ( insert( ft::make_pair
+				(key, mapped_type()) ).first->second );
+
+	}
+
 	/******* iterators *******/
 	template< class K, class T, class C, class A >
 	typename map<K, T, C, A>::iterator
@@ -292,32 +340,6 @@ namespace ft {
 
 			// calls non-const version of this method
 			return ( const_cast<map*>(this)->find(key) );
-
-	}
-
-	/******* element access *******/
-	template< class K, class T, class C, class A >
-	typename map<K, T, C, A>::mapped_type&
-		map<K, T, C, A>::at( const key_type& key ) {
-
-			// look key up
-			iterator tmp = find(key);
-
-			// element doesn't exist
-			if (tmp == end())
-				throw std::out_of_range("no such element");
-
-			// returns mapped value
-			return tmp->second;
-
-	}
-
-	template< class K, class T, class C, class A >
-	const typename map<K, T, C, A>::mapped_type&
-		map<K, T, C, A>::at( const key_type& key ) const {
-
-			// calls non-const version of this method
-			return ( const_cast<map*>(this)->at(key) );
 
 	}
 
