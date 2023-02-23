@@ -12,6 +12,7 @@
 #include <iterator.hpp>
 #include <AVL.hpp>
 #include <utility>
+#include <stdexcept>
 
 namespace ft {
 
@@ -40,10 +41,12 @@ namespace ft {
 			typedef typename array_type::Node node_type ;
 
 			/******* member class templates *******/
-			// forward declaration of member map::iterator class template
+			// forward declaration of member map::iterator
+				// class template
 			// U = type
 			// NODE = type of node being used
-			// ARRAY = type of array where type NODE belongs
+			// ARRAY = type of underlying associative array
+				// where type NODE belongs
 			template < class U, class NODE, class ARRAY >
 			class map_iterator;
 
@@ -88,6 +91,11 @@ namespace ft {
 			/******* allocator getter *******/
 			allocator_type get_allocator() const;
 
+			/******* element access *******/
+			mapped_type& at( const key_type& key );
+
+			const mapped_type& at( const key_type& key ) const;
+
 			/******* iterators *******/
 			iterator begin();
 
@@ -116,6 +124,11 @@ namespace ft {
 			void insert( InputIt first, InputIt last );
 
 			void swap( map& other );
+
+			/******* look-up *******/
+			iterator find( const key_type& key );
+
+			const_iterator find( const key_type& key ) const;
 
 		private:
 			/******* member objects *******/

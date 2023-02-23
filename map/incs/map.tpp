@@ -266,6 +266,61 @@ namespace ft {
 
 	}
 
+	/******* look-up *******/
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::iterator
+		map<K, T, C, A>::find( const key_type& key ) {
+
+			// creates a tmp pair of key and a default initialized
+				// value of type mapped_type
+			// this pair will serve as a look-up value in mArray
+				// findNode method since the represented type in
+				// mArray is value_type and not key_type. It will
+				// be compared against stored objects in mArray
+				// to determine if their keys are equivalent.
+			value_type tmp(key, mapped_type());
+
+			// calls find method in mArray to retrive the node
+				// whose data contains same key as tmp
+			return ( iterator(mArray.findNode(tmp), &mArray) );
+
+	}
+
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::const_iterator
+		map<K, T, C, A>::find( const key_type& key ) const {
+
+			// calls non-const version of this method
+			return ( const_cast<map*>(this)->find(key) );
+
+	}
+
+	/******* element access *******/
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::mapped_type&
+		map<K, T, C, A>::at( const key_type& key ) {
+
+			// look key up
+			iterator tmp = find(key);
+
+			// element doesn't exist
+			if (tmp == end())
+				throw std::out_of_range("no such element");
+
+			// returns mapped value
+			return tmp->second;
+
+	}
+
+	template< class K, class T, class C, class A >
+	const typename map<K, T, C, A>::mapped_type&
+		map<K, T, C, A>::at( const key_type& key ) const {
+
+			// calls non-const version of this method
+			return ( const_cast<map*>(this)->at(key) );
+
+	}
+
 }
 
 #endif

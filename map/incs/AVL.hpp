@@ -64,7 +64,7 @@ namespace ft {
 	/******* AVL_Tree class template definition *******/
 	template<
 		class T,
-		class Compare = std::less<T> ,
+		class Compare = std::less<T>,
 		class Allocator = std::allocator<T>
 	> class AVL_Tree {
 

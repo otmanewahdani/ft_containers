@@ -24,6 +24,9 @@ using std::greater;
 using std::vector;
 using std::for_each;
 
+// max of number of elements to test
+const int MAX_ITEMS = 100000;
+
 void insertRandomInt(int& a){ a = std::rand() % 100000; }
 
 template <class T, class U>
@@ -47,7 +50,7 @@ int main(){
 	typedef greater<int> Greater;
 
 	// making a keyVectorSize amount of unique int keys
-	const int keyVectorSize = 5000;
+	const int keyVectorSize = MAX_ITEMS;
 	vector<int> keyVector;
 	keyVector.reserve(keyVectorSize);
 	for (int i = 0; i < keyVectorSize; ++i)
@@ -68,6 +71,10 @@ int main(){
 
 		// allocator type
 		typedef std::allocator< PairVal > Allocator;
+
+		// printing functions
+		typedef void (*PrintPairFun)(const ft::pair<const int, int>&);
+		PrintPairFun printPairFunPtr = printPair<const int, int>;
 
 		// making a vector of a keyVectorSize amount of
 			// ft::pair<int, int> elements
@@ -153,18 +160,69 @@ int main(){
 			/******* testing copy assignment operator *******/
 			map3 = map4;
 
+			/******* testing at(key) *******/
+			insertRandomInt(map1.at(keyVector[0]));
+			cout << map1.at(keyVector[0]) << '\n';
+
+			insertRandomInt(map1.at(keyVector[keyVectorSize / 4]));
+			cout << map1.at(keyVector[keyVectorSize / 4]) << '\n';
+
+			try {
+
+				map1.at(keyVectorSize);
+
+			}
+			catch (std::out_of_range&) {
+
+				cout << "at exception caught\n";
+
+			}
+
+			cout << map2.at(keyVector[0]) << '\n';
+
+			try {
+
+				map2.at(keyVectorSize);
+
+			}
+			catch (std::out_of_range&) {
+
+				cout << "const at exception caught\n";
+
+			}
+
+			/******* testing find(key) *******/
+			Iter tmpIter = map1.find(keyVector[0]);
+			printPairFunPtr(*tmpIter);
+			insertRandomInt(tmpIter->second);
+			printPairFunPtr(*tmpIter);
+
+			tmpIter = map1.find(keyVector[keyVectorSize / 4]);
+			printPairFunPtr(*tmpIter);
+			insertRandomInt(tmpIter->second);
+			printPairFunPtr(*tmpIter);
+
+			tmpIter = map1.find(keyVectorSize);
+			cout << (tmpIter == map1.end()) << '\n';
+
+			cIter = map2.find(keyVector[keyVectorSize / 3]);
+			printPairFunPtr(*cIter);
+
+			cIter = map2.find(keyVectorSize);
+			cout << (cIter == map2.end()) << '\n';
+
 			/******* printing map's elements *******/
 			// in order
-			for_each(map1.begin(), map1.end(), printPair<const int, int>);
-			for_each(map2.begin(), map2.end(), printPair<const int, int>);
-			for_each(map3.begin(), map3.end(), printPair<const int, int>);
-			for_each(map4.begin(), map4.end(), printPair<const int, int>);
+			for_each(map1.begin(), map1.end(), printPairFunPtr);
+			for_each(map2.begin(), map2.end(), printPairFunPtr);
+			for_each(map3.begin(), map3.end(), printPairFunPtr);
+			for_each(map4.begin(), map4.end(), printPairFunPtr);
 
 			// in reverse order
-			for_each(map1.rbegin(), map1.rend(), printPair<const int, int>);
-			for_each(map2.rbegin(), map2.rend(), printPair<const int, int>);
-			for_each(map3.rbegin(), map3.rend(), printPair<const int, int>);
-			for_each(map4.rbegin(), map4.rend(), printPair<const int, int>);
+			for_each(map1.rbegin(), map1.rend(), printPairFunPtr);
+			for_each(map2.rbegin(), map2.rend(), printPairFunPtr);
+			for_each(map3.rbegin(), map3.rend(), printPairFunPtr);
+			for_each(map4.rbegin(), map4.rend(), printPairFunPtr);
 
 		} // end of testing with comparator of type std::less
 
@@ -243,33 +301,94 @@ int main(){
 			Iter it1;
 
 			Iter it2 = map1.begin();
+			for_each(it2, ++Iter(it2), printPairFunPtr);
+
+			cout << (it1 == it2) << '\n';
+			cout << (it1 != it2) << '\n';
 
 			it2->second = 10;
+			for_each(it2, ++Iter(it2), printPairFunPtr);
+
+			cout << (it1 == it2) << '\n';
+			cout << (it1 != it2) << '\n';
+
+			it1 = it2++;
+			for_each(it1, ++Iter(it1), printPairFunPtr);
+			for_each(it2, ++Iter(it2), printPairFunPtr);
+
+			cout << (it1 == it2) << '\n';
+			cout << (it1 != it2) << '\n';
+
+			cout << it2->second << (++it2)->second << '\n';
+
+			++it2 = map3.begin();
+
+			cout << (it1 == it2) << '\n';
+			cout << (it1 != it2) << '\n';
 
 			ConstIter constIt(it2);
+			for_each(constIt, ++ConstIter(constIt), printPairFunPtr);
+
+			cout << (constIt == it1) << '\n';
+			cout << (constIt == it2) << '\n';
+			cout << (constIt != it1) << '\n';
+			cout << (constIt != it2) << '\n';
+
+			constIt = it1++;
+			for_each(constIt, ++ConstIter(constIt), printPairFunPtr);
+			for_each(it1, ++Iter(it1), printPairFunPtr);
+
+			cout << (it1 == constIt) << '\n';
+			cout << (it1 != constIt) << '\n';
+
+			--it1 = it2;
+			for_each(constIt, ++ConstIter(constIt), printPairFunPtr);
+
+			cout << (it1 == it2) << '\n';
+			cout << (it1 != it2) << '\n';
 
 			const Iter constNormalIt(map2.begin());
 
-			constIt = map2.begin();
+			constIt = map2.end();
+
+			--constIt;
+
+			cout << constIt->first << constIt->second << '\n';
 
 			it1 = constNormalIt;
 
-			RevIter rit(map3.rbegin());
+			cout << (constNormalIt == it1) << '\n';
+			cout << (it1 == constNormalIt) << '\n';
+			cout << (constNormalIt != it1) << '\n';
+			cout << (it1 != constNormalIt) << '\n';
+
+			RevIter rit(map3.rend());
+
+			--rit;
+
+			insertRandomInt(rit->second);
+			for_each(rit, ++RevIter(rit), printPairFunPtr);
+
+			cout << (*rit).first << (*rit).second << '\n';
 
 			ConstRevIter constRit(rit);
+			for_each(constRit, ++ConstRevIter(constRit), printPairFunPtr);
+
+			cout << (constRit == rit) << '\n';
+			cout << (constRit != rit) << '\n';
 
 			/******* printing map's elements *******/
 			// in order
-			for_each(map1.begin(), map1.end(), printPair<const int, int>);
-			for_each(map2.begin(), map2.end(), printPair<const int, int>);
-			for_each(map3.begin(), map3.end(), printPair<const int, int>);
-			for_each(map4.begin(), map4.end(), printPair<const int, int>);
+			for_each(map1.begin(), map1.end(), printPairFunPtr);
+			for_each(map2.begin(), map2.end(), printPairFunPtr);
+			for_each(map3.begin(), map3.end(), printPairFunPtr);
+			for_each(map4.begin(), map4.end(), printPairFunPtr);
 
 			// in reverse order
-			for_each(map1.rbegin(), map1.rend(), printPair<const int, int>);
-			for_each(map2.rbegin(), map2.rend(), printPair<const int, int>);
-			for_each(map3.rbegin(), map3.rend(), printPair<const int, int>);
-			for_each(map4.rbegin(), map4.rend(), printPair<const int, int>);
+			for_each(map1.rbegin(), map1.rend(), printPairFunPtr);
+			for_each(map2.rbegin(), map2.rend(), printPairFunPtr);
+			for_each(map3.rbegin(), map3.rend(), printPairFunPtr);
+			for_each(map4.rbegin(), map4.rend(), printPairFunPtr);
 
 		} // end of testing with comparator of type std::greater
 
