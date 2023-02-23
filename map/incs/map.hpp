@@ -83,6 +83,23 @@ namespace ft {
 			/******* allocator getter *******/
 			allocator_type get_allocator() const;
 
+			/******* iterators *******/
+			iterator begin();
+
+			const_iterator begin() const;
+
+			iterator end();
+
+			const_iterator end() const;
+
+			reverse_iterator rbegin();
+
+			const_reverse_iterator rbegin() const;
+
+			reverse_iterator rend();
+
+			const_reverse_iterator rend() const;
+
 			/******* modifiers *******/
 			void clear();
 

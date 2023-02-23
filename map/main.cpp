@@ -39,7 +39,7 @@ int main(){
 	typedef greater<int> Greater;
 
 	// making a keyVectorSize amount of unique int keys
-	const int keyVectorSize = 1000;
+	const int keyVectorSize = 500000;
 	vector<int> keyVector;
 	keyVector.reserve(keyVectorSize);
 	for (int i = 0; i < keyVectorSize; ++i)

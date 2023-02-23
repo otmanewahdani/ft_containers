@@ -87,7 +87,7 @@ namespace ft {
 
 	/******* copy assignment operator *******/
 	template< class K, class T, class C, class A >
-	map<K, T, C, A>::map&
+	map<K, T, C, A>&
 		map<K, T, C, A>::operator=( const map& other ) {
 
 		// copies other temporarily
@@ -101,7 +101,91 @@ namespace ft {
 	}
 
 	/******* allocator getter *******/
-	allocator_type get_allocator() const;
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::allocator_type
+		map<K, T, C, A>::get_allocator() const { return mAllocator; }
+
+	/******* iterators *******/
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::iterator
+		map<K, T, C, A>::begin() {
+
+			// since this method returns an iterator to the first
+				// element in the map, it needs to construct
+				// an iterator from the first node in the underlying
+				// array as a first argument and the second argument
+				// is always the underlying array containing the node
+			return ( iterator(mArray.getFirstNode(), &mArray) );
+
+	}
+
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::const_iterator
+		map<K, T, C, A>::begin() const {
+
+			// calls non-const version of this method
+			return ( const_cast<map*>(this)->begin() );
+
+	}
+
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::iterator
+		map<K, T, C, A>::end() {
+
+			// passes NULL to iterator to indicate that it points to
+				// past the last node and therefore it
+				// doesn't point to any valid node
+			// passes the underlying array as a second argument so
+				// that the last node is still reachable after a
+				// decrement operation on the iterator
+			return ( iterator(NULL, &mArray) );
+
+	}
+
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::const_iterator
+		map<K, T, C, A>::end() const {
+
+			// calls non-const version of this method
+			return ( const_cast<map*>(this)->end() );
+
+	}
+
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::reverse_iterator
+		map<K, T, C, A>::rbegin() {
+
+			// reverses end iterator
+			return ( reverse_iterator(end()) );
+
+	}
+
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::const_reverse_iterator
+		map<K, T, C, A>::rbegin() const {
+
+			// calls non-const version of this method
+			return ( const_cast<map*>(this)->rbegin() );
+
+	}
+
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::reverse_iterator
+		map<K, T, C, A>::rend() {
+
+			// reverses begin iterator
+			return ( reverse_iterator(begin()) );
+
+	}
+
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::const_reverse_iterator
+		map<K, T, C, A>::rend() const {
+
+			// calls non-const version of this method
+			return ( const_cast<map*>(this)->rend() );
+
+	}
 
 	/******* modifiers *******/
 	template< class K, class T, class C, class A >
