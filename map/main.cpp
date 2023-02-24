@@ -14,6 +14,7 @@
 #include <map.hpp>
 #include <pairTests.hpp>
 #include <memory>
+#include <limits>
 #include <vector>
 #include <algorithm>
 
@@ -211,6 +212,17 @@ int main(){
 			cIter = map2.find(keyVectorSize);
 			cout << (cIter == map2.end()) << '\n';
 
+			/******* testing clear() *******/
+			Map map5(doubleIntPairVec.begin(), doubleIntPairVec.begin() + 10);
+			cout << map5.size() << " " << map5.empty() << '\n';
+			for_each(map5.begin(), map5.end(), printPairFunPtr);
+			for_each(map5.rbegin(), map5.rend(), printPairFunPtr);
+
+			map5.clear();
+			cout << map5.size() << " " << map5.empty() << '\n';
+			for_each(map5.begin(), map5.end(), printPairFunPtr);
+			for_each(map5.rbegin(), map5.rend(), printPairFunPtr);
+
 			/******* printing map's elements *******/
 			// in order
 			for_each(map1.begin(), map1.end(), printPairFunPtr);
@@ -223,6 +235,12 @@ int main(){
 			for_each(map2.rbegin(), map2.rend(), printPairFunPtr);
 			for_each(map3.rbegin(), map3.rend(), printPairFunPtr);
 			for_each(map4.rbegin(), map4.rend(), printPairFunPtr);
+
+			/******* testing size and empty *******/
+			cout << map1.size() << " " << map1.empty() << '\n';
+			cout << map2.size() << " " << map2.empty() << '\n';
+			cout << map3.size() << " " << map3.empty() << '\n';
+			cout << map4.size() << " " << map4.empty() << '\n';
 
 		} // end of testing with comparator of type std::less
 
@@ -401,6 +419,18 @@ int main(){
 			for_each(map2.rbegin(), map2.rend(), printPairFunPtr);
 			for_each(map3.rbegin(), map3.rend(), printPairFunPtr);
 			for_each(map4.rbegin(), map4.rend(), printPairFunPtr);
+
+			/******* testing size and empty *******/
+			cout << map1.size() << " " << map1.empty() << '\n';
+			cout << map2.size() << " " << map2.empty() << '\n';
+			cout << map3.size() << " " << map3.empty() << '\n';
+			cout << map4.size() << " " << map4.empty() << '\n';
+
+			/******* testing max_size() *******/
+			cout << (map1.max_size() == map2.max_size()) << '\n';
+			Map::size_type upperLimit =
+				std::numeric_limits<Map::difference_type>::max();
+			cout << (map1.max_size() <= upperLimit) << '\n';
 
 		} // end of testing with comparator of type std::greater
 

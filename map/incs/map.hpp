@@ -13,6 +13,7 @@
 #include <AVL.hpp>
 #include <utility>
 #include <stdexcept>
+#include <limits>
 
 namespace ft {
 
@@ -119,6 +120,8 @@ namespace ft {
 			bool empty() const;
 
 			size_type size() const;
+
+			size_type max_size() const;
 
 			/******* modifiers *******/
 			void clear();

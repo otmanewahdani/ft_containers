@@ -252,6 +252,23 @@ namespace ft {
 
 	}
 
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::size_type
+		map<K, T, C, A>::max_size() const {
+
+			// max number of nodes that can
+				// be allocated by underlying array
+			const size_type allocMAx =
+				mArray.get_node_allocator().max_size();
+
+			// allocMAx cannot be more than this limit
+			const size_type upperLimit =
+				std::numeric_limits<difference_type>::max();
+
+			return (allocMAx < upperLimit ? allocMAx : upperLimit);
+
+	}
+
 	/******* modifiers *******/
 	template< class K, class T, class C, class A >
 	void map<K, T, C, A>::clear() {
