@@ -332,6 +332,44 @@ namespace ft {
 	}
 
 	template< class K, class T, class C, class A >
+	void map<K, T, C, A>::erase( iterator pos ) {
+
+		// passes pos as the beginning of the range and an iterator
+			// that points to the next element so that only pos will
+			// get erased
+		erase(pos, ++iterator(pos));
+
+	}
+
+	template< class K, class T, class C, class A >
+	void map<K, T, C, A>::erase( iterator first, iterator last ) {
+
+		// traverses the range first to last and dereferences each
+			// iterator by getting the first member that contains 
+			// the key that's going to be used by the other erase
+			// overload to locate the element and delete it
+		for (; first != last; ++first)
+			erase(first->first);
+
+	}
+
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::size_type
+		map<K, T, C, A>::erase( const key_type& key ) {
+
+			// calls removal interface of the underlying array and
+				// the reason behind passing it a pair of key and
+				// default-constructed value of mapped_type is explained
+				// in the implementation of non-const find method
+			// if element was removed true will be returned and
+				// converted to 1 which the amount of elements removed
+			// otherwise false is returned and will be converted to 0
+			return ( mArray.remove
+				( ft::make_pair(key, mapped_type()) ) );
+
+	}
+
+	template< class K, class T, class C, class A >
 	void map<K, T, C, A>::swap( map& other ) {
 
 		// swapping allocators

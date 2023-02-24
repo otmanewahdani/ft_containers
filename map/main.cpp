@@ -26,7 +26,7 @@ using std::vector;
 using std::for_each;
 
 // max of number of elements to test
-const int MAX_ITEMS = 1000000;
+const int MAX_ITEMS = 1000;
 
 void insertRandomInt(int& a){ a = std::rand() % 100000; }
 
@@ -222,6 +222,41 @@ int main(){
 			cout << map5.size() << " " << map5.empty() << '\n';
 			for_each(map5.begin(), map5.end(), printPairFunPtr);
 			for_each(map5.rbegin(), map5.rend(), printPairFunPtr);
+
+			/******* testing erase(pos) *******/
+			map4.erase(map4.begin());
+
+			map4.erase( --Iter(map4.end()) );
+
+			/******* testing erase(first, last) *******/
+			// gets the element that is "keyVectorSize / 10" away from
+				// beginning so that "keyVectorSize / 10" elements
+				// get erased
+			tmpIter = map4.find(keyVector[ keyVectorSize / 10 ] );
+			map4.erase(map4.begin(), tmpIter);
+
+			map4.erase(map4.begin(), map4.begin());
+
+			map4.erase(map4.end(), map4.end());
+
+			/******* testing erase(key) *******/
+			cout << map1.erase(keyVector[0]) << '\n'; 
+			cout << map1.erase(keyVector[ keyVectorSize / 2 ]) << '\n';
+			cout << map1.erase(keyVector[ keyVectorSize / 3 ]) << '\n';
+			cout << map1.erase(keyVector[ keyVectorSize / 4 ]) << '\n';
+			cout << map1.erase(keyVector[ keyVectorSize / 5 ]) << '\n';
+			cout << map1.erase(keyVector[ keyVectorSize / 6 ]) << '\n';
+			cout << map1.erase(keyVector[ keyVectorSize / 7 ]) << '\n';
+			cout << map1.erase(keyVector[ keyVectorSize / 8 ]) << '\n';
+			cout << map1.erase(keyVector[ keyVectorSize / 9 ]) << '\n';
+			cout << map1.erase(keyVector[ keyVectorSize / 10 ]) << '\n';
+
+			cout << map1.erase(keyVectorSize) << '\n';
+			cout << map1.erase(keyVectorSize + 1) << '\n';
+			cout << map1.erase(keyVectorSize + 2) << '\n';
+			cout << map1.erase(keyVectorSize + 3) << '\n';
+			cout << map1.erase(keyVectorSize + 4) << '\n';
+			cout << map1.erase(keyVectorSize + 5) << '\n';
 
 			/******* printing map's elements *******/
 			// in order

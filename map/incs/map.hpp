@@ -133,6 +133,12 @@ namespace ft {
 			template< class InputIt >
 			void insert( InputIt first, InputIt last );
 
+			void erase( iterator pos );
+
+			void erase( iterator first, iterator last );
+
+			size_type erase( const key_type& key );
+
 			void swap( map& other );
 
 			/******* look-up *******/

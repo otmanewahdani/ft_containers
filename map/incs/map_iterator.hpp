@@ -53,11 +53,11 @@ namespace ft {
 			map_iterator& operator=(const map_iterator<U2, N2, AR2>& other);
 
 			/******* access operators *******/
-			// returns a reference to a value_type
+			// returns a reference to value_type
 				// value_type could be const
 			reference operator*() const;
 
-			// returns a pointer to a value_type
+			// returns a pointer to value_type
 				// same remark about constness as above operator
 			pointer operator->() const;
 
