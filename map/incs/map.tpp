@@ -348,7 +348,8 @@ namespace ft {
 			// iterator by getting the first member that contains 
 			// the key that's going to be used by the other erase
 			// overload to locate the element and delete it
-		for (; first != last; ++first)
+		// next saves the next iterator since first will be invalidated after each removal
+		for (iterator next = first; next++ != last; first = next)
 			erase(first->first);
 
 	}
