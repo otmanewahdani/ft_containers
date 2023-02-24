@@ -26,7 +26,7 @@ using std::vector;
 using std::for_each;
 
 // max of number of elements to test
-const int MAX_ITEMS = 1000;
+const int MAX_ITEMS = 10000000;
 
 void insertRandomInt(int& a){ a = std::rand() % 100000; }
 
@@ -441,6 +441,17 @@ int main(){
 
 			cout << (constRit == rit) << '\n';
 			cout << (constRit != rit) << '\n';
+
+			/******* testing count *******/
+			cout << map1.count(map1.begin()->first) << '\n';
+			cout << map1.count( (--map1.end())->first ) << '\n';
+			cout << map1.count(keyVector[ keyVectorSize / 2] ) << '\n';
+			cout << map1.count(keyVectorSize) << '\n';
+			cout << map1.count(keyVectorSize + 1) << '\n';
+			cout << map1.count(keyVectorSize + 2) << '\n';
+			cout << map1.count(keyVectorSize + 3) << '\n';
+			cout << map1.count(keyVectorSize + 4) << '\n';
+			cout << map1.count(keyVectorSize + 5) << '\n';
 
 			/******* printing map's elements *******/
 			// in order

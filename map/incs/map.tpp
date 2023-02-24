@@ -348,7 +348,8 @@ namespace ft {
 			// iterator by getting the first member that contains 
 			// the key that's going to be used by the other erase
 			// overload to locate the element and delete it
-		// next saves the next iterator since first will be invalidated after each removal
+		// next saves the next iterator since first will be
+			// invalidated after each removal
 		for (iterator next = first; next++ != last; first = next)
 			erase(first->first);
 
@@ -389,6 +390,18 @@ namespace ft {
 
 	/******* look-up *******/
 	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::size_type
+		map<K, T, C, A>::count( const key_type& key ) const {
+
+			// if key is found, find will return an iterator different
+				// than end which when compared like this will yield
+				// a value of 1 which is the number of elements found.
+				// thus 0 is returned when find returns end()
+			return ( find(key) != end() );
+
+	}
+
+	template< class K, class T, class C, class A >
 	typename map<K, T, C, A>::iterator
 		map<K, T, C, A>::find( const key_type& key ) {
 
@@ -401,7 +414,7 @@ namespace ft {
 				// to determine if their keys are equivalent.
 			value_type tmp(key, mapped_type());
 
-			// calls find method in mArray to retrive the node
+			// calls find method in mArray to retrieve the node
 				// whose data contains same key as tmp
 			return ( iterator(mArray.findNode(tmp), &mArray) );
 

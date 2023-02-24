@@ -142,6 +142,8 @@ namespace ft {
 			void swap( map& other );
 
 			/******* look-up *******/
+			size_type count( const key_type& key ) const;
+
 			iterator find( const key_type& key );
 
 			const_iterator find( const key_type& key ) const;
