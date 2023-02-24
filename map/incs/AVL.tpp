@@ -230,6 +230,23 @@ namespace ft {
 
 	}
 
+	/******* allocator getters *******/
+	template< class T, class C, class A>
+	typename AVL_Tree<T, C, A>::allocator_type
+		AVL_Tree<T, C, A>::get_allocator() const {
+
+			return mAllocator;
+
+	}
+
+	template< class T, class C, class A>
+	typename AVL_Tree<T, C, A>::node_allocator_type
+		AVL_Tree<T, C, A>::get_node_allocator() const {
+
+			return mNodeAllocator;
+
+	}
+
 	/******* public member functions *******/
 	template< class T, class C, class A>
 	void AVL_Tree<T, C, A>::swap(AVL_Tree& other){

@@ -235,6 +235,23 @@ namespace ft {
 
 	}
 
+	/******* capacity *******/
+	template< class K, class T, class C, class A >
+	bool map<K, T, C, A>::empty() const {
+
+		return (!size());
+
+	}
+
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::size_type
+		map<K, T, C, A>::size() const {
+
+		// returns num of elements in underlying array
+		return ( mArray.size() );
+
+	}
+
 	/******* modifiers *******/
 	template< class K, class T, class C, class A >
 	void map<K, T, C, A>::clear() {

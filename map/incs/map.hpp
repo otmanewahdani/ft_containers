@@ -115,6 +115,11 @@ namespace ft {
 
 			const_reverse_iterator rend() const;
 
+			/******* capacity *******/
+			bool empty() const;
+
+			size_type size() const;
+
 			/******* modifiers *******/
 			void clear();
 

@@ -73,6 +73,11 @@ namespace ft {
 			typedef AVL_Node<T, Allocator> Node;
 			typedef Allocator allocator_type;
 
+			// get allocator type for allocating nodes in AVL_Tree
+			typedef typename
+				Allocator::template rebind< AVL_Node<T> >::other
+				node_allocator_type;
+
 			/******* constructors *******/
 			AVL_Tree(const Compare& comparator = Compare(),
 				const allocator_type& allocatorObj = allocator_type() );
@@ -84,6 +89,11 @@ namespace ft {
 
 			/******* destructor *******/
 			~AVL_Tree();
+
+			/******* allocator getters *******/
+			allocator_type get_allocator() const;
+
+			node_allocator_type get_node_allocator() const;
 
 			/******* public member functions *******/
 			void swap(AVL_Tree& other);
@@ -139,12 +149,6 @@ namespace ft {
 			const Node* getLastNode() const;
 
 		private:
-
-			/******* private member types *******/
-			// get allocator type for allocating nodes in AVL_Tree
-			typedef typename
-				Allocator::template rebind< AVL_Node<T> >::other
-				node_allocator_type;
 
 			/******* member objects *******/
 			Node* mRoot;
