@@ -429,6 +429,98 @@ namespace ft {
 
 	}
 
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::iterator
+		map<K, T, C, A>::lower_bound( const key_type& key ) {
+
+		// the reason behind converting key to an object of
+			// type value_type is explained in non-const find method
+		value_type tmp(key, mapped_type());
+
+		// calls underlying array's method to return a node with a value
+			// greater than or equal to tmp. then converts that
+			// node to an iterator
+		return ( iterator( mArray.findNodeNotLessThan(tmp), &mArray ) );
+
+	}
+
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::const_iterator
+		map<K, T, C, A>::lower_bound( const key_type& key ) const {
+
+			// calls non-const version of this method which returns an
+				// iterator that will be implicitly cast to const_iterator
+			return ( const_cast<map*>(this)->lower_bound(key) );
+
+	}
+
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::iterator
+		map<K, T, C, A>::upper_bound( const key_type& key ) {
+		
+		// uses lower_bound to get iterator with a least a value of key
+			// if no such iterator exists, then it gets the next
+			// iterator which what this method aims to get in the
+			// first place
+		iterator ret = lower_bound(key);
+
+		// if the returned iterator (ret) is not past the end or it is
+			// not more signficant than key, then its key is equivalent
+			// to the key parameter and it needs to be incremented so
+			// it's the next iterator with a key greater than
+			// key parameter
+		// otherwise ret's key is already greater than key parameter
+		if ( ret != end() && !mKeyComparator(key, ret->first) )
+			++ret;
+
+		return ret;
+
+	}
+
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::const_iterator
+		map<K, T, C, A>::upper_bound( const key_type& key ) const {
+
+		// calls non-const version of this method
+		return ( const_cast<map*>(this)->upper_bound(key) );
+
+	}
+
+	template< class K, class T, class C, class A >
+	// returns a value of type pair<iterator, iterator>
+	pair< typename map<K, T, C, A>::iterator,
+		typename map<K, T, C, A>::iterator >
+		map<K, T, C, A>::equal_range( const key_type& key ) {
+
+		// first iterator in range
+		iterator lBoundIt = lower_bound(key);
+
+		// second iterator in range
+		iterator uBountIt = lBoundIt;
+
+		// this same block of code is used in upper_bound
+			// and it's explained there
+		// upper_bound could've been called directly but it was ommited
+			// for perfomance optimization purposes since the above
+			// call to lower_bound would've been made twice
+		if (uBountIt != end() && !mKeyComparator(key, uBountIt->first))
+			++uBountIt;
+
+		return ( ft::make_pair(lBoundIt, uBountIt) );
+
+	}
+
+	template< class K, class T, class C, class A >
+	// returns a value of type pair<const_iterator, const_iterator>
+	pair< typename map<K, T, C, A>::const_iterator,
+		typename map<K, T, C, A>::const_iterator >
+		map<K, T, C, A>::equal_range( const key_type& key ) const {
+
+		// calls non-const overload of this method
+		return ( const_cast<map*>(this)->equal_range(key) );
+
+	}
+
 }
 
 #endif

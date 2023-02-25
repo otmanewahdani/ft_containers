@@ -222,6 +222,93 @@ int main(){
 			cout << map5.size() << " " << map5.empty() << '\n';
 			for_each(map5.begin(), map5.end(), printPairFunPtr);
 			for_each(map5.rbegin(), map5.rend(), printPairFunPtr);
+			
+			/******* testing lower_bound *******/
+			tmpIter = map1.lower_bound(map1.begin()->first)
+			printPairFunPtr(*tmpIter);
+			insertRandomInt(tmpIter->second);
+
+			tmpIter = map1.lower_bound(keyVector[keyVectorSize / 4]);
+			printPairFunPtr(*tmpIter);
+			insertRandomInt(tmpIter->second);
+
+			tmpIter = map1.lower_bound(-10);
+			printPairFunPtr(*tmpIter);
+			insertRandomInt(tmpIter->second);
+
+			tmpIter = map1.lower_bound(keyVectorSize);
+			if (tmpIter == map1.end())
+				cout << "lower_bound map1 end\n";
+
+			cIter = map2.lower_bound(map2.begin()->first);
+			printPairFunPtr(cIter);
+
+			cIter = map2.lower_bound(-10);
+			printPairFunPtr(cIter);
+
+			cIter = map2.lower_bound(keyVectorSize)
+			if (cIter == map2.end())
+				cout << "lower_bound map2 end\n";
+			
+			/******* testing upper_bound *******/
+			tmpIter = map1.upper_bound(map1.begin()->first)
+			printPairFunPtr(*tmpIter);
+			insertRandomInt(tmpIter->second);
+
+			tmpIter = map1.upper_bound(keyVector[keyVectorSize / 4]);
+			printPairFunPtr(*tmpIter);
+			insertRandomInt(tmpIter->second);
+
+			tmpIter = map1.upper_bound(-10);
+			printPairFunPtr(*tmpIter);
+			insertRandomInt(tmpIter->second);
+
+			tmpIter = map1.upper_bound(keyVectorSize);
+			if (tmpIter == map1.end())
+				cout << "lower_bound map1 end\n";
+
+			tmpIter = map1.upper_bound( keyVector[ keyVectorSize - 1] );
+			if (tmpIter == map1.end())
+				cout << "lower_bound map1 end\n";
+
+			cIter = map2.upper_bound(map2.begin()->first);
+			printPairFunPtr(cIter);
+
+			cIter = map2.upper_bound(-10);
+			printPairFunPtr(cIter);
+
+			cIter = map2.upper_bound(keyVectorSize)
+			if (cIter == map2.end())
+				cout << "lower_bound map2 end\n";
+			
+			
+			/******* testing equal_range *******/
+			ft::pair<Iter, Iter> iterPair = map1.equal_range(
+				map1.begin()->first);
+			for_each(iterPair.first, iterPair.second, printPairFunPtr);
+
+			iterPair = map1.equal_range(keyVector[ keyVectorSize / 4]);
+			for_each(iterPair.first, iterPair.second, printPairFunPtr);
+
+			iterPair = map1.equal_range(-10);
+			for_each(iterPair.first, iterPair.second, printPairFunPtr);
+
+			iterPair = map1.equal_range(keyVectorSize);
+			for_each(iterPair.first, iterPair.second, printPairFunPtr);
+
+			ft::pair< ConstIter, ConstIter > constIterPair;
+
+			constIterPair = map2.equal_range(map2.begin()->first);
+			for_each(constIterPair.first, constIterPair.second, printPairFunPtr);
+
+			constIterPair = map2.equal_range(keyVector[ keyVectorSize / 4]);
+			for_each(constIterPair.first, constIterPair.second, printPairFunPtr);
+
+			constIterPair = map2.equal_range(-10);
+			for_each(constIterPair.first, constIterPair.second, printPairFunPtr);
+
+			constIterPair = map2.equal_range(keyVectorSize);
+			for_each(constIterPair.first, constIterPair.second, printPairFunPtr);
 
 			/******* testing erase(pos) *******/
 			map4.erase(map4.begin());
