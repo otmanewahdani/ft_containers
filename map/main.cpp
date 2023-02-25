@@ -26,7 +26,7 @@ using std::vector;
 using std::for_each;
 
 // max of number of elements to test
-const int MAX_ITEMS = 100;
+const int MAX_ITEMS = 1000000;
 
 void insertRandomInt(int& a){ a = std::rand() % 100000; }
 
@@ -550,12 +550,12 @@ int main(){
 			insertRandomInt(tmpIter->second);
 
 			tmpIter = map1.lower_bound(-10);
-			printPairFunPtr(*tmpIter);
-			insertRandomInt(tmpIter->second);
-
-			tmpIter = map1.lower_bound(keyVectorSize);
 			if (tmpIter == map1.end())
 				cout << "lower_bound map1 end\n";
+
+			tmpIter = map1.lower_bound(keyVectorSize);
+			printPairFunPtr(*tmpIter);
+			insertRandomInt(tmpIter->second);
 			
 			/******* testing upper_bound *******/
 			tmpIter = map1.upper_bound(map1.begin()->first);
@@ -567,16 +567,16 @@ int main(){
 			insertRandomInt(tmpIter->second);
 
 			tmpIter = map1.upper_bound(-10);
+			if (tmpIter == map1.end())
+				cout << "upper_bound map1 end\n";
+
+			tmpIter = map1.upper_bound(keyVectorSize);
 			printPairFunPtr(*tmpIter);
 			insertRandomInt(tmpIter->second);
 
-			tmpIter = map1.upper_bound(keyVectorSize);
-			if (tmpIter == map1.end())
-				cout << "upper_bound map1 end\n";
-
 			tmpIter = map1.upper_bound( keyVector[ keyVectorSize - 1] );
-			if (tmpIter == map1.end())
-				cout << "upper_bound map1 end\n";
+			printPairFunPtr(*tmpIter);
+			insertRandomInt(tmpIter->second);
 			
 			/******* testing equal_range *******/
 			ft::pair<Iter, Iter> iterPair = map1.equal_range(
@@ -591,6 +591,7 @@ int main(){
 
 			iterPair = map1.equal_range(keyVectorSize);
 			for_each(iterPair.first, iterPair.second, printPairFunPtr);
+			printPairFunPtr( *(iterPair.first) );
 
 			/******* printing map's elements *******/
 			// in order
