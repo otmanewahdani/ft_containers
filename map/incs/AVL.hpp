@@ -148,6 +148,16 @@ namespace ft {
 
 			const Node* getLastNode() const;
 
+			// searches for node with value not less than data
+				// i.e.: greater than or equal to data
+			// if a node with same value as data not found
+				// then returns next largest node which the least
+					// significant node among all the greater nodes 
+				// and if no such node is found too, then returns NULL
+			Node* findNodeNotLessThan(const T& data);
+
+			const Node* findNodeNotLessThan(const T& data) const;
+
 		private:
 
 			/******* member objects *******/

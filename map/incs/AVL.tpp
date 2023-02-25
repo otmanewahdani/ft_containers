@@ -524,6 +524,63 @@ namespace ft {
 
 	}
 
+	template< class T, class C, class A>
+	typename AVL_Tree<T, C, A>::Node*
+		AVL_Tree<T, C, A>::findNodeNotLessThan(const T& data) {
+
+		// stores the found node here
+		Node* nodeFound = NULL;
+
+		// pointer used to traverse the tree starting from root node
+		Node* node = mRoot;
+
+		while (node) {
+
+			// node is on left since data is less than node
+			if ( mComparator(data, *node->data) ) {
+
+				// if node is less than node found previouly (they're
+					// both greater than value), saves it. And through
+					// this process the next greater node than data is
+					// saved in case a node equivalent to data wasn't
+					// found
+				if (!nodeFound ||
+					mComparator(*node->data, *nodeFound->data))
+					nodeFound = node;
+
+				node = node->left;
+
+			}
+
+			// goes to right subtree
+			else if (mComparator(*node->data, data))
+				node = node->right;
+
+			// node equivalent to data was found
+			else {
+
+				// saves it and leaves loop
+				nodeFound = node;
+				break ;
+
+			}
+
+		}
+
+		return nodeFound;
+
+	}
+
+	template< class T, class C, class A>
+	const typename AVL_Tree<T, C, A>::Node*
+		AVL_Tree<T, C, A>::findNodeNotLessThan(const T& data) const {
+
+			// calls non-const version of this method
+			return ( const_cast<AVL_Tree*>(this)->
+				findNodeNotLessThan(data) );
+
+	}
+
 	/******* private member functions *******/
 	template< class T, class C, class A>
 	typename AVL_Tree<T, C, A>::Node* 
