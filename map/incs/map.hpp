@@ -14,6 +14,8 @@
 #include <utility>
 #include <stdexcept>
 #include <limits>
+#include <algorithm.hpp>
+#include <algorithm>
 
 namespace ft {
 
@@ -181,6 +183,44 @@ namespace ft {
 			array_type mArray;
 
 	};
+
+	/******* map-specific non-member functions overloads *******/
+
+		/******* equality comparisons *******/
+		template< class Key, class T, class Compare, class Alloc >
+		bool operator==( const map<Key, T, Compare, Alloc>& lhs,
+			const map<Key, T, Compare, Alloc>& rhs );
+
+		template< class Key, class T, class Compare, class Alloc >
+		bool operator!=( const map<Key, T, Compare, Alloc>& lhs,
+			 const map<Key, T, Compare, Alloc>& rhs );
+
+		/******* lexicographical comparisons *******/
+		template< class Key, class T, class Compare, class Alloc >
+		bool operator<( const map<Key, T, Compare, Alloc>& lhs,
+			const map<Key, T, Compare, Alloc>& rhs );
+
+		template< class Key, class T, class Compare, class Alloc >
+		bool operator<=( const map<Key, T, Compare, Alloc>& lhs,
+			const map<Key, T, Compare, Alloc>& rhs );
+
+		template< class Key, class T, class Compare, class Alloc >
+		bool operator>( const map<Key, T, Compare, Alloc>& lhs,
+			const map<Key, T, Compare, Alloc>& rhs );
+
+		template< class Key, class T, class Compare, class Alloc >
+		bool operator>=( const map<Key, T, Compare, Alloc>& lhs,
+                 const map<Key, T, Compare, Alloc>& rhs );
+
+}
+
+/******* non-member function template specializations *******/
+namespace std {
+
+	// specialize STL swap template to swap two maps in constant time
+	template< class Key, class T, class Compare, class Alloc >
+	void swap( ft::map<Key, T, Compare, Alloc>& lhs,
+	   ft::map<Key, T, Compare, Alloc>& rhs );
 
 }
 

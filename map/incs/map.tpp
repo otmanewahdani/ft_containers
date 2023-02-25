@@ -540,4 +540,101 @@ namespace ft {
 
 }
 
+/******* map-specific non-member functions overloads *******/
+namespace ft {
+
+	/******* equality comparisons *******/
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator==( const map<Key, T, Compare, Alloc>& lhs,
+		const map<Key, T, Compare, Alloc>& rhs ) {
+
+		if (lhs.size() != rhs.size())
+			return false;
+
+		return ( ft::equal(lhs.begin(), lhs.end(), rhs.begin()) );
+
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator!=( const map<Key, T, Compare, Alloc>& lhs,
+		 const map<Key, T, Compare, Alloc>& rhs ) {
+
+		return !(lhs == rhs);
+
+	}
+
+	/******* lexicographical comparisons *******/
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator<( const map<Key, T, Compare, Alloc>& lhs,
+		const map<Key, T, Compare, Alloc>& rhs ) {
+
+		return ( std::lexicographical_compare(lhs.begin(), lhs.end(),
+			rhs.begin(), rhs.end()) );
+
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator<=( const map<Key, T, Compare, Alloc>& lhs,
+		const map<Key, T, Compare, Alloc>& rhs ) {
+
+		typedef typename map<Key, T, Compare, Alloc>::const_iterator
+			IterType;
+
+		// iterators to lhs
+		IterType lhsIt = lhs.begin();
+		IterType lhsEnd = lhs.end();
+
+		// iterators to rhs
+		IterType rhsIt = rhs.begin();
+		IterType rhsEnd = rhs.end();
+
+		// traverses both ranges until there is a different element
+			// or one of the ranges reaches the end
+		for (;
+			lhsIt != lhsEnd && rhsIt != rhsEnd && *lhsIt == *rhsIt;
+			++lhsIt, ++rhsIt)
+			;
+
+		// if lhs iterator reached the end that means that lhs is
+			// either less or equal to rhs.
+		// otherwise if rhs iterator reached the end that means it's
+			// less than lhs, but if it didn't both iterators are
+			// derenferenced and compared to which value is less
+		return ( lhsIt == lhsEnd ||
+			(rhsIt != rhsEnd && *lhsIt < *rhsIt) );
+
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator>( const map<Key, T, Compare, Alloc>& lhs,
+		const map<Key, T, Compare, Alloc>& rhs ) {
+
+		return !( lhs <= rhs );
+
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator>=( const map<Key, T, Compare, Alloc>& lhs,
+		 const map<Key, T, Compare, Alloc>& rhs ) {
+
+		return !( lhs < rhs );
+
+	}
+
+}
+
+/******* non-member function template specializations *******/
+namespace std {
+
+	// specialize STL swap template to swap two maps in constant time
+	template< class Key, class T, class Compare, class Alloc >
+	void swap( ft::map<Key, T, Compare, Alloc>& lhs,
+	   ft::map<Key, T, Compare, Alloc>& rhs ) {
+
+		lhs.swap(rhs);
+
+	}
+
+}
+
 #endif

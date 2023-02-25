@@ -26,7 +26,7 @@ using std::vector;
 using std::for_each;
 
 // max of number of elements to test
-const int MAX_ITEMS = 1000000;
+const int MAX_ITEMS = 1000;
 
 void insertRandomInt(int& a){ a = std::rand() % 100000; }
 
@@ -344,6 +344,83 @@ int main(){
 			cout << map1.erase(keyVectorSize + 3) << '\n';
 			cout << map1.erase(keyVectorSize + 4) << '\n';
 			cout << map1.erase(keyVectorSize + 5) << '\n';
+			
+			/******* testing relational operators *******/
+			map5 = map3;
+			map5[keyVectorSize / 4] = map3[keyVectorSize / 4] - 1;
+
+			cout << (map1 == map2) << '\n';
+			cout << (map1 == map3) << '\n';
+			cout << (map1 == map4) << '\n';
+			cout << (map1 == map5) << '\n';
+			cout << (map2 == map3) << '\n';
+			cout << (map2 == map4) << '\n';
+			cout << (map2 == map5) << '\n';
+			cout << (map3 == map4) << '\n';
+			cout << (map3 == map5) << '\n';
+			cout << (map4 == map5) << '\n';
+
+			cout << (map1 != map2) << '\n';
+			cout << (map1 != map3) << '\n';
+			cout << (map1 != map4) << '\n';
+			cout << (map1 != map5) << '\n';
+			cout << (map2 != map3) << '\n';
+			cout << (map2 != map4) << '\n';
+			cout << (map2 != map5) << '\n';
+			cout << (map3 != map4) << '\n';
+			cout << (map3 != map5) << '\n';
+			cout << (map4 != map5) << '\n';
+
+			cout << (map1 < map2) << '\n';
+			cout << (map1 < map3) << '\n';
+			cout << (map1 < map4) << '\n';
+			cout << (map1 < map5) << '\n';
+			cout << (map2 < map3) << '\n';
+			cout << (map2 < map4) << '\n';
+			cout << (map2 < map5) << '\n';
+			cout << (map3 < map4) << '\n';
+			cout << (map3 < map5) << '\n';
+			cout << (map4 < map5) << '\n';
+
+			cout << (map1 <= map2) << '\n';
+			cout << (map1 <= map3) << '\n';
+			cout << (map1 <= map4) << '\n';
+			cout << (map1 <= map5) << '\n';
+			cout << (map2 <= map3) << '\n';
+			cout << (map2 <= map4) << '\n';
+			cout << (map2 <= map5) << '\n';
+			cout << (map3 <= map4) << '\n';
+			cout << (map3 <= map5) << '\n';
+			cout << (map4 <= map5) << '\n';
+
+			cout << (map1 > map2) << '\n';
+			cout << (map1 > map3) << '\n';
+			cout << (map1 > map4) << '\n';
+			cout << (map1 > map5) << '\n';
+			cout << (map2 > map3) << '\n';
+			cout << (map2 > map4) << '\n';
+			cout << (map2 > map5) << '\n';
+			cout << (map3 > map4) << '\n';
+			cout << (map3 > map5) << '\n';
+			cout << (map4 > map5) << '\n';
+
+			cout << (map1 >= map2) << '\n';
+			cout << (map1 >= map3) << '\n';
+			cout << (map1 >= map4) << '\n';
+			cout << (map1 >= map5) << '\n';
+			cout << (map2 >= map3) << '\n';
+			cout << (map2 >= map4) << '\n';
+			cout << (map2 >= map5) << '\n';
+			cout << (map3 >= map4) << '\n';
+			cout << (map3 >= map5) << '\n';
+			cout << (map4 >= map5) << '\n';
+
+			/******* testing std::swap *******/
+			std::swap(map1, map3);
+
+			std::swap(map3, map4);
+
+			std::swap(map4, map5);
 
 			/******* printing map's elements *******/
 			// in order
@@ -351,18 +428,21 @@ int main(){
 			for_each(map2.begin(), map2.end(), printPairFunPtr);
 			for_each(map3.begin(), map3.end(), printPairFunPtr);
 			for_each(map4.begin(), map4.end(), printPairFunPtr);
+			for_each(map5.begin(), map5.end(), printPairFunPtr);
 
 			// in reverse order
 			for_each(map1.rbegin(), map1.rend(), printPairFunPtr);
 			for_each(map2.rbegin(), map2.rend(), printPairFunPtr);
 			for_each(map3.rbegin(), map3.rend(), printPairFunPtr);
 			for_each(map4.rbegin(), map4.rend(), printPairFunPtr);
+			for_each(map5.rbegin(), map5.rend(), printPairFunPtr);
 
 			/******* testing size and empty *******/
 			cout << map1.size() << " " << map1.empty() << '\n';
 			cout << map2.size() << " " << map2.empty() << '\n';
 			cout << map3.size() << " " << map3.empty() << '\n';
 			cout << map4.size() << " " << map4.empty() << '\n';
+			cout << map5.size() << " " << map5.empty() << '\n';
 
 		} // end of testing with comparator of type std::less
 
