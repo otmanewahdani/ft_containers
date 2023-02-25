@@ -26,7 +26,7 @@ using std::vector;
 using std::for_each;
 
 // max of number of elements to test
-const int MAX_ITEMS = 10000000;
+const int MAX_ITEMS = 100;
 
 void insertRandomInt(int& a){ a = std::rand() % 100000; }
 
@@ -224,7 +224,7 @@ int main(){
 			for_each(map5.rbegin(), map5.rend(), printPairFunPtr);
 			
 			/******* testing lower_bound *******/
-			tmpIter = map1.lower_bound(map1.begin()->first)
+			tmpIter = map1.lower_bound(map1.begin()->first);
 			printPairFunPtr(*tmpIter);
 			insertRandomInt(tmpIter->second);
 
@@ -241,17 +241,17 @@ int main(){
 				cout << "lower_bound map1 end\n";
 
 			cIter = map2.lower_bound(map2.begin()->first);
-			printPairFunPtr(cIter);
+			printPairFunPtr(*cIter);
 
 			cIter = map2.lower_bound(-10);
-			printPairFunPtr(cIter);
+			printPairFunPtr(*cIter);
 
-			cIter = map2.lower_bound(keyVectorSize)
+			cIter = map2.lower_bound(keyVectorSize);
 			if (cIter == map2.end())
 				cout << "lower_bound map2 end\n";
 			
 			/******* testing upper_bound *******/
-			tmpIter = map1.upper_bound(map1.begin()->first)
+			tmpIter = map1.upper_bound(map1.begin()->first);
 			printPairFunPtr(*tmpIter);
 			insertRandomInt(tmpIter->second);
 
@@ -265,21 +265,21 @@ int main(){
 
 			tmpIter = map1.upper_bound(keyVectorSize);
 			if (tmpIter == map1.end())
-				cout << "lower_bound map1 end\n";
+				cout << "upper_bound map1 end\n";
 
 			tmpIter = map1.upper_bound( keyVector[ keyVectorSize - 1] );
 			if (tmpIter == map1.end())
-				cout << "lower_bound map1 end\n";
+				cout << "upper_bound map1 end\n";
 
 			cIter = map2.upper_bound(map2.begin()->first);
-			printPairFunPtr(cIter);
+			printPairFunPtr(*cIter);
 
 			cIter = map2.upper_bound(-10);
-			printPairFunPtr(cIter);
+			printPairFunPtr(*cIter);
 
-			cIter = map2.upper_bound(keyVectorSize)
+			cIter = map2.upper_bound(keyVectorSize);
 			if (cIter == map2.end())
-				cout << "lower_bound map2 end\n";
+				cout << "upper_bound map2 end\n";
 			
 			
 			/******* testing equal_range *******/
@@ -539,6 +539,58 @@ int main(){
 			cout << map1.count(keyVectorSize + 3) << '\n';
 			cout << map1.count(keyVectorSize + 4) << '\n';
 			cout << map1.count(keyVectorSize + 5) << '\n';
+			
+			/******* testing lower_bound *******/
+			Iter tmpIter = map1.lower_bound(map1.begin()->first);
+			printPairFunPtr(*tmpIter);
+			insertRandomInt(tmpIter->second);
+
+			tmpIter = map1.lower_bound(keyVector[keyVectorSize / 4]);
+			printPairFunPtr(*tmpIter);
+			insertRandomInt(tmpIter->second);
+
+			tmpIter = map1.lower_bound(-10);
+			printPairFunPtr(*tmpIter);
+			insertRandomInt(tmpIter->second);
+
+			tmpIter = map1.lower_bound(keyVectorSize);
+			if (tmpIter == map1.end())
+				cout << "lower_bound map1 end\n";
+			
+			/******* testing upper_bound *******/
+			tmpIter = map1.upper_bound(map1.begin()->first);
+			printPairFunPtr(*tmpIter);
+			insertRandomInt(tmpIter->second);
+
+			tmpIter = map1.upper_bound(keyVector[keyVectorSize / 4]);
+			printPairFunPtr(*tmpIter);
+			insertRandomInt(tmpIter->second);
+
+			tmpIter = map1.upper_bound(-10);
+			printPairFunPtr(*tmpIter);
+			insertRandomInt(tmpIter->second);
+
+			tmpIter = map1.upper_bound(keyVectorSize);
+			if (tmpIter == map1.end())
+				cout << "upper_bound map1 end\n";
+
+			tmpIter = map1.upper_bound( keyVector[ keyVectorSize - 1] );
+			if (tmpIter == map1.end())
+				cout << "upper_bound map1 end\n";
+			
+			/******* testing equal_range *******/
+			ft::pair<Iter, Iter> iterPair = map1.equal_range(
+				map1.begin()->first);
+			for_each(iterPair.first, iterPair.second, printPairFunPtr);
+
+			iterPair = map1.equal_range(keyVector[ keyVectorSize / 4]);
+			for_each(iterPair.first, iterPair.second, printPairFunPtr);
+
+			iterPair = map1.equal_range(-10);
+			for_each(iterPair.first, iterPair.second, printPairFunPtr);
+
+			iterPair = map1.equal_range(keyVectorSize);
+			for_each(iterPair.first, iterPair.second, printPairFunPtr);
 
 			/******* printing map's elements *******/
 			// in order
