@@ -521,6 +521,23 @@ namespace ft {
 
 	}
 
+	/******* observers *******/
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::key_compare
+		map<K, T, C, A>::key_comp() const {
+
+		return mKeyComparator;
+
+	}
+
+	template< class K, class T, class C, class A >
+	typename map<K, T, C, A>::value_compare
+		map<K, T, C, A>::value_comp() const {
+
+		return mValueComparator;
+
+	}
+
 }
 
 #endif

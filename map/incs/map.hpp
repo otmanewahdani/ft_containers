@@ -161,6 +161,11 @@ namespace ft {
 			pair<const_iterator,const_iterator>
 				equal_range( const key_type& key ) const;
 
+			/******* observers *******/
+			key_compare key_comp() const;
+
+			value_compare value_comp() const;
+
 		private:
 			/******* member objects *******/
 			// underlying allocator
