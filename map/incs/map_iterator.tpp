@@ -39,7 +39,7 @@ namespace ft {
 	template<class K, class T, class C, class A>
 	template <class U, class N, class AR> 
 	template<class U2, class N2, class AR2>
-	map<K, T, C, A>::map_iterator<U, N, AR>& // returns reference to itself
+	typename map<K, T, C, A>::template map_iterator<U, N, AR>& // returns reference to itself
 		map<K, T, C, A>::map_iterator<U, N, AR>::operator=
 		(const map_iterator<U2, N2, AR2>& other){
 
@@ -53,7 +53,7 @@ namespace ft {
 	/******* access operators *******/
 	template<class K, class T, class C, class A>
 	template <class U, class N, class AR> 
-	typename map<K, T, C, A>::map_iterator<U, N, AR>::reference
+	typename map<K, T, C, A>::template map_iterator<U, N, AR>::reference
 		map<K, T, C, A>::map_iterator<U, N, AR>::operator*() const {
 
 		// gets the pointer to value_type and derefenrences it
@@ -62,7 +62,7 @@ namespace ft {
 
 	template<class K, class T, class C, class A>
 	template <class U, class N, class AR> 
-	typename map<K, T, C, A>::map_iterator<U, N, AR>::pointer
+	typename map<K, T, C, A>::template map_iterator<U, N, AR>::pointer
 		map<K, T, C, A>::map_iterator<U, N, AR>::operator->() const {
 
 		// removes constness of the node pointer in case
@@ -95,7 +95,7 @@ namespace ft {
 	/******* increment/decrement operators *******/
 	template<class K, class T, class C, class A>
 	template <class U, class N, class AR> 
-	map<K, T, C, A>::map_iterator<U, N, AR>&
+	typename map<K, T, C, A>::template map_iterator<U, N, AR>&
 		map<K, T, C, A>::map_iterator<U, N, AR>::operator++(){
 
 		// if node pointer wasn't pointing at any element in array,
@@ -113,7 +113,7 @@ namespace ft {
 
 	template<class K, class T, class C, class A>
 	template <class U, class N, class AR> 
-	map<K, T, C, A>::map_iterator<U, N, AR>
+	typename map<K, T, C, A>::template map_iterator<U, N, AR>
 		map<K, T, C, A>::map_iterator<U, N, AR>::operator++(int) {
 
 			// makes a copy of current object
@@ -127,7 +127,7 @@ namespace ft {
 
 	template<class K, class T, class C, class A>
 	template <class U, class N, class AR> 
-	map<K, T, C, A>::map_iterator<U, N, AR>&
+	typename map<K, T, C, A>::template map_iterator<U, N, AR>&
 		map<K, T, C, A>::map_iterator<U, N, AR>::operator--() {
 
 		// if node pointer wasn't pointing at any element in array,
@@ -146,7 +146,7 @@ namespace ft {
 
 	template<class K, class T, class C, class A>
 	template <class U, class N, class AR> 
-	map<K, T, C, A>::map_iterator<U, N, AR>
+	typename map<K, T, C, A>::template map_iterator<U, N, AR>
 		map<K, T, C, A>::map_iterator<U, N, AR>::operator--(int) {
 
 			// same comment as the post-increment operator
