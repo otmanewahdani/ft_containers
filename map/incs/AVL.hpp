@@ -113,7 +113,11 @@ namespace ft {
 			std::pair<Node*, bool> insert(const T& data);
 
 			// removes node whose data equals data parameter
-			bool remove(const T& data);
+			// returns a pair containing the next node that succeeds
+				// the removed node in order (NULL if node wasn't
+				// removed) and second member is set to true if the
+				// node was actually found and removed
+			std::pair<Node*, bool> remove(const T& data);
 
 			// finds next node that follows node in order
 				// if node was last node, then NULL is returned
@@ -222,7 +226,11 @@ namespace ft {
 
 			// actual removal function that's called by
 				// remove(const T& data) public interface
-			Node* remove(Node* node, const T& data);
+			// it saves the successor of the removed node (if there
+				// was actually a removal) in nextNode, otherwise
+				// nextNode isn't used
+			Node* remove(Node* node, const T& data,
+				Node** const nextNode);
 
 			// LS = least significant
 			// finds node with least significant value ( that comes first in order )

@@ -17,6 +17,7 @@
 #include <limits>
 #include <vector>
 #include <algorithm>
+#include <iterator>
 
 using std::string;
 using std::cout;
@@ -319,11 +320,16 @@ int main(){
 
 			map4.erase( --Iter(map4.end()) );
 
+			tmpIter = map4.begin();
+			std::advance(tmpIter, map4.size() / 4);
+			map4.erase(tmpIter);
+
 			/******* testing erase(first, last) *******/
-			// gets the element that is "keyVectorSize / 10" away from
-				// beginning so that "keyVectorSize / 10" elements
+			// gets the element that is "map4.size() / 10" away from
+				// beginning so that "map4.size() / 10" elements
 				// get erased
-			tmpIter = map4.find(keyVector[ keyVectorSize / 10 ] );
+			tmpIter = map4.begin();
+			std::advance(tmpIter, map4.size() / 2);
 			map4.erase(map4.begin(), tmpIter);
 
 			map4.erase(map4.begin(), map4.begin());

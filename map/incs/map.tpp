@@ -334,24 +334,45 @@ namespace ft {
 	template< class K, class T, class C, class A >
 	void map<K, T, C, A>::erase( iterator pos ) {
 
-		// passes pos as the beginning of the range and an iterator
-			// that points to the next element so that only pos will
-			// get erased
-		erase(pos, ++iterator(pos));
+		// dereferences pos to get the key used by the
+			// other erase overload
+		erase(pos->first);
 
 	}
 
 	template< class K, class T, class C, class A >
 	void map<K, T, C, A>::erase( iterator first, iterator last ) {
 
-		// traverses the range first to last and dereferences each
-			// iterator by getting the first member that contains 
-			// the key that's going to be used by the other erase
-			// overload to locate the element and delete it
-		// next saves the next iterator since first will be
-			// invalidated after each removal
-		for (iterator next = first; next++ != last; first = next)
-			erase(first->first);
+		
+		// if last is different than end(), it's dereferenced and stored
+			// in lastVal to be used for comparison later. Otherwise
+			// lastVal is default-constructed and not used
+		const value_type lastVal = last != end() ? *last : value_type();
+
+		// when removing a node that has two children, its successor is
+			// copied into the node and the successor is deleted from
+			// memory instead. but what if the successor is the last
+			// parameter? then last is going to be a dangling iterator
+			// pointing at an invalid memory address. To address this
+			// issue before even starting the process of traversing and
+			// removing the range, the value pointed at by last is saved
+			// (see lastVal above) and it's tested against in each
+			// iteration during the traversalfor
+		// however if last points to the end() which is not
+			// dereferenceable (and therefore unremovable), the test
+			// will be simply performed against last parameter
+
+		// traverses the range first to last, dereferences each iterator
+			// to obtain the value value_type which is used by the
+			// removal interface of the underlying array. After that,
+			// remove will return the next node that follows the removed
+			// node in order which will be used along with the address
+			// of the underlying array to create the next iterator to
+			// be removed or not if last was reached
+		while ( (last != end() && mValueComparator(*first, lastVal)) ||
+			(last == end() && first != last ) )
+
+			first = iterator(mArray.remove(*first).first, &mArray);
 
 	}
 
@@ -363,11 +384,12 @@ namespace ft {
 				// the reason behind passing it a pair of key and
 				// default-constructed value of mapped_type is explained
 				// in the implementation of non-const find method
-			// if element was removed true will be returned and
-				// converted to 1 which the amount of elements removed
+			// if element was removed true will be returned through the
+				// second member and converted to 1 which the amount of
+				// elements removed
 			// otherwise false is returned and will be converted to 0
 			return ( mArray.remove
-				( ft::make_pair(key, mapped_type()) ) );
+				( ft::make_pair(key, mapped_type()) ).second );
 
 	}
 

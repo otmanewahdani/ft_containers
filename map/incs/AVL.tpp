@@ -345,18 +345,26 @@ namespace ft {
 	}
 
 	template< class T, class C, class A>
-	bool AVL_Tree<T, C, A>::remove(const T& data){
+	// returns std::pair<Node*, bool>
+	std::pair< typename AVL_Tree<T, C, A>::Node*, bool>
+		AVL_Tree<T, C, A>::remove(const T& data) {
 
-		// saves current node count to test it again new
+		// saves current node count to test it against new
 			// node count to check if a node was effectively removed
 		const std::size_t oldNodeCount = mNodeCount;
 
-		// calls actual removal method
-		mRoot = remove(mRoot, data);
+		// saves the successor of the deleted node here
+		Node* nextNode = NULL;
 
-		// returns true if new nodeCount changed
+		// calls actual removal method
+		mRoot = remove(mRoot, data, &nextNode);
+
+		// first member is set to the successor of the deleted node.
+			// it will be NULL if there was no removal, or if there
+			// was only one element in the tree and it got removed
+		// second member is set to true if new nodeCount changed
 			// otherwise false
-		return (oldNodeCount != mNodeCount);
+		return ( std::make_pair(nextNode, oldNodeCount != mNodeCount) );
 
 	}
 
@@ -790,85 +798,95 @@ namespace ft {
 
 	template< class T, class C, class A>
 	typename AVL_Tree<T, C, A>::Node*
-		AVL_Tree<T, C, A>::remove(Node* node, const T& data){
+		AVL_Tree<T, C, A>::remove
+		(Node* node, const T& data, Node** const nextNode) {
 
-			if (!node)
-				return NULL;
+		if (!node)
+			return NULL;
 
-			// if node is on left of current node
-			if (mComparator(data, *node->data))
-				node->left = remove(node->left, data);
+		// if node is on left of current node
+		if (mComparator(data, *node->data))
+			node->left = remove(node->left, data, nextNode);
 
-			// if node is on right of current node
-			else if (mComparator(*node->data, data))
-				node->right = remove(node->right, data);
+		// if node is on right of current node
+		else if (mComparator(*node->data, data))
+			node->right = remove(node->right, data, nextNode);
 
-			// found node and it has no left child
-				// or no right child or no neither child
-			else if (!node->left || !node->right){
+		// found node and it has no left child
+			// or no right child or no neither child
+		else if (!node->left || !node->right){
 
-				// select child that's going to replace node
-				Node* replacement = node->left
-					? node->left
-					: node->right;
+			// select child that's going to replace node
+			Node* replacement = node->left
+				? node->left
+				: node->right;
 
-				// new mFirst node in case node deleted was
-					// the one pointed at by mFirst
-				// nextNode() gets the next least significant
-					// node after mFirst
-				Node* newFirst = mFirst != node
-					? mFirst
-					: nextNode(mFirst);
+			// new mFirst node in case node deleted was
+				// the one pointed at by mFirst
+			// nextNode() gets the next least significant
+				// node after mFirst
+			Node* newFirst = mFirst != node
+				? mFirst
+				: this->nextNode(mFirst);
 
-				// new mLast node in case node deleted was
-					// the one pointed at by mLast
-				//previousNode() gets the previous most
-					// significant node before mLast
-				Node* newLast = mLast != node
-					? mLast
-					: previousNode(mLast);
+			// new mLast node in case node deleted was
+				// the one pointed at by mLast
+			//previousNode() gets the previous most
+				// significant node before mLast
+			Node* newLast = mLast != node
+				? mLast
+				: previousNode(mLast);
 
-				// new parent of node's child (replacement)
-				Node* newParent = node->parent;
+			// new parent of node's child (replacement)
+			Node* newParent = node->parent;
 
-				destroyNode(node);
+			// gets the successor of the to-be-deleted node
+			*nextNode = this->nextNode(node);
 
-				// update mFirst and mLast after removal
-				mFirst = newFirst;
-				mLast = newLast;
+			destroyNode(node);
 
-				// updates size of tree
-				--mNodeCount;
-				
-				// checks if replacement is an actual node
-					// before setting its parent
-				if (replacement)
-					replacement->parent = newParent;
+			// update mFirst and mLast after removal
+			mFirst = newFirst;
+			mLast = newLast;
 
-				return replacement;
+			// updates size of tree
+			--mNodeCount;
+			
+			// checks if replacement is an actual node
+				// before setting its parent
+			if (replacement)
+				replacement->parent = newParent;
 
-			}
+			return replacement;
 
-			// found node and it has both of its children
-			else {
+		}
 
-				// gets node that succeeds node in order
-				Node* successor = nextNode(node);
+		// found node and it has both of its children
+		else {
 
-				// copies succesor data into the removed node
-					// aka replaces node only by copying
-					// its succesor's data into it
-				node->changeDataObject(*successor->data);
+			// gets node that succeeds node in order
+			Node* successor = this->nextNode(node);
 
-				// removes successor node after copying it
-					// into node
-				node->right = remove(node->right, *successor->data);
+			// copies succesor data into the removed node
+				// aka replaces node only by copying
+				// its succesor's data into it
+			node->changeDataObject(*successor->data);
 
-			}
+			// removes successor node after copying it
+				// into node
+			node->right = remove(node->right, *successor->data, nextNode);
 
-			updateAVLTraits(node);
+			// after deallocating the successor node and copying its
+				// value to the current node, the next node (which is
+				// also the successor) of th current node stays the
+				// same as this node
+			*nextNode = node;
 
-			return reBalance(node);
+		}
+
+		updateAVLTraits(node);
+
+		return reBalance(node);
 
 	}
 

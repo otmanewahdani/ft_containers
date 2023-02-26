@@ -65,9 +65,7 @@ namespace ft {
 	typename map<K, T, C, A>::template map_iterator<U, N, AR>::pointer
 		map<K, T, C, A>::map_iterator<U, N, AR>::operator->() const {
 
-		// removes constness of the node pointer in case
-			// the underlying data was to be modified
-		return (const_cast<node_type*>(mNodePtr)->data);
+		return ( mNodePtr->data );
 
 	}
 
