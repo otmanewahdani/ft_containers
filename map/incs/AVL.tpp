@@ -286,14 +286,14 @@ namespace ft {
 		{
 			allocator_type tmp = mAllocator;
 			mAllocator = other.mAllocator;
-			other.mAllocator = mAllocator;
+			other.mAllocator = tmp;
 		}
 
 		// swap mNodeAllocator
 		{
 			node_allocator_type tmp = mNodeAllocator;
 			mNodeAllocator = other.mNodeAllocator;
-			other.mNodeAllocator = mNodeAllocator;
+			other.mNodeAllocator = tmp;
 		}
 
 	}

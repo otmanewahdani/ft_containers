@@ -73,6 +73,9 @@ int main(){
 		// allocator type
 		typedef std::allocator< PairVal > Allocator;
 
+		// instantiating an allocator object
+		Allocator allocObj;
+
 		// printing functions
 		typedef void (*PrintPairFun)(const ft::pair<const int, int>&);
 		PrintPairFun printPairFunPtr = printPair<const int, int>;
@@ -105,8 +108,9 @@ int main(){
 
 			// testing simple constructors
 			{
-				Map map1(Less());
-				Map map2(Less(), Allocator());
+				Less lessFunctor;
+				Map map1(lessFunctor);
+				Map map2(lessFunctor, allocObj);
 			}
 
 			Map map1;
@@ -465,8 +469,9 @@ int main(){
 
 			// testing simple constructors
 			{
-				Map map1(Greater());
-				Map map2(Greater(), Allocator());
+				Greater greaterFunctor;
+				Map map1(greaterFunctor);
+				Map map2(greaterFunctor, allocObj);
 			}
 
 			Map map1;
