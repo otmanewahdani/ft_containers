@@ -75,7 +75,7 @@ namespace ft {
 
 			// get allocator type for allocating nodes in AVL_Tree
 			typedef typename
-				Allocator::template rebind< AVL_Node<T> >::other
+				Allocator::template rebind< AVL_Node<T, Allocator> >::other
 				node_allocator_type;
 
 			/******* constructors *******/
