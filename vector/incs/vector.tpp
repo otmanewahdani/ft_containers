@@ -554,11 +554,19 @@ namespace ft{
 		// number of elements to be inserted
 		const size_type	count = labs(std::distance(first, last));
 
-		if (mSize + count > mCapacity){
+		const size_type newSize = mSize + count;
+
+		if (newSize > mCapacity) {
+
+			// if doubling the capacity isn't enough to hold new size
+			// add the difference between new size and doubled capacity
+			const size_type newCapacity = 
+				(mCapacity * 2) >= newSize ? (mCapacity * 2) : 
+				(mCapacity * 2 + (newSize - mCapacity * 2));
 
 			vector tmp;
 
-			tmp.reserve(mSize + count);
+			tmp.reserve(newCapacity);
 			
 			// adds old elements before pos (insertion point)
 			tmp.assign(mElements, mElements + offset);
