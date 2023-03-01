@@ -73,7 +73,15 @@ git clone https://github.com/otmanewahdani/ft_containers.git && cd ft_containers
       <your-compiler> <your-program-source-files> $FT_CONTAINERS_INCS
       ```
       :bulb: Again you don't need to use all the flags. Only use what you need<br />
-  2. #### 
+  2. #### Using the containers in your code
+      They will be used the same way as the STL containers with only a slight difference. Since the standard containers are defined in the std namespace, std is prepended along with the scope resolution operator to the name of the container like this:
+      ```c++
+      std::vector<int> emptyVector;
+      ```
+      But for this library ft needs to be prepended to all type names like the following:
+      ```c++
+      ft::map<int, char*> emptyMap;
+      ```
 
 ## Project Status
 Project is: _complete_
