@@ -8,7 +8,7 @@
 * [Usage](#usage)
   * [Demo programs](#compiling-and-running-the-demo-programs)
   * [Testing](#running-the-tests)
-  * [Using it in your code](using-the-library-in-your-own-program)
+  * [Using it in your code](#using-the-library-in-your-own-program)
 * [Project Status](#project-status)
 * [Acknowledgements](#acknowledgements)
 
